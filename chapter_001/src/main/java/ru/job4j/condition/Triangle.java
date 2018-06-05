@@ -64,11 +64,12 @@ public class Triangle {
      */
     private boolean exist(double ab, double ac, double bc) {
 
+        boolean res = false;
         if (ab < (ac + bc) &&  ac < (ab + bc) && bc < (ab + ac)) {
-            return true;
+            res = true;
         }
 
-        return false;
+        return res;
     }
 }
 
