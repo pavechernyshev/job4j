@@ -32,11 +32,9 @@ public class MatrixCheck {
             if (data[index][index] != check) {
                 isDiagonal = false;
             }
-
             if (data[index][data.length - 1 - index] != check) {
                 isDiagonalReverse = false;
             }
-
             if (!isDiagonal && !isDiagonalReverse) {
                 res = false;
                 break;
@@ -60,14 +58,12 @@ public class MatrixCheck {
                 break;
             }
         }
-
         return res;
     }
 
     public boolean hasFillOneVertical(boolean[][] data, boolean check) {
         boolean res = false;
         int rowLength = data[0].length;
-
         for (int columnIndex = 0; columnIndex < rowLength; columnIndex++) {
             boolean isMonoCol = true;
             for (int rowIndex = 0; rowIndex < data.length; rowIndex++) {
@@ -85,17 +81,14 @@ public class MatrixCheck {
 
     public boolean hasFillOneHorizontalOrVertical(boolean[][] data, boolean check) {
         boolean res = false;
-
-        MatrixCheck matrixCheck = new MatrixCheck();
-
-        if (matrixCheck.hasFillOneHorizontal(data, check)) {
+        MatrixCheck matrix = new MatrixCheck();
+        if (matrix.hasFillOneHorizontal(data, check)) {
             res = true;
         } else {
-            if (matrixCheck.hasFillOneVertical(data, check)) {
+            if (matrix.hasFillOneVertical(data, check)) {
                 res = true;
             }
         }
-
         return res;
     }
 }

@@ -23,7 +23,6 @@ public class BoardTest {
 
     @Test
     public void whenPaintBoardWithWidthFiveAndHeightFourThenStringWithFiveColsAndFourRows() {
-        //напишите здесь тест, проверяющий формирование доски 5 на 4.
         Board board = new Board();
         String rsl = board.paint(5, 4);
         String ln = System.lineSeparator();

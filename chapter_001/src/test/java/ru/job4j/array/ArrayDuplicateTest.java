@@ -44,7 +44,6 @@ public class ArrayDuplicateTest {
         ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
         String[] result = arrayDuplicate.remove(array);
         String[] expected = {"1", "2", "3", "6", "5", "4", "9", "8", "7", "0"};
-
         assertThat(result, is(expected));
     }
 }

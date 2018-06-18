@@ -20,7 +20,6 @@ public class Counter {
                 temp += i;
             }
         }
-
         return temp;
     }
 }

@@ -15,10 +15,8 @@ public class ArraySortTest {
         int[] one = {1, 5, 8};
         int[] two = {2, 4, 6, 7, 9};
         int[] expect = {1, 2, 4, 5, 6, 7, 8, 9};
-
         ArraySort arraySort = new ArraySort();
         int[] res = arraySort.mergeAndSort(one, two);
-
         assertThat(res, is(expect));
     }
 
@@ -27,10 +25,8 @@ public class ArraySortTest {
         int[] one = {1, 3, 4};
         int[] two = {2, 4, 4, 7, 9};
         int[] expect = {1, 2, 3, 4, 4, 4, 7, 9};
-
         ArraySort arraySort = new ArraySort();
         int[] res = arraySort.mergeAndSort(one, two);
-
         assertThat(res, is(expect));
     }
 
@@ -39,10 +35,8 @@ public class ArraySortTest {
         int[] one = {1, 2, 3};
         int[] two = {4, 5, 6};
         int[] expect = {1, 2, 3, 4, 5, 6};
-
         ArraySort arraySort = new ArraySort();
         int[] res = arraySort.mergeAndSort(one, two);
-
         assertThat(res, is(expect));
     }
 }

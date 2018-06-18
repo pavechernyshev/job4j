@@ -16,14 +16,10 @@ public class ArrayDuplicate {
      */
     public String[] remove(String[] array) {
         int unique = array.length;
-        //от начала до предпоследнего элемента.
         for (int out = 0; out < unique - 1; out++) {
-            //от второго до последнего элемента.
             for (int in = out + 1; in < unique; in++) {
                 if (array[out] == array[in]) {
-                    //от сравнивоемого до предпоследнего.
                     for (int indexOfCopyElement = in; indexOfCopyElement < unique - 1; indexOfCopyElement++) {
-                        //переписываем текуищий и последующие элементы на соседние справа.
                         array[indexOfCopyElement] = array[indexOfCopyElement + 1];
                     }
                     unique--;
@@ -31,7 +27,6 @@ public class ArrayDuplicate {
                 }
             }
         }
-
         return Arrays.copyOf(array, unique);
     }
 }
