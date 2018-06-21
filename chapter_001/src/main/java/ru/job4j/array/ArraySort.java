@@ -13,15 +13,7 @@ public class ArraySort {
         int indexOfFirst = 0;
         int indexOfSecond = 0;
         for (int i = 0; i < lengthOfBothArrays; i++) {
-            boolean isCanOfIncrementFirst = false;
-            boolean isCanOfIncrementSecond = false;
-            if (indexOfFirst < sortArrayFirst.length) {
-                isCanOfIncrementFirst = true;
-            }
-            if (indexOfSecond < sortArraySecond.length) {
-                isCanOfIncrementSecond = true;
-            }
-            if (isCanOfIncrementFirst && isCanOfIncrementSecond) {
+            if (indexOfFirst < sortArrayFirst.length && indexOfSecond < sortArraySecond.length) {
                 if (sortArrayFirst[indexOfFirst] > sortArraySecond[indexOfSecond]) {
                     res[i] = sortArraySecond[indexOfSecond];
                     indexOfSecond++;
@@ -29,13 +21,15 @@ public class ArraySort {
                     res[i] = sortArrayFirst[indexOfFirst];
                     indexOfFirst++;
                 }
-            } else if (isCanOfIncrementFirst) {
+
+            } else if (indexOfFirst < sortArrayFirst.length) {
                 res[i] = sortArrayFirst[indexOfFirst];
                 indexOfFirst++;
-            } else if (isCanOfIncrementSecond) {
+            } else if (indexOfSecond < sortArraySecond.length) {
                 res[i] = sortArraySecond[indexOfSecond];
                 indexOfSecond++;
             }
+
         }
         return res;
     }
