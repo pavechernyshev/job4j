@@ -122,8 +122,8 @@ public class TicTacToe extends Application {
         HBox control = new HBox();
         control.setPrefHeight(40);
         control.setSpacing(10.0);
-        control.setAlignment(Pos.BASELINE_CENTER);
-        Button start = new Button("Начать");
+            control.setAlignment(Pos.BASELINE_CENTER);
+            Button start = new Button("Начать");
         start.setOnMouseClicked(
                 event -> border.setCenter(this.buildGrid())
         );
