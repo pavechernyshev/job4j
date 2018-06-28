@@ -42,7 +42,7 @@ public class Tracker {
     public void delete(String id) {
         int count = 0;
         for (Item item: this.items) {
-            if (item.getId().equals(id)) {
+            if (this.items[count] != null && item.getId().equals(id)) {
                 this.items[count] = null;
                 break;
             }
@@ -83,9 +83,9 @@ public class Tracker {
     }
 
     public Item findById(String id) {
-        Item item = new Item();
+        Item item = null;
         for (int index = 0; index < this.items.length; index++) {
-            if (this.items[index].getId().equals(id)) {
+            if (this.items[index] != null && this.items[index].getId() != null && this.items[index].getId().equals(id)) {
                 item = this.items[index];
                 break;
             }
@@ -100,6 +100,6 @@ public class Tracker {
      */
     private String generateId() {
         Random random = new Random();
-        return String.valueOf(System.currentTimeMillis()) + "|" + String.valueOf(random.nextInt());
+        return String.valueOf(System.currentTimeMillis()) + "_" + String.valueOf(random.nextInt(1000));
     }
 }

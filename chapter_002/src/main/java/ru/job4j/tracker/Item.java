@@ -51,9 +51,19 @@ public class Item {
 
     }
 
+    public Item(String name, String desc) {
+        this.setName(name);
+        this.setDesc(desc);
+    }
+
     public Item(String name, String desc, long created) {
         this.setName(name);
         this.setDesc(desc);
         this.setCreated(created);
+    }
+
+    @Override
+    public String toString() {
+        return "id: " + this.getId() + "; name: " + this.getName() + "; desc: " + this.getDesc();
     }
 }
