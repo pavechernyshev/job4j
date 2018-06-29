@@ -30,47 +30,66 @@ public class Tracker {
         return item;
     }
 
-    public void replace(String id, Item item) {
-        for (int index = 0; index < this.items.length; index++) {
-            if (this.items[index].getId().equals(id)) {
+    /**
+     * Метод перезаписывает заявку по идентификатору.
+     *
+     * @param id уникальный идентификатор заявки.
+     * @param item новая заявка.
+     * @return статус выполнения операции.
+     */
+    public boolean replace(String id, Item item) {
+        boolean res = false;
+        for (int index = 0; index < this.position; index++) {
+            if (this.items[index] != null && this.items[index].getId().equals(id)) {
                 this.items[index] = item;
+                item.setId(id);
+                res = true;
                 break;
-            }
-        }
-    }
-
-    public void delete(String id) {
-        int count = 0;
-        for (Item item: this.items) {
-            if (this.items[count] != null && item.getId().equals(id)) {
-                this.items[count] = null;
-                break;
-            }
-            count++;
-        }
-        for (int index = count; index < this.items.length - 1; index++) {
-            this.items[index] = this.items[index + 1];
-        }
-        //this.items = Arrays.copyOf(this.items, this.items.length - 1);
-    }
-
-    public Item[] findAll() {
-        int count = 0;
-        for (Item item: this.items) {
-            if (item != null) {
-                count++;
-            }
-        }
-        Item[] res = new Item[count];
-        count = 0;
-        for (Item item: this.items) {
-            if (item != null) {
-                res[count++] = item;
             }
         }
         return res;
     }
 
+    /**
+     * Присваивет найденному элементу null и отправляет в конец массива.
+     *
+     * @param id
+     * @return успешное удаление.
+     */
+    public boolean delete(String id) {
+        int delete = -1;
+        boolean res = false;
+        for (int index = 0; index < this.position; index++) {
+            if (this.items[index] != null && this.items[index].getId().equals(id)) {
+                this.items[index] = null;
+                delete = index;
+                break;
+            }
+        }
+        if (delete >= 0) {
+            for (int index = delete; index < this.position; index++) {
+                this.items[index] = this.items[index + 1];
+            }
+            res = true;
+            this.position--;
+        }
+        return res;
+    }
+
+    /**
+     *
+     * @return все заявки.
+     */
+    public Item[] findAll() {
+        return Arrays.copyOf(this.items, position);
+    }
+
+    /**
+     * Ищет заявки по названию.
+     *
+     * @param key имя заявки.
+     * @return найденные заявки.
+     */
     public Item[] findByName(String key) {
         Item[] res = new Item[this.items.length];
         int count = 0;
@@ -82,10 +101,16 @@ public class Tracker {
         return Arrays.copyOf(res, count);
     }
 
+    /**
+     * Осуществляет поиск по заявкам по идентификатору.
+     *
+     * @param id уникальный идентификатор заявки.
+     * @return заявку или null, если не найдено.
+     */
     public Item findById(String id) {
         Item item = null;
-        for (int index = 0; index < this.items.length; index++) {
-            if (this.items[index] != null && this.items[index].getId() != null && this.items[index].getId().equals(id)) {
+        for (int index = 0; index < this.position; index++) {
+            if (this.items[index] != null && this.items[index].getId().equals(id)) {
                 item = this.items[index];
                 break;
             }

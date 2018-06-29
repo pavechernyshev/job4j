@@ -87,26 +87,23 @@ public class StartUI {
     private void editItem() {
         System.out.println("------------ Изменение заявки --------------");
         String id = this.input.ask("Введите идентификатор заявки :");
-        if (this.isItemExist(id)) {
             String name = this.input.ask("Введите имя заявки :");
             String desc = this.input.ask("Введите описание заявки :");
             Item item = new Item(name, desc);
-            item.setId(id);
-            this.tracker.replace(id, item);
+        if (this.tracker.replace(id, item)) {
             System.out.println("------------ Завка изменена --------------");
         } else {
-            System.out.println("------------ Ну удалось найти заявку --------------");
+            this.printNotItemFound();
         }
     }
 
     private void deleteItem() {
         System.out.println("------------ Удаление заявки --------------");
         String id = this.input.ask("Введите идентификатор заявки :");
-        if (this.isItemExist(id)) {
-            this.tracker.delete(id);
+        if (this.tracker.delete(id)) {
             System.out.println("------------ Заявка удалена --------------");
         } else {
-            System.out.println("------------ Ну удалось найти заявку --------------");
+            this.printNotItemFound();
         }
     }
 
@@ -117,7 +114,7 @@ public class StartUI {
         if (item != null) {
             System.out.println(item.toString());
         } else {
-            System.out.println("------------ Ну удалось найти заявку --------------");
+            this.printNotItemFound();
         }
     }
 
@@ -129,7 +126,7 @@ public class StartUI {
             System.out.println(item.toString());
         }
         if (items.length == 0) {
-            System.out.println("------------ Ничего не найдено --------------");
+            this.printNotItemFound();
         }
 
     }
@@ -145,10 +142,9 @@ public class StartUI {
         System.out.println(EXIT + ". - Выйти из программы");
     }
 
-    private boolean isItemExist(String id) {
-        return this.tracker.findById(id) != null;
+    private void printNotItemFound() {
+        System.out.println("------------ Ну удалось найти заявку --------------");
     }
-
     /**
      * Запускт программы.
      * @param args
