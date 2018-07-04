@@ -30,8 +30,7 @@ public class StartUI {
         menu.fillActions();
         while (!exit) {
             menu.show();
-            String answer = this.input.ask("Введите пункт меню : ");
-            menu.select(Integer.valueOf(answer));
+            menu.select(this.input.ask("Введите пункт меню : ", menu.getRange()));
             if (menu.isExit()) {
                 exit = true;
             }
@@ -43,6 +42,6 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }

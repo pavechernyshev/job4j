@@ -22,6 +22,15 @@ public class MenuTracker {
         }
     }
 
+    public int[] getRange() {
+        int[] range = new int[this.userActions.length];
+        int count = 0;
+        for (UserAction action: this.userActions) {
+            range[count++] = action.key();
+        }
+        return range;
+    }
+
     public void fillActions() {
         this.userActions[0] = new AddItem();
         this.userActions[1] = new ShowItems();
