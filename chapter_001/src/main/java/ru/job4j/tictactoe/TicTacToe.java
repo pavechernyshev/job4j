@@ -56,6 +56,7 @@ public class TicTacToe extends Application {
         if (!gap) {
             this.showAlert("Все поля запонены! Начните новую Игру!");
         }
+        checkWinner();
         return gap;
     }
 
