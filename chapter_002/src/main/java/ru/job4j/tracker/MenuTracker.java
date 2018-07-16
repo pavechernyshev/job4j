@@ -9,6 +9,7 @@ public class MenuTracker {
     private UserAction[] userActions = new UserAction[7];
     private boolean exit = false;
 
+
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
