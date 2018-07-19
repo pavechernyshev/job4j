@@ -34,7 +34,9 @@ public class BishopWhite implements Figure {
         int x = source.x;
         int y = source.y;
         for (int i = 0; i < range; i++) {
-            steps[i] = Cell.values()[8 * (x = x + deltaX) + (y = y + deltaY)];
+            x += deltaX;
+            y += deltaY;
+            steps[i] = Cell.values()[8 * x + y];
         }
         return steps;
     }
