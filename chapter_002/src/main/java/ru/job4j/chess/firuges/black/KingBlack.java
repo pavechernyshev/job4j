@@ -2,6 +2,7 @@ package ru.job4j.chess.firuges.black;
 
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
+import ru.job4j.chess.firuges.exceptions.ImpossibleMoveException;
 
 /**
  *
@@ -23,6 +24,11 @@ public class KingBlack implements Figure {
 
     @Override
     public Cell[] way(Cell source, Cell dest) {
+        int stepX = source.x > dest.x ? source.x - dest.x : dest.x - source.x;
+        int stepY = source.y > dest.y ? source.y - dest.y : dest.y - source.y;
+        if (stepX > 1 || stepY > 1) {
+            throw new ImpossibleMoveException("Король ходит только на соседние клетки");
+        }
         return new Cell[] {dest };
     }
 
