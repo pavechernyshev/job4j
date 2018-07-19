@@ -29,20 +29,12 @@ public class BishopWhite implements Figure {
             throw new ImpossibleMoveException("Слон ходит только по диагонали");
         }
         Cell[] steps = new Cell[range];
-        int deltaX = source.x;
-        int deltaY = source.y;
+        int deltaX = source.x > dest.x ? -1 : 1;
+        int deltaY = source.y > dest.y ? -1 : 1;
+        int x = source.x;
+        int y = source.y;
         for (int i = 0; i < range; i++) {
-            if (deltaX > dest.x) {
-                deltaX--;
-            } else {
-                deltaX++;
-            }
-            if (deltaY > dest.y) {
-                deltaY--;
-            } else {
-                deltaY++;
-            }
-            steps[i] = Cell.values()[8 * deltaX + deltaY];
+            steps[i] = Cell.values()[8 * (x = x + deltaX) + (y = y + deltaY)];
         }
         return steps;
     }
