@@ -16,8 +16,21 @@ public class CoffeeMachine {
         if (value < price) {
             throw new NotEnoughMoneyException("Не достаточно средств!");
         }
-        setMonets(this.nominals, value - price);
-        int[] res = new int[getCountMonets()];
+        int index = 0;
+        int change = value - price;
+        int countMonets = 0;
+        for (int nominal: this.nominals) {
+            if (change >= nominal) {
+                this.monets[index] = change / nominal;
+                countMonets += this.monets[index];
+                change = change % nominal;
+                if (change == 0) {
+                    break;
+                }
+            }
+            index++;
+        }
+        int[] res = new int[countMonets];
         int position = 0;
         for (int i = 0; i < this.nominals.length; i++) {
             if (this.monets[i] > 0) {
@@ -27,29 +40,5 @@ public class CoffeeMachine {
             }
         }
         return res;
-    }
-
-    private int getCountMonets() {
-        int count = 0;
-        if (this.monets.length > 0) {
-            for (int monets : this.monets) {
-                count += monets;
-            }
-        }
-        return count;
-    }
-
-    private void setMonets(int[] nominals, int change) {
-        int index = 0;
-        for (int nominal: nominals) {
-            if (change >= nominal) {
-                this.monets[index] = change / nominal;
-                change = change % nominal;
-                if (change == 0) {
-                    break;
-                }
-            }
-            index++;
-        }
     }
 }
