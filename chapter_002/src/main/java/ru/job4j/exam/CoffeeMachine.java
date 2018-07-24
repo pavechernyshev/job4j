@@ -9,7 +9,7 @@ package ru.job4j.exam;
 public class CoffeeMachine {
 
     //Номиналы монет от большей к меньшей
-    final private int[] nominals = {10, 5, 2, 1};
+    private final int[] nominals = {10, 5, 2, 1};
     private int[] monets = new int[this.nominals.length];
 
     public int[] changes(int value, int price) throws NotEnoughMoneyException {
