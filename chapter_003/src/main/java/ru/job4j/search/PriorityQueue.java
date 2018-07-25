@@ -23,6 +23,9 @@ public class PriorityQueue {
                 }
                 position++;
             }
+            if (position == tasks.size()) {
+                tasks.add(task);
+            }
         }
     }
 
