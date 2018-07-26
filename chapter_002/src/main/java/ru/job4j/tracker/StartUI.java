@@ -45,15 +45,3 @@ public class StartUI {
         new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
     }
 }
-
-class Test {
-    Test(int a) {
-
-    }
-
-    public void getAnon() {
-        Test t = new Test(2) {
-            int add = 2;
-        };
-    }
-}

@@ -1,6 +1,11 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hamcrest.Matchers.array;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -10,7 +15,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription", 123L);
         tracker.add(item);
-        assertThat(tracker.findAll()[0], is(item));
+        assertThat(tracker.findAll().get(0), is(item));
     }
 
     @Test
@@ -46,8 +51,8 @@ public class TrackerTest {
         tracker.add(previous);
         tracker.add(second);
         tracker.add(third);
-        Item[] expected = {previous, second, third};
-        Item[] res = tracker.findAll();
+        List<Item> expected = Arrays.asList(previous, second, third);
+        List<Item> res = tracker.findAll();
         assertThat(expected, is(res));
     }
 
@@ -61,8 +66,8 @@ public class TrackerTest {
         tracker.add(second);
         tracker.add(third);
         tracker.delete(third.getId());
-        Item[] expected = {previous, second};
-        Item[] res = tracker.findAll();
+        List<Item>  expected = Arrays.asList(previous, second);
+        List<Item> res = tracker.findAll();
         assertThat(expected, is(res));
     }
 
@@ -75,8 +80,8 @@ public class TrackerTest {
         tracker.add(previous);
         tracker.add(second);
         tracker.add(third);
-        Item[] expected = {second};
-        Item[] res = tracker.findByName("test2");
+        List<Item> expected = Arrays.asList(second);
+        List<Item> res = tracker.findByName("test2");
         assertThat(expected, is(res));
     }
 
@@ -89,8 +94,8 @@ public class TrackerTest {
         tracker.add(previous);
         tracker.add(second);
         tracker.add(third);
-        Item[] expected = {second, third};
-        Item[] res = tracker.findByName("test");
+        List<Item> expected = Arrays.asList(second, third);
+        List<Item> res = tracker.findByName("test");
         assertThat(expected, is(res));
     }
 

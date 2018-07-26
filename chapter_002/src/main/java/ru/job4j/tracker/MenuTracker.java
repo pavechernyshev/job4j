@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MenuTracker {
 
@@ -92,11 +93,11 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Отображение всех заявок --------------");
-            Item[] items = tracker.findAll();
+            List<Item> items = tracker.findAll();
             for (Item item: items) {
                 System.out.println(item.toString());
             }
-            if (items.length == 0) {
+            if (items.size() == 0) {
                 System.out.println("------------ Заявок нет. --------------");
             }
         }
@@ -166,11 +167,11 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Поиск заявки по наименованию --------------");
             String name = input.ask("Введите имя заявки :");
-            Item[] items = tracker.findByName(name);
+            List<Item> items = tracker.findByName(name);
             for (Item item: items) {
                 System.out.println(item.toString());
             }
-            if (items.length == 0) {
+            if (items.size() == 0) {
                 printNotItemFound();
             }
         }
