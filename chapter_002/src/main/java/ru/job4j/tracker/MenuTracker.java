@@ -1,12 +1,13 @@
 package ru.job4j.tracker;
 
 import javax.jws.soap.SOAPBinding;
+import java.util.ArrayList;
 
 public class MenuTracker {
 
     private Input input;
     private Tracker tracker;
-    private UserAction[] userActions = new UserAction[7];
+    private ArrayList<UserAction> userActions = new ArrayList<>();
     private boolean exit = false;
 
 
@@ -24,7 +25,7 @@ public class MenuTracker {
     }
 
     public int[] getRange() {
-        int[] range = new int[this.userActions.length];
+        int[] range = new int[this.userActions.size()];
         int count = 0;
         for (UserAction action: this.userActions) {
             range[count++] = action.key();
@@ -33,13 +34,13 @@ public class MenuTracker {
     }
 
     public void fillActions() {
-        this.userActions[0] = new AddItem(0, "Добавить новую заявку");
-        this.userActions[1] = new ShowItems(1, "Показать заявки");
-        this.userActions[2] = new EditItem(2, "Редактировать заявку");
-        this.userActions[3] = new DeleteItem(3, "Удалить заявку");
-        this.userActions[4] = new FindById(4, "Найти заявку по идентификатору");
-        this.userActions[5] = new FindByName(5, "Найти заявку по названию");
-        this.userActions[6] = new Exit(6, "Выйти из программы");
+        this.userActions.add(new AddItem(0, "Добавить новую заявку"));
+        this.userActions.add(new ShowItems(1, "Показать заявки"));
+        this.userActions.add(new EditItem(2, "Редактировать заявку"));
+        this.userActions.add(new DeleteItem(3, "Удалить заявку"));
+        this.userActions.add(new FindById(4, "Найти заявку по идентификатору"));
+        this.userActions.add(new FindByName(5, "Найти заявку по названию"));
+        this.userActions.add(new Exit(6, "Выйти из программы"));
     }
 
     public void show() {
