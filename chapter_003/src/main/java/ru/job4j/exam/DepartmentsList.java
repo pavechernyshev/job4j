@@ -1,7 +1,5 @@
 package ru.job4j.exam;
 
-import ru.job4j.sort.User;
-
 import java.util.*;
 
 import static java.lang.String.format;
