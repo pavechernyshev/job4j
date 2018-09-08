@@ -40,13 +40,13 @@ public class DepartmentsListTest {
         List<String> expect = Arrays.asList(
                 "K2",
                 "K2\\SK1",
-                "K2\\SK1\\SSK1",
                 "K2\\SK1\\SSK2",
+                "K2\\SK1\\SSK1",
                 "K1",
+                "K1\\SK2",
                 "K1\\SK1",
-                "K1\\SK1\\SSK1",
                 "K1\\SK1\\SSK2",
-                "K1\\SK2"
+                "K1\\SK1\\SSK1"
         );
         assertThat(dl.resort(), is(expect));
     }

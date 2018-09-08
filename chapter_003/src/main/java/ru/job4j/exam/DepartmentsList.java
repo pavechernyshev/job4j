@@ -1,5 +1,7 @@
 package ru.job4j.exam;
 
+import ru.job4j.sort.User;
+
 import java.util.*;
 
 import static java.lang.String.format;
@@ -19,6 +21,13 @@ public class DepartmentsList {
             String unit1 = o1.split(format("\\%s", separator))[0];
             String unit2 = o2.split(format("\\%s", separator))[0];
             return unit2.compareTo(unit1);
+        }
+    }
+
+    class LengthCompare implements Comparator<String> {
+        @Override
+        public int compare(String o1, String o2) {
+            return Integer.compare(o1.length(), o2.length());
         }
     }
 
@@ -46,7 +55,8 @@ public class DepartmentsList {
     }
 
     public List<String> resort() {
-        departments.sort(new DepartmentsResortComparator().thenComparing(new DepartmentsComparator()));
+        departments.sort(new DepartmentsResortComparator().thenComparing(new LengthCompare())
+                .thenComparing(new DepartmentsComparator().reversed()));
         return this.departments;
     }
 
