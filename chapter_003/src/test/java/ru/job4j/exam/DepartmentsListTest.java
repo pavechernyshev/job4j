@@ -32,7 +32,7 @@ public class DepartmentsListTest {
                 "K2\\SK1\\SSK1",
                 "K2\\SK1\\SSK2"
         );
-        assertThat(dl.sort(), is(expect));
+        assertThat(dl.sort().toArray(), is(expect.toArray()));
     }
 
     @Test
@@ -48,6 +48,6 @@ public class DepartmentsListTest {
                 "K1\\SK1\\SSK2",
                 "K1\\SK1\\SSK1"
         );
-        assertThat(dl.resort(), is(expect));
+        assertThat(dl.resort().toArray(), is(expect.toArray()));
     }
 }
