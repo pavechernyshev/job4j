@@ -8,46 +8,51 @@ import static org.junit.Assert.assertThat;
 public class DepartmentsListTest {
     private DepartmentsList dl = new DepartmentsList();
 
-    @Before
-    public void fill() {
-        this.dl.add("K1\\SK1");
-        this.dl.add("K1\\SK2");
-        this.dl.add("K1\\SK1\\SSK2");
-        this.dl.add("K1\\SK1\\SSK1");
-        this.dl.add("K2");
-        this.dl.add("K2\\SK1\\SSK1");
-        this.dl.add("K2\\SK1\\SSK2");
-    }
 
     @Test
     public void whenSortedListTheSortList() {
-        List<String> expect = Arrays.asList(
+        DepartmentsList depParser = new DepartmentsList();
+        String[] deps = new String[]{
+                "K1\\SK1\\SSK1",
+                "K1\\SK1\\SSK2",
+                "K2\\SK1\\SSK2",
+                "K2\\SK1\\SSK1"
+        };
+        String[] actual = depParser.parse(deps);
+        String[] expected = new String[]{
                 "K1",
                 "K1\\SK1",
                 "K1\\SK1\\SSK1",
                 "K1\\SK1\\SSK2",
-                "K1\\SK2",
                 "K2",
                 "K2\\SK1",
                 "K2\\SK1\\SSK1",
                 "K2\\SK1\\SSK2"
-        );
-        assertThat(dl.sort().toArray(), is(expect.toArray()));
+        };
+        assertThat(actual, is(expected));
     }
 
     @Test
-    public void whenResortedListTheResortList() {
-        List<String> expect = Arrays.asList(
+    public void whenSortedListTheReSortList() {
+        DepartmentsList depParser = new DepartmentsList();
+        String[] deps = new String[]{
+                "K1\\SK1\\SSK1",
+                "K1\\SK1\\SSK2",
+                "K2\\SK1\\SSK2",
+                "K2\\SK1\\SSK1"
+        };
+        depParser.parse(deps);
+        String[] actual = depParser.resort();
+        String[] expected = new String[]{
                 "K2",
                 "K2\\SK1",
                 "K2\\SK1\\SSK2",
                 "K2\\SK1\\SSK1",
                 "K1",
-                "K1\\SK2",
                 "K1\\SK1",
                 "K1\\SK1\\SSK2",
                 "K1\\SK1\\SSK1"
-        );
-        assertThat(dl.resort().toArray(), is(expect.toArray()));
+        };
+        assertThat(actual, is(expected));
     }
 }
