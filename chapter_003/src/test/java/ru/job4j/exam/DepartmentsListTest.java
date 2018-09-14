@@ -18,7 +18,7 @@ public class DepartmentsListTest {
                 "K2\\SK1\\SSK2",
                 "K2\\SK1\\SSK1"
         };
-        String[] actual = depParser.parse(deps);
+        String[] actual = depParser.parse(deps, false);
         String[] expected = new String[]{
                 "K1",
                 "K1\\SK1",
@@ -41,8 +41,7 @@ public class DepartmentsListTest {
                 "K2\\SK1\\SSK2",
                 "K2\\SK1\\SSK1"
         };
-        depParser.parse(deps);
-        String[] actual = depParser.resort();
+        String[] actual = depParser.parse(deps, true);
         String[] expected = new String[]{
                 "K2",
                 "K2\\SK1",

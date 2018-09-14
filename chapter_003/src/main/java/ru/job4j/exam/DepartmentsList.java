@@ -5,9 +5,14 @@ import java.util.*;
 import static java.lang.String.format;
 
 public class DepartmentsList {
-    private Set<String> result = new TreeSet<>();
 
-    public String[] parse(String[] departments) {
+    public String[] parse(String[] departments, boolean resort) {
+        Set<String> result;
+        if (resort) {
+            result = new TreeSet<>(new DepartmentsResortComparator());
+        } else {
+            result = new TreeSet<>();
+        }
         for (String codes: departments) {
             String[] units = codes.split("\\\\");
             if (units.length > 0) {
@@ -20,12 +25,6 @@ public class DepartmentsList {
             }
         }
         return result.toArray(new String[0]);
-    }
-
-    public String[] resort() {
-        Set<String> resort =  new TreeSet<>(new DepartmentsResortComparator());
-        resort.addAll(result);
-        return resort.toArray(new String[0]);
     }
 
     class DepartmentsResortComparator implements Comparator<String> {
