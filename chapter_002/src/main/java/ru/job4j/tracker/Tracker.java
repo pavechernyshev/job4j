@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 /**
  * @version $Id$
@@ -59,17 +60,17 @@ public class Tracker {
      * @return успешное удаление.
      */
     public boolean delete(String id) {
-        int delete = -1;
-        boolean res = false;
-        for (int index = 0; index < this.position; index++) {
-            if (this.items.get(index) != null && this.items.get(index).getId().equals(id)) {
-                this.items.remove(index);
-                res = true;
-                this.position--;
-                break;
+        StringBuilder res = new StringBuilder();
+        this.items.forEach(item -> {
+            if (id.length() > 0 && item.getId().equals(id)) {
+                res.append(id);
             }
+        });
+        if (res.toString().length() > 0) {
+            this.items.remove(findById(res.toString()));
+            this.position--;
         }
-        return res;
+        return res.toString().length() > 0;
     }
 
     /**
