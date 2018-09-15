@@ -60,17 +60,14 @@ public class Tracker {
      * @return успешное удаление.
      */
     public boolean delete(String id) {
-        StringBuilder res = new StringBuilder();
-        this.items.forEach(item -> {
-            if (id.length() > 0 && item.getId().equals(id)) {
-                res.append(id);
-            }
-        });
-        if (res.toString().length() > 0) {
-            this.items.remove(findById(res.toString()));
+        boolean res = false;
+        if (id.length() > 0) {
+            res = this.items.removeIf(item -> item.getId().equals(id));
+        }
+        if (res) {
             this.position--;
         }
-        return res.toString().length() > 0;
+        return res;
     }
 
     /**
@@ -106,6 +103,7 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item item = null;
+
         for (int index = 0; index < this.position; index++) {
             if (this.items.get(index) != null && this.items.get(index).getId().equals(id)) {
                 item = this.items.get(index);
