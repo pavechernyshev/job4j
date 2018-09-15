@@ -3,8 +3,6 @@ package ru.job4j.tracker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Arrays;
-import java.util.function.Consumer;
 
 /**
  * @version $Id$
@@ -41,22 +39,21 @@ public class Tracker {
      * @return статус выполнения операции.
      */
     public boolean replace(String id, Item item) {
-        boolean res = false;
-        for (int index = 0; index < this.position; index++) {
-            if (this.items.get(index) != null && this.items.get(index).getId().equals(id)) {
-                this.items.set(index, item);
+        final boolean[] res = {false};
+        this.items.forEach(i -> {
+            if (i.getId().equals(id)) {
                 item.setId(id);
-                res = true;
-                break;
+                items.set(items.indexOf(i), item);
+                res[0] = true;
             }
-        }
-        return res;
+        });
+        return res[0];
     }
 
     /**
      * Присваивет найденному элементу null и отправляет в конец массива.
      *
-     * @param id
+     * @param id идентификатор удаляемого элемента
      * @return успешное удаление.
      */
     public boolean delete(String id) {
@@ -85,13 +82,12 @@ public class Tracker {
      * @return найденные заявки.
      */
     public List<Item> findByName(String key) {
-        ArrayList<Item> res = new ArrayList<>();
-        int count = 0;
-        for (Item item: this.items) {
-            if (item != null && item.getName().equals(key)) {
-                res.add(count++, item);
+        final ArrayList<Item> res = new ArrayList<>();
+        this.items.forEach(item -> {
+            if (item.getName().equals(key)) {
+                res.add(item);
             }
-        }
+        });
         return res;
     }
 
@@ -102,15 +98,13 @@ public class Tracker {
      * @return заявку или null, если не найдено.
      */
     public Item findById(String id) {
-        Item item = null;
-
-        for (int index = 0; index < this.position; index++) {
-            if (this.items.get(index) != null && this.items.get(index).getId().equals(id)) {
-                item = this.items.get(index);
-                break;
+        final Item[] item = {null};
+        this.items.forEach(i -> {
+            if (i != null && i.getId().equals(id)) {
+                item[0] = i;
             }
-        }
-        return item;
+        });
+        return item[0];
     }
 
     /**
