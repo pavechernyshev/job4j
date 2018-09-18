@@ -6,7 +6,8 @@ import ru.job4j.chess.firuges.exceptions.ImpossibleMoveException;
 import ru.job4j.chess.firuges.exceptions.OccupiedWayException;
 import ru.job4j.chess.firuges.exceptions.FigureNotFoundException;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * //TODO add comments.
@@ -16,61 +17,53 @@ import java.util.Optional;
  * @since 0.1
  */
 public class Logic {
-    private final Figure[] figures = new Figure[32];
+    private final List<Figure> figures = new ArrayList<>(32);
     private int index = 0;
 
     public void add(Figure figure) {
-        this.figures[this.index++] = figure;
+        this.figures.add(this.index++, figure);
     }
 
     public boolean move(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
-        boolean rst = false;
         int index = this.findBy(source);
         if (index == -1) {
             throw new FigureNotFoundException();
         }
-        Cell[] steps = this.figures[index].way(source, dest);
+        Cell[] steps = this.figures.get(index).way(source, dest);
         for (Cell cell: steps) {
             if (!checkDest(cell)) {
                 throw new OccupiedWayException("Путь заблокирован");
             }
         }
         if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-            rst = true;
-            this.figures[index] = this.figures[index].copy(dest);
-        }
-        if (!rst) {
+            this.figures.add(index, this.figures.get(index).copy(dest));
+        } else {
             throw new ImpossibleMoveException();
         }
-        return rst;
+        return true;
     }
 
     public boolean checkDest(Cell dest) {
-        boolean res = true;
-        for (int i = 0; i < this.index; i++) {
-            Figure figure = figures[i];
-            if (figure.position().equals(dest)) {
-                res = false;
+        final boolean[] res = {true};
+        this.figures.forEach(f -> {
+            if (f.position().equals(dest)) {
+                res[0] = false;
             }
-        }
-        return res;
+        });
+        return res[0];
     }
 
     public void clean() {
-        for (int position = 0; position != this.figures.length; position++) {
-            this.figures[position] = null;
-        }
-        this.index = 0;
+        this.figures.removeIf(i -> true);
     }
 
     private int findBy(Cell cell) {
-        int rst = -1;
-        for (int index = 0; index != this.figures.length; index++) {
-            if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
-                rst = index;
-                break;
+        final int[] res = {-1};
+        this.figures.forEach(f -> {
+            if (f != null && f.position().equals(cell)) {
+                res[0] = this.figures.indexOf(f);
             }
-        }
-        return rst;
+        });
+        return res[0];
     }
 }
