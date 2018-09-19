@@ -21,12 +21,12 @@ public class ConvertList2Array {
     }
 
     public List<Integer> convert(List<int[]> list) {
-        List<Integer> res = new ArrayList<>();
-        for (int[] ints: list) {
-            for (int num: ints) {
+        final List<Integer> res = new ArrayList<>();
+        list.forEach(i -> {
+            for (int num: i) {
                 res.add(num);
             }
-        }
+        });
         return res;
     }
 }

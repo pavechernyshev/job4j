@@ -1,6 +1,7 @@
 package ru.job4j.bank;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Bank {
     private Map<User, List<Account>> bank = new HashMap<>();
@@ -76,28 +77,18 @@ public class Bank {
     }
 
     private User gerUser(String passport) throws NotFoundUserException {
-        User result = null;
-        for (User user: this.bank.keySet()) {
-            if (user.getPassport().equals(passport)) {
-                result = user;
-                break;
-            }
-        }
-        if (result == null) {
+        List<User> res = this.bank.keySet().stream().filter(user -> user.getPassport().equals(passport))
+                .limit(1).collect(Collectors.toList());
+        if (res.isEmpty()) {
             throw new NotFoundUserException("Пользователь не найден");
         }
-        return result;
+        return res.get(0);
     }
 
     private Account getAccount(List<Account> accounts, String requisite) {
-        Account res = null;
-        for (Account account: accounts) {
-            if (account.getRequisites().equals(requisite)) {
-                res = account;
-                break;
-            }
-        }
-        return res;
+        List<Account> res = accounts.stream().filter(a -> a.getRequisites().equals(requisite))
+                .limit(1).collect(Collectors.toList());
+        return res.isEmpty() ? null : res.get(0);
     }
 
 }
