@@ -53,7 +53,6 @@ public class DepartmentsList {
 
     public String[] parse(String[] departments, boolean resort) {
         Set<Org> orgs;
-        List<String> result = new ArrayList<>();
         if (resort) {
             orgs = new TreeSet<>(new DepartmentsResortComparator());
         } else {
@@ -70,10 +69,7 @@ public class DepartmentsList {
                 }
             }
         }
-        for (Org org: orgs) {
-            result.add(org.getCode());
-        }
-        return result.toArray(new String[0]);
+        return orgs.stream().map(org -> org.getCode()).toArray(String[]::new);
     }
 
     class DepartmentsResortComparator implements Comparator<Org> {
