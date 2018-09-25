@@ -5,13 +5,11 @@ import java.util.NoSuchElementException;
 
 public class JaggedArrayIterator implements Iterator {
     private final int[][] array;
-    private final boolean isEmpty;
     private int first = 0;
     private int second = 0;
 
     public JaggedArrayIterator(int[][] array) {
         this.array = array;
-        this.isEmpty = !hasNext();
     }
 
     @Override
@@ -21,7 +19,7 @@ public class JaggedArrayIterator implements Iterator {
 
     @Override
     public Object next() {
-        if (isEmpty) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
         int res = array[first][second];
