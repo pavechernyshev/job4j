@@ -15,26 +15,23 @@ public class EvenIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        return this.position != -1 && nextPosition(this.position) != -1;
+        return evenPosition() != -1;
     }
 
     @Override
     public Object next() {
-        if (this.array.length == 0 || this.position == -1) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        int curIndex = nextPosition(this.position);
-        if (curIndex == -1) {
-            throw new NoSuchElementException();
-        }
-        this.position = nextPosition(curIndex + 1);
-        return array[curIndex];
+        int evenPosition = evenPosition();
+        this.position = evenPosition + 1;
+        return array[evenPosition];
     }
 
-    private int nextPosition(int startPos) {
+    private int evenPosition() {
         int res = -1;
-        for (int i = startPos; i < this.array.length; i++) {
-            if (this.array[i] % 2 == 0) {
+        for (int i = position; i < array.length; i++) {
+            if (array[i] % 2 == 0) {
                 res = i;
                 break;
             }
