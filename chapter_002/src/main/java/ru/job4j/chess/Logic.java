@@ -35,11 +35,10 @@ public class Logic {
                 throw new OccupiedWayException("Путь заблокирован");
             }
         }
-        if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-            this.figures.add(index, this.figures.get(index).copy(dest));
-        } else {
+        if (steps.length == 0 || !steps[steps.length - 1].equals(dest)) {
             throw new ImpossibleMoveException();
         }
+        this.figures.add(index, this.figures.get(index).copy(dest));
         return true;
     }
 
