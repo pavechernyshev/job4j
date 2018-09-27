@@ -8,7 +8,6 @@ public class EvenIterator implements Iterator {
     private final int[] array;
 
     private int position = 0;
-    private int evenPosition = -1;
 
     public EvenIterator(int[] array) {
         this.array = array;
@@ -20,7 +19,7 @@ public class EvenIterator implements Iterator {
         for (int i = this.position; i < this.array.length; i++) {
             if (array[i] % 2 == 0) {
                 res = true;
-                this.evenPosition = i;
+                this.position = i;
                 break;
             }
         }
@@ -32,7 +31,6 @@ public class EvenIterator implements Iterator {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        this.position = this.evenPosition + 1;
-        return array[this.evenPosition];
+        return array[this.position++];
     }
 }
