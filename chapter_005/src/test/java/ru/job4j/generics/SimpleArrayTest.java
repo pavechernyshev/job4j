@@ -3,9 +3,12 @@ package ru.job4j.generics;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertTrue;
 
 public class SimpleArrayTest {
 
@@ -60,5 +63,18 @@ public class SimpleArrayTest {
             counter++;
         }
         assertThat(sa.getSize(), is(counter));
+    }
+
+    @Test
+    public void whenIteratorHasNextThenTrue() throws Exception {
+        Iterator<Integer> iterator = sa.iterator();
+        assertTrue(iterator.hasNext());
+
+    }
+
+    @Test
+    public void name() throws Exception {
+        Iterator<Integer> iterator = sa.iterator();
+        assertThat(iterator.next(), is(2));
     }
 }
