@@ -5,7 +5,7 @@ package ru.job4j.list;
  * @version $Id$
  * @since 0.1
  */
-public class SimpleArrayList<E> {
+public class SimpleLinkedList<E> {
     private int size;
     private Node<E> first;
 
