@@ -33,7 +33,8 @@ public class SimpleArrayList<E> implements Iterable<E> {
 
     private void grow() {
         this.modCount++;
-        this.elementData = Arrays.copyOf(this.elementData, this.elementData.length * 2);
+        int newSize = elementData.length > 0 ? this.elementData.length * 2 : DEFAULT_CAPACITY;
+        this.elementData = Arrays.copyOf(this.elementData, newSize);
     }
 
     public void add(E value) {

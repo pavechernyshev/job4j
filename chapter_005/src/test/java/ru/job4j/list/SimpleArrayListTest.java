@@ -60,4 +60,10 @@ public class SimpleArrayListTest {
         }
         assertThat(al.toArray(), is(expected));
     }
+
+    @Test
+    public void whenCreateEmptyAndAddItemsThenSuccess() {
+        SimpleArrayList<Integer> simpleArrayList = new SimpleArrayList<>(0);
+        simpleArrayList.add(1);
+    }
 }
