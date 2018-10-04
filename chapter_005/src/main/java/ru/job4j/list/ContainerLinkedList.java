@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
  * @version $Id$
  * @since 0.1
  */
-public class ContainerLinkedList<E> implements Iterable<E>{
+public class ContainerLinkedList<E> implements Iterable<E> {
     private int size;
     private Node<E> first;
     private Node<E> last;

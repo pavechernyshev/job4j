@@ -80,7 +80,7 @@ public class SimpleArrayList<E> implements Iterable<E> {
         @SuppressWarnings("unchecked")
         final E[] elementData = (E[]) this.elementData;
         final int size = this.size;
-        for (int i=0; modCount == expectedModCount && i < size; i++) {
+        for (int i = 0; modCount == expectedModCount && i < size; i++) {
             action.accept(elementData[i]);
         }
         if (modCount != expectedModCount) {
