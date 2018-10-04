@@ -7,16 +7,22 @@ import java.util.NoSuchElementException;
  * @version $Id$
  * @since 0.1
  */
-public class SimpleStack<T> extends SimpleLinkedList<T> {
+public class SimpleStack<T> {
+
+    private SimpleLinkedList<T> simpleLinkedList = new SimpleLinkedList<>();
 
     public T poll() {
-        if (getSize() == 0) {
+        if (simpleLinkedList.getSize() == 0) {
             throw new NoSuchElementException();
         }
-        return delete();
+        return simpleLinkedList.delete();
     }
 
     public void push(T value) {
-        add(value);
+        simpleLinkedList.add(value);
+    }
+
+    public int getSize() {
+        return simpleLinkedList.getSize();
     }
 }
