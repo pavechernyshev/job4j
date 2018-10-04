@@ -21,7 +21,7 @@ public class SimpleArrayList<E> implements Iterable<E> {
     }
 
     SimpleArrayList(int size) {
-        size = size < 0 ? size : DEFAULT_CAPACITY;
+        size = size < 0 ? DEFAULT_CAPACITY : size;
         this.elementData = new Object[size];
     }
 
