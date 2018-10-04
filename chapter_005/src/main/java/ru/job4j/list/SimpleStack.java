@@ -13,9 +13,7 @@ public class SimpleStack<T> extends SimpleLinkedList<T> {
         if (getSize() == 0) {
             throw new NoSuchElementException();
         }
-        T res = get(0);
-        delete();
-        return res;
+        return delete();
     }
 
     public void push(T value) {
