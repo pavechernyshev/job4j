@@ -1,7 +1,6 @@
 package ru.job4j.list;
 
 import java.util.NoSuchElementException;
-import java.util.Stack;
 
 /***
  * @author Павел Чернышев (pavel.chernyshev.work@gmail.com)
