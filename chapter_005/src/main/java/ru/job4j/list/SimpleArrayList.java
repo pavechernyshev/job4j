@@ -16,11 +16,11 @@ public class SimpleArrayList<E> implements Iterable<E> {
     private int modCount = 0;
     private int size = 0;
 
-    SimpleArrayList() {
+    public SimpleArrayList() {
         this.elementData = new Object[DEFAULT_CAPACITY];
     }
 
-    SimpleArrayList(int size) {
+    public SimpleArrayList(int size) {
         size = size < 0 ? DEFAULT_CAPACITY : size;
         this.elementData = new Object[size];
     }
