@@ -10,10 +10,7 @@ public class Helper {
         Node turtle = node;
         Node hare = node.next;
         boolean hasCycle = false;
-        while (true) {
-            if (turtle == null || hare == null) {
-                break;
-            }
+        while (turtle != null && hare != null) {
             if (turtle == hare) {
                 hasCycle = true;
                 break;
