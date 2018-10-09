@@ -34,4 +34,19 @@ public class UserTest {
         first.setChildren(1);
         assertThat(first.equals(second), is(false));
     }
+
+    @Test
+    public void whenGetNameOnThirdThenIlya() {
+        assertThat(third.getName(), is("Ilya"));
+    }
+
+    @Test
+    public void whenGetFirstChildrenThen0() {
+        assertThat(first.getChildren(), is(0));
+    }
+
+    @Test
+    public void whenGetThirdBirthdayEqualsNewCalendar19970618ThenTrue() {
+        assertThat(third.getBirthday(), is(new GregorianCalendar(1997, 6, 18)));
+    }
 }
