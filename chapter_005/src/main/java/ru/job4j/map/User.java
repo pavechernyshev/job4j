@@ -29,7 +29,7 @@ public class User {
         return children;
     }
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -46,12 +46,12 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(name, birthday, children);
-    }
+    }*/
 
     @Override
     public String toString() {
         return "User{" + "name='" + name + '\''
-                + ", birthday=" + birthday
+                + ", birthday=" + birthday.getTime()
                 + ", children=" + children + '}';
     }
 }
