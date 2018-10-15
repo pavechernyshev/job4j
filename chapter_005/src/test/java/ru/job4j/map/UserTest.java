@@ -57,10 +57,19 @@ public class UserTest {
     }
 
     @Test
+    @Ignore
     public void whenDoNotOverrideEqualsAndHashCodeAndCompareSuchObjectsThenTwoItems() {
         Map<User, Integer> map = new HashMap<>();
         map.put(first, 1);
         map.put(second, 2);
+        assertThat(map.size(), is(2));
+    }
+
+    @Test
+    public void whenDoNotOverrideEqualsAndCompareSuchObjectsThenTwoItems() {
+        Map<User, Integer> map = new HashMap<>();
+        map.put(first, 3);
+        map.put(second, 5);
         assertThat(map.size(), is(2));
     }
 }
