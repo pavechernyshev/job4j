@@ -23,19 +23,16 @@ public class UserTest {
     }
 
     @Test
-    @Ignore
     public void whenFirstEqualsSecondThenTrue() {
         assertThat(first.equals(second), is(true));
     }
 
     @Test
-    @Ignore
     public void whenFirstEqualsThirdThenFalse() {
         assertThat(first.equals(third), is(false));
     }
 
     @Test
-    @Ignore
     public void whenDifferentCountChildrenThenFalse() {
         first.setChildren(1);
         assertThat(first.equals(second), is(false));
@@ -66,10 +63,20 @@ public class UserTest {
     }
 
     @Test
+    @Ignore
     public void whenDoNotOverrideEqualsAndCompareSuchObjectsThenTwoItems() {
         Map<User, Integer> map = new HashMap<>();
         map.put(first, 3);
         map.put(second, 5);
+        assertThat(map.size(), is(2));
+    }
+
+    @Test
+    @Ignore
+    public void whenDoNotOverrideHashCodeAndCompareSuchObjectsThenTwoItems() {
+        Map<User, Integer> map = new HashMap<>();
+        map.put(first, 6);
+        map.put(second, 8);
         assertThat(map.size(), is(2));
     }
 }
