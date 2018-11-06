@@ -33,6 +33,7 @@ public class MyHashMap<K, V> implements Iterable<Map.Entry> {
         int index = getIndex(keyHash);
         if (this.table[index] == null) {
             this.table[index] = new Node<>(keyHash, key, value);
+            this.modCount++;
             if (this.count++ == threshold) {
                 refresh();
             }
@@ -46,6 +47,7 @@ public class MyHashMap<K, V> implements Iterable<Map.Entry> {
         int index = getIndex(key.hashCode());
         if (this.table[index] != null) {
             this.table[index] = null;
+            this.modCount++;
             this.count--;
             res = true;
         }
