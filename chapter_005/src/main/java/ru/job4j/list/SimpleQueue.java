@@ -9,8 +9,8 @@ import java.util.NoSuchElementException;
  */
 public class SimpleQueue<T> {
 
-    SimpleStack<T> stack = new SimpleStack<>();
-    SimpleStack<T> queue = new SimpleStack<>();
+    private final SimpleStack<T> stack = new SimpleStack<>();
+    private final SimpleStack<T> queue = new SimpleStack<>();
 
     public T poll() {
         if (queue.getSize() == 0 && stack.getSize() == 0) {
