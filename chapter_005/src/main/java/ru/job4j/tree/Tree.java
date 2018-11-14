@@ -59,24 +59,17 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         }
         return res;
     }
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             private int expectedModCount = modCount;
-            Queue<E> queue;
+            Queue<Node<E>> queue;
 
             {
                 queue = new LinkedList<>();
-                queue.add(root.getValue());
-                fillQueue(root.leaves());
-            }
-
-            private void fillQueue(List<Node<E>> leaves) {
-                if (leaves.size() > 0) {
-                    for (Node<E> node: leaves) {
-                        queue.add(node.getValue());
-                        fillQueue(node.leaves());
-                    }
+                if (root != null) {
+                    queue.add(root);
                 }
             }
 
@@ -93,7 +86,9 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return queue.poll();
+                Node<E> resNode = queue.poll();
+                queue.addAll(resNode.leaves());
+                return resNode.getValue();
             }
         };
     }
