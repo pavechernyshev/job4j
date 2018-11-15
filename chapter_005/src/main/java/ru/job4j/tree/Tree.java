@@ -42,20 +42,20 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     public boolean isBinary() {
-        return checkBinary(root);
+        return root != null && checkBinary(root);
     }
 
     private boolean checkBinary(Node<E> node) {
         boolean res = true;
-        if (node.leaves().size() <= 2) {
-            for (Node<E> n : node.leaves()) {
-                if (!checkBinary(n)) {
-                    res = false;
-                    break;
-                }
+        Queue<Node<E>> queue = new LinkedList<>();
+        queue.add(node);
+        while (queue.size() > 0) {
+            List<Node<E>> leaves = queue.poll().leaves();
+            if (leaves.size() > 2) {
+                res = false;
+                break;
             }
-        } else {
-            res = false;
+            queue.addAll(leaves);
         }
         return res;
     }
