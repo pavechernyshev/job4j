@@ -1,18 +1,27 @@
 package ru.job4j.statistic;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Store {
 
     Info diff(List<User> previous, List<User> current) {
-        int countAdded = getCountAddedUsers(previous, current);
-        int countChanged = getCountChangedUsers(previous, current);
-        int countDeleted = getCountDeletedUsers(previous, current);
+        Set<User> pr = new HashSet<>(previous);
+        Set<User> cr = new HashSet<>(current);
+        int countAdded = getCountAddedUsers(pr, cr);
+        int countChanged = getCountChangedUsers(pr, userToHashMap(cr));
+        int countDeleted = getCountDeletedUsers(pr, cr);
         return new Info(countAdded, countChanged, countDeleted);
     }
 
-    private int getCountAddedUsers(List<User> previous, List<User> current) {
+    private Map<User, String> userToHashMap(Set<User> users) {
+        Map<User, String> userStringMap = new HashMap<>();
+        for (User user: users) {
+            userStringMap.put(user, user.name);
+        }
+        return userStringMap;
+    }
+
+    private int getCountAddedUsers(Set<User> previous, Set<User> current) {
         int res = 0;
         for (User user: current) {
             if (!previous.contains(user)) {
@@ -22,18 +31,17 @@ public class Store {
         return res;
     }
 
-    private int getCountChangedUsers(List<User> previous, List<User> current) {
+    private int getCountChangedUsers(Set<User> previous, Map<User, String> current) {
         int res = 0;
         for (User user: previous) {
-            int index = current.indexOf(user);
-            if (index != -1 && !user.name.equals(current.get(index).name)) {
+            if (current.containsKey(user) && !user.name.equals(current.get(user))) {
                 res++;
             }
         }
         return res;
     }
 
-    private int getCountDeletedUsers(List<User> previous, List<User> current) {
+    private int getCountDeletedUsers(Set<User> previous, Set<User> current) {
         int res = 0;
         for (User user: previous) {
             if (!current.contains(user)) {
