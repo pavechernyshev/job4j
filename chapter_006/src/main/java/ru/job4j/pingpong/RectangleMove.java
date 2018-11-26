@@ -48,7 +48,7 @@ public class RectangleMove implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             this.move();
             try {
                 Thread.sleep(100);
