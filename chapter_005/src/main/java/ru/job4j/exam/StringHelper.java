@@ -1,38 +1,34 @@
 package ru.job4j.exam;
 
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class StringHelper {
 
     /**
      * Сравинвает два слова по буквам, к примеру маам и мама вернет true, а Маам и мама - false,
-     * также мама и мамаа вернет false
-     * @param w1
-     * @param w2
+     * также мама и мамаа вернет false, если в слова состоят из одинакового набора символо, но количесвтво по
+     * каждому символу разное - false, к примеру мама и мааа
+     * @param first первое слово
+     * @param second второе слово
      * @return
      */
-    public boolean equalOnChars(String w1, String w2) {
-        boolean res = false;
-        if (w1.length() == w2.length()) {
-            Set<Character> w1Set = new HashSet<>();
-            Set<Character> w2Set = new HashSet<>();
-            Collections.addAll(w1Set, convertCharToCharacter(w1.toCharArray()));
-            Collections.addAll(w2Set, convertCharToCharacter(w2.toCharArray()));
-            res = w1Set.equals(w2Set);
-        }
-        return res;
+    public boolean checkWordsForSameChars(String first, String second) {
+        Map<Character, Integer> firstChars = getCharsWithCount(first);
+        Map<Character, Integer> secondChars = getCharsWithCount(second);
+        return firstChars.equals(secondChars);
     }
 
-    private Character[] convertCharToCharacter(char[] chars) {
-        Character[] res = new Character[chars.length];
-        for (int i = 0; i < chars.length; i++) {
-            res[i] = chars[i];
+    public Map<Character, Integer> getCharsWithCount(String str) {
+        HashMap<Character, Integer> chars = new HashMap<>();
+        for (Character ch: str.toCharArray()) {
+            if (chars.containsKey(ch)) {
+                chars.replace(ch, chars.get(ch) + 1);
+            } else {
+                chars.put(ch, 1);
+            }
         }
-        return res;
+        return chars;
     }
 }
