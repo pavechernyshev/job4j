@@ -1,6 +1,6 @@
 package ru.job4j.jmm;
 
-public class PrintVariable implements Runnable{
+public class PrintVariable implements Runnable {
     private final String name;
     private Variable var;
 
