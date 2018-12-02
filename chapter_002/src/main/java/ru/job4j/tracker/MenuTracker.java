@@ -7,9 +7,9 @@ import java.util.function.Consumer;
 
 public class MenuTracker {
 
-    private Input input;
-    private Tracker tracker;
-    private ArrayList<UserAction> userActions = new ArrayList<>();
+    private Input input; //Композиция
+    private Tracker tracker; //Композиция
+    private ArrayList<UserAction> userActions = new ArrayList<>(); //Агрегация
     private boolean exit = false;
 
 

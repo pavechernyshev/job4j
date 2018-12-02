@@ -2,12 +2,12 @@ package ru.job4j.tracker;
 
 public class StartUI {
     /**
-     * Получение данных от пользователя.
+     * Получение данных от пользователя. Композиция
      */
     private final Input input;
 
     /**
-     * Хранилище заявок.
+     * Хранилище заявок. Композиция
      */
     private final Tracker tracker;
 

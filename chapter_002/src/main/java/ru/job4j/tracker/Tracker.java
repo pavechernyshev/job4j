@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class Tracker {
     /**
-     * Массив для хранение заявок.
+     * Массив для хранение заявок. Используется агрегация
      */
     private List<Item> items = new ArrayList<>();
 
