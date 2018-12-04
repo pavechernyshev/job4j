@@ -1,4 +1,4 @@
-package headfirst.paterns.decorator;
+package headfirst.patterns.decorator.starbuzz;
 
 public class HouseBlend extends Beverage {
 
@@ -8,6 +8,6 @@ public class HouseBlend extends Beverage {
 
     @Override
     public double cost() {
-        return 1.99;
+        return .89;
     }
 }

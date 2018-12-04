@@ -1,4 +1,4 @@
-package headfirst.paterns.decorator;
+package headfirst.patterns.decorator.starbuzz;
 
 public abstract class CondimentDecorator extends Beverage {
 

@@ -1,6 +1,6 @@
-package headfirst.paterns.decorator;
+package headfirst.patterns.decorator.starbuzz;
 
-public class Milk extends CondimentDecorator {
+public class Whip extends CondimentDecorator {
 
     private Beverage beverage;
 
@@ -8,17 +8,17 @@ public class Milk extends CondimentDecorator {
         return beverage;
     }
 
-    public Milk(Beverage beverage) {
+    public Whip(Beverage beverage) {
         this.beverage = beverage;
     }
 
     @Override
     public String getDescription() {
-        return beverage.description + ", Mocha";
+        return beverage.getDescription() + ", Whip";
     }
 
     @Override
     public double cost() {
-        return .20 + beverage.cost();
+        return .10 + beverage.cost();
     }
 }
