@@ -1,14 +1,9 @@
 package ru.job4j.synchronizy;
 
-import net.jcip.annotations.ThreadSafe;
-import net.jcip.annotations.GuardedBy;
-
 import java.util.Objects;
 
-@ThreadSafe
 public class User {
     private final int id;
-    @GuardedBy("this")
     private int amount;
 
     public User(int id, int amount) {
@@ -16,19 +11,19 @@ public class User {
         this.amount = amount;
     }
 
-    public synchronized int getId() {
+    public int getId() {
         return id;
     }
 
-    public synchronized int getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public synchronized void addAmount(int amount) {
+    public void addAmount(int amount) {
         this.amount += amount;
     }
 
-    public synchronized void takeAmount(int amount) throws IllegalArgumentException {
+    public void takeAmount(int amount) throws IllegalArgumentException {
         if (this.amount < amount) {
             throw new IllegalArgumentException("Не достаточно средств на счете");
         }
@@ -53,7 +48,7 @@ public class User {
     }
 
     @Override
-    public synchronized String toString() {
+    public String toString() {
         return "User{" + "id=" + id + ", amount=" + amount + '}';
     }
 }
