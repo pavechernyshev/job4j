@@ -1,6 +1,7 @@
 package headfirst.patterns.decorator.input;
 
 import org.hamcrest.core.Is;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
@@ -8,6 +9,7 @@ import java.io.*;
 import static org.junit.Assert.*;
 
 public class LowerCaseInputStreamTest {
+    @Ignore
     @Test
     public void whenLoadFile() throws FileNotFoundException, IOException {
         int c;
