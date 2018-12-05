@@ -1,16 +1,20 @@
 package ru.job4j.synchronizy;
 
+import net.jcip.annotations.ThreadSafe;
+import net.jcip.annotations.GuardedBy;
 import java.util.HashSet;
 
+@ThreadSafe
 public class UserStorage {
 
+    @GuardedBy("this")
     private final HashSet<User> users = new HashSet<>();
 
-    public boolean add(User user) {
+    public synchronized boolean add(User user) {
         return users.add(user);
     }
 
-    public boolean update(User user) {
+    public synchronized boolean update(User user) {
         boolean res = false;
         User oldUser = getById(user.getId());
         if (oldUser != null) {
@@ -19,7 +23,7 @@ public class UserStorage {
         return res;
     }
 
-    public boolean delete(User user) {
+    public synchronized boolean delete(User user) {
         return users.remove(user);
     }
 
@@ -30,7 +34,7 @@ public class UserStorage {
         userTo.addAmount(amount);
     }
 
-    private User getById(int id) {
+    private synchronized User getById(int id) {
         User res = null;
         for (User user: users) {
             if (user.getId() == id) {
