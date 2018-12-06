@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
 
 public class SimpleArrayListThreadSafeTest {
 
-    @Ignore
     @Test
     public void whenTestIterator() {
         SimpleArrayList<Integer> sal = new SimpleArrayList<>();

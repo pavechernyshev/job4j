@@ -28,7 +28,6 @@ public class SimpleArrayListThreadSafe<E> implements Iterable<E> {
     }
 
     private synchronized SimpleArrayList<E> copy(SimpleArrayList<E> sal) {
-        /* не работчая версия */
         SimpleArrayList<E> res = new SimpleArrayList<>();
         for (E item: sal) {
             res.add(item);
