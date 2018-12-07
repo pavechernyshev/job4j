@@ -23,11 +23,8 @@ public class StringHelper {
     public Map<Character, Integer> getCharsWithCount(String str) {
         HashMap<Character, Integer> chars = new HashMap<>();
         for (Character ch: str.toCharArray()) {
-            if (chars.containsKey(ch)) {
-                chars.replace(ch, chars.get(ch) + 1);
-            } else {
-                chars.put(ch, 1);
-            }
+            chars.computeIfPresent(ch, ((character, integer) -> integer + 1));
+            chars.putIfAbsent(ch, 1);
         }
         return chars;
     }
