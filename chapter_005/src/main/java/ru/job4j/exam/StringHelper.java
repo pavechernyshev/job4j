@@ -20,7 +20,7 @@ public class StringHelper {
         return firstChars.equals(secondChars);
     }
 
-    public Map<Character, Integer> getCharsWithCount(String str) {
+    private Map<Character, Integer> getCharsWithCount(String str) {
         HashMap<Character, Integer> chars = new HashMap<>();
         for (Character ch: str.toCharArray()) {
             chars.computeIfPresent(ch, ((character, integer) -> integer + 1));
