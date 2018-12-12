@@ -11,25 +11,61 @@ public class SimpleBlockingQueue<T> {
 
     @GuardedBy("this")
     private Queue<T> queue = new LinkedList<>();
-
-    //todo: объект пользователя, для последующего блокирования
-
-    //todo: объект производителя, для последующего блокирования
-
-    // Признак блокировки пользователя
-    // Признак блокировки производителя
-
-
-    public void offer(T value) {
-        //Потокобезопасный блок
-            /* Добавить товар, если место закончилось, заблокировать производителей,
-             разблокировать пользователей в любом случае*/
+    private final int maxSize;
+    public SimpleBlockingQueue(int maxSize) {
+        this.maxSize = maxSize;
     }
 
-    public T poll() {
+    //объект пользователя, для последующего блокирования
+    private Object producer = new Object();
+    //объект производителя, для последующего блокирования
+    private Object customer = new Object();
+
+
+    // Признак блокировки пользователя
+    private boolean isCustomerBlock = false;
+
+    // Признак блокировки производителя
+    private boolean isProducerBlock = false;
+
+    public synchronized void offer(T value) {
+        while (this.isProducerBlock) {
+            try {
+                producer.wait();
+            }
+            catch (InterruptedException ie) {
+                System.out.println(ie.getMessage());
+            }
+        }
+        this.queue.add(value);
+        this.isCustomerBlock = false;
+        this.customer.notify();
+        if (this.queue.size() == this.maxSize) {
+            this.isProducerBlock = true;
+        }
+    }
+
+    public synchronized T poll() {
+        while (this.isCustomerBlock) {
+            try {
+                customer.wait();
+            }
+            catch (InterruptedException ie) {
+                System.out.println(ie.getMessage());
+            }
+        }
+        T res = null;
+        if (queue.size() == 0) {
+            isCustomerBlock = true;
+        }
+        else {
+            res = queue.poll();
+            this.producer.notify();
+            this.isProducerBlock = false;
+        }
         //Потокобезопасный блок
             /* проверить наличите, если товаров нет, заблокировать пользователе, если товар есть,
             разблокировать производтелей*/
-        return null;
+        return res;
     }
 }
