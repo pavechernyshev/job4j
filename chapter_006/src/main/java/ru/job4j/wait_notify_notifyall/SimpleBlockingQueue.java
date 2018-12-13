@@ -12,60 +12,60 @@ public class SimpleBlockingQueue<T> {
     @GuardedBy("this")
     private Queue<T> queue = new LinkedList<>();
     private final int maxSize;
+    private final Object lock = new Object();
+    private boolean isCustomerBlock = true;
+    private boolean isProducerBlock = false;
+
     public SimpleBlockingQueue(int maxSize) {
         this.maxSize = maxSize;
     }
 
-    //объект пользователя, для последующего блокирования
-    private Object producer = new Object();
-    //объект производителя, для последующего блокирования
-    private Object customer = new Object();
+    public int size() {
+        return queue.size();
+    }
 
-
-    // Признак блокировки пользователя
-    private boolean isCustomerBlock = false;
-
-    // Признак блокировки производителя
-    private boolean isProducerBlock = false;
-
-    public synchronized void offer(T value) {
-        while (this.isProducerBlock) {
-            try {
-                producer.wait();
+    public  void offer(T value) {
+        synchronized (this.lock) {
+            while (this.isProducerBlock) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException ie) {
+                    System.out.println(ie.getMessage());
+                }
             }
-            catch (InterruptedException ie) {
-                System.out.println(ie.getMessage());
+            this.queue.add(value);
+            //System.out.println(String.format("value: %s; size: %s", value, this.queue.size()));
+            if (isCustomerBlock) {
+                this.isCustomerBlock = false;
+                this.lock.notify();
             }
-        }
-        this.queue.add(value);
-        this.isCustomerBlock = false;
-        this.customer.notify();
-        if (this.queue.size() == this.maxSize) {
-            this.isProducerBlock = true;
+            if (this.queue.size() == this.maxSize) {
+                this.isProducerBlock = true;
+            }
         }
     }
 
-    public synchronized T poll() {
-        while (this.isCustomerBlock) {
-            try {
-                customer.wait();
+    public T poll() {
+        synchronized (this.lock) {
+            while (this.isCustomerBlock) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException ie) {
+                    System.out.println(ie.getMessage());
+                }
             }
-            catch (InterruptedException ie) {
-                System.out.println(ie.getMessage());
+            T res = null;
+            if (queue.size() == 0) {
+                isCustomerBlock = true;
+            } else {
+                res = queue.poll();
+                //System.out.println(String.format("value: %s; size: %s", res, this.queue.size()));
+                if (isProducerBlock) {
+                    this.isProducerBlock = false;
+                    this.lock.notify();
+                }
             }
+            return res;
         }
-        T res = null;
-        if (queue.size() == 0) {
-            isCustomerBlock = true;
-        }
-        else {
-            res = queue.poll();
-            this.producer.notify();
-            this.isProducerBlock = false;
-        }
-        //Потокобезопасный блок
-            /* проверить наличите, если товаров нет, заблокировать пользователе, если товар есть,
-            разблокировать производтелей*/
-        return res;
     }
 }
