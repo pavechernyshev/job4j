@@ -1,4 +1,4 @@
-package ru.job4j.wait_notify_notifyall;
+package ru.job4j.waitnotifynotifyall;
 
 import static java.lang.Thread.sleep;
 

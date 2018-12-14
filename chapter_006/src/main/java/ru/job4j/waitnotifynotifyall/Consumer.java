@@ -1,4 +1,4 @@
-package ru.job4j.wait_notify_notifyall;
+package ru.job4j.waitnotifynotifyall;
 
 import static java.lang.Thread.sleep;
 
@@ -18,8 +18,7 @@ public class Consumer implements Runnable {
                 simpleBlockingQueue.poll();
                 sleep(3);
             }
-        }
-        catch (InterruptedException ie) {
+        } catch (InterruptedException ie) {
             System.out.println(ie.getMessage());
         }
     }
