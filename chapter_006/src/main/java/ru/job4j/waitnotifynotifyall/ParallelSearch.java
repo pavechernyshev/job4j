@@ -1,5 +1,7 @@
 package ru.job4j.waitnotifynotifyall;
 
+import java.beans.IntrospectionException;
+
 import static java.lang.Thread.sleep;
 
 public class ParallelSearch {
@@ -7,9 +9,14 @@ public class ParallelSearch {
     public static void main(String[] args) {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(10);
         final Thread consumer = new Thread(
-                () -> {
-                    while (!queue.isInterrupted()) {
-                        System.out.println(queue.poll());
+                ()  -> {
+                    try {
+                        while (!Thread.currentThread().isInterrupted()) {
+                            System.out.println(queue.poll());
+                        }
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                        System.out.println(String.format("Finish consumer thread: %s", Thread.currentThread().getId()));
                     }
                 }
         );
@@ -27,14 +34,11 @@ public class ParallelSearch {
                 }
         );
         produser.start();
-
         try {
-            while (produser.isAlive()) {
-                sleep(100);
-            }
+            produser.join();
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         }
-        queue.interrupt();// не работает
+        consumer.interrupt();
     }
 }
