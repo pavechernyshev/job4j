@@ -13,7 +13,7 @@ public class Consumer implements Runnable {
     @Override
     public void run() {
         try {
-            while (count < 10) {
+            while (!Thread.currentThread().isInterrupted()) {
                 count++;
                 simpleBlockingQueue.poll();
                 sleep(3);

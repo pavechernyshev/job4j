@@ -16,11 +16,11 @@ public class SimpleBlockingQueueTest {
         consumer3.start();
         try {
             produser.join();
-            consumer.join();
-            consumer2.join();
-            consumer3.join();
         } catch (InterruptedException ie) {
             System.out.println(ie.getMessage());
         }
+        consumer.interrupt();
+        consumer2.interrupt();
+        consumer3.interrupt();
     }
 }
