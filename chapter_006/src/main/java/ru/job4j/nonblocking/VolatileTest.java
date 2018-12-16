@@ -2,7 +2,7 @@ package ru.job4j.nonblocking;
 
 public class VolatileTest {
 
-    private static volatile int MY_INT = 0;
+    private static volatile int myInt = 0;
 
     public static void main(String[] args) {
         new ChangeListener().start();
@@ -12,27 +12,28 @@ public class VolatileTest {
     static class ChangeListener extends Thread {
         @Override
         public void run() {
-            int local_value = MY_INT;
-            while ( local_value < 5){
-                if( local_value!= MY_INT){
-                    System.out.println(String.format("Got Change for MY_INT : %s", MY_INT));
-                    local_value= MY_INT;
+            int localValue = myInt;
+            while (localValue < 5) {
+                if (localValue != myInt) {
+                    System.out.println(String.format("Got Change for myInt : %s", myInt));
+                    localValue = myInt;
                 }
             }
         }
     }
 
-    static class ChangeMaker extends Thread{
+    static class ChangeMaker extends Thread {
         @Override
         public void run() {
-
-            int local_value = MY_INT;
-            while (MY_INT <5){
-                System.out.println(String.format("Incrementing MY_INT to %s", local_value+1));
-                MY_INT = ++local_value;
+            int localValue = myInt;
+            while (myInt < 5) {
+                System.out.println(String.format("Incrementing myInt to %s", localValue + 1));
+                myInt = ++localValue;
                 try {
                     Thread.sleep(500);
-                } catch (InterruptedException e) { e.printStackTrace(); }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
