@@ -13,18 +13,13 @@ public class SimpleBlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
     private final int maxSize;
     private final Object lock = new Object();
-    private boolean isInterrupted = false;
 
     public SimpleBlockingQueue(int maxSize) {
         this.maxSize = maxSize;
     }
 
-    public void interrupt() {
-        isInterrupted = true;
-    }
-
-    public boolean isInterrupted() {
-        return isInterrupted;
+    public boolean isEmpty() {
+        return queue.isEmpty();
     }
 
     public void offer(T value) {
