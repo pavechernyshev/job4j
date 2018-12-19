@@ -17,9 +17,11 @@ public class ThreadPool {
                 public void run() {
                     while (!this.isInterrupted()) {
                         try {
-                            tasks.poll();
+                            Thread task = new Thread(tasks.poll());
+                            task.start();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
+                            this.interrupt();
                         }
                     }
                 }
