@@ -31,6 +31,21 @@ public class ThreadPool {
         }
     }
 
+    public boolean isAlive() {
+        boolean alive = false;
+        for (Thread thread: threads) {
+            if (thread.isAlive()) {
+                alive = true;
+                break;
+            }
+        }
+        return alive;
+    }
+
+    public boolean hasWork() {
+        return !tasks.isEmpty();
+    }
+
     public void work(Runnable job) {
         tasks.offer(job);
     }
