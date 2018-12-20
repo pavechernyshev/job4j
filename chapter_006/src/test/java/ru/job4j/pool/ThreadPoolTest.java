@@ -36,7 +36,6 @@ public class ThreadPoolTest {
                 threadPool.shutdown();
             }
         }
-        threadPool.shutdown();
         assertThat(atomicIntegerArray.get(0), Is.is(0));
         assertThat(atomicIntegerArray.get(1), Is.is(1));
         assertThat(atomicIntegerArray.get(2), Is.is(2));

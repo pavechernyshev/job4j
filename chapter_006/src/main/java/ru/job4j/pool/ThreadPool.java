@@ -42,6 +42,17 @@ public class ThreadPool {
         return alive;
     }
 
+    public boolean isAllThreadsWaiting() {
+        boolean waiting = true;
+        for (Thread thread: threads) {
+            if (thread.getState() != Thread.State.WAITING) {
+                waiting = false;
+                break;
+            }
+        }
+        return waiting;
+    }
+
     public boolean hasWork() {
         return !tasks.isEmpty();
     }
