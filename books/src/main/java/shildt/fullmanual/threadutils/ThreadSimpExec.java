@@ -2,7 +2,7 @@ package shildt.fullmanual.threadutils;
 
 import java.util.concurrent.CountDownLatch;
 
-public class ThreadSimpExec implements Runnable{
+public class ThreadSimpExec implements Runnable {
     private String name;
     CountDownLatch countDownLatch;
 
