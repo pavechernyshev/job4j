@@ -3,6 +3,7 @@ package ru.job4j.pool;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
 import static java.lang.Thread.sleep;
@@ -46,6 +47,31 @@ public class ThreadPoolTest {
         assertThat(atomicIntegerArray.get(7), Is.is(7));
         assertThat(atomicIntegerArray.get(8), Is.is(8));
         assertThat(atomicIntegerArray.get(9), Is.is(9));
+    }
+
+    @Test
+    public void whenTestIsAllThreadWaiting() {
+        ConcurrentHashMap<Integer, Integer> map = new ConcurrentHashMap<Integer, Integer>();
+        ThreadPool pool = new ThreadPool();
+        pool.work(() -> { map.put(1, 1); });
+        pool.work(() -> { map.put(2, 2); });
+        pool.work(() -> { map.put(3, 3); });
+        pool.work(() -> { map.put(4, 4); });
+        pool.work(() -> { map.put(5, 5); });
+        pool.work(() -> { map.put(6, 6); });
+        pool.work(() -> { map.put(7, 7); });
+        pool.work(() -> { map.put(8, 8); });
+        pool.work(() -> { map.put(9, 9); });
+        pool.work(() -> { map.put(10, 10); });
+        pool.work(() -> { map.put(11, 11); });
+        pool.work(() -> { map.put(12, 12); });
+        pool.work(() -> { map.put(13, 13); });
+        pool.work(() -> { map.put(14, 14); });
+        pool.work(() -> { map.put(15, 15); });
+        while (!pool.isAllThreadsWaiting()) {
+        }
+        pool.shutdown();
+        assertThat(map.size(), Is.is(15));
     }
 
 }
