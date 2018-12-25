@@ -1,6 +1,7 @@
 package ru.job4j.pool;
 
 import org.hamcrest.core.Is;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -49,6 +50,7 @@ public class ThreadPoolTest {
         assertThat(atomicIntegerArray.get(9), Is.is(9));
     }
 
+    @Ignore
     @Test
     public void whenTestIsAllThreadWaiting() {
         ConcurrentHashMap<Integer, Integer> map = new ConcurrentHashMap<Integer, Integer>();
