@@ -16,6 +16,7 @@ public class ThreadPoolTest {
     public void whenTest() {
         AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(10);
         ThreadPool threadPool = new ThreadPool();
+        threadPool.startThreads();
         for (int tasksCount = 0; tasksCount < 10; tasksCount++) {
             final int tasksCountFinal = tasksCount;
             Thread task = new Thread(() -> {
@@ -50,27 +51,35 @@ public class ThreadPoolTest {
         assertThat(atomicIntegerArray.get(9), Is.is(9));
     }
 
-    @Ignore
     @Test
     public void whenTestIsAllThreadWaiting() {
         ConcurrentHashMap<Integer, Integer> map = new ConcurrentHashMap<Integer, Integer>();
         ThreadPool pool = new ThreadPool();
-        pool.work(() -> { map.put(1, 1); });
-        pool.work(() -> { map.put(2, 2); });
-        pool.work(() -> { map.put(3, 3); });
-        pool.work(() -> { map.put(4, 4); });
-        pool.work(() -> { map.put(5, 5); });
-        pool.work(() -> { map.put(6, 6); });
-        pool.work(() -> { map.put(7, 7); });
-        pool.work(() -> { map.put(8, 8); });
-        pool.work(() -> { map.put(9, 9); });
-        pool.work(() -> { map.put(10, 10); });
-        pool.work(() -> { map.put(11, 11); });
-        pool.work(() -> { map.put(12, 12); });
-        pool.work(() -> { map.put(13, 13); });
-        pool.work(() -> { map.put(14, 14); });
-        pool.work(() -> { map.put(15, 15); });
+        pool.work(() -> map.put(1, 1));
+        pool.work(() -> map.put(2, 2));
+        pool.work(() -> map.put(3, 3));
+        pool.work(() -> map.put(4, 4));
+        pool.work(() -> map.put(5, 5));
+        pool.work(() -> map.put(6, 6));
+        pool.work(() -> map.put(7, 7));
+        pool.work(() -> map.put(8, 8));
+        pool.work(() -> map.put(9, 9));
+        pool.work(() -> map.put(10, 10));
+        pool.work(() -> map.put(11, 11));
+        pool.work(() -> map.put(12, 12));
+        pool.work(() -> map.put(13, 13));
+        pool.work(() -> map.put(14, 14));
+        pool.work(() -> map.put(15, 15));
+        System.out.println(pool.getThreadsState());
+        pool.startThreads();
+        System.out.println(pool.getThreadsState());
         while (!pool.isAllThreadsWaiting()) {
+            try {
+                sleep(1);
+                System.out.println(pool.getThreadsState());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         pool.shutdown();
         assertThat(map.size(), Is.is(15));

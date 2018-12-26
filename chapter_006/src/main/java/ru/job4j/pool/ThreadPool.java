@@ -8,7 +8,7 @@ public class ThreadPool {
     private final int size = Runtime.getRuntime().availableProcessors();
     private final List<Thread> threads = new LinkedList<>();
 
-    private final SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>(size);
+    private final SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>(100);
 
     ThreadPool() {
         for (int i = 0; i < size; i++) {
@@ -26,8 +26,13 @@ public class ThreadPool {
                     }
                 }
             };
-            t.start();
             threads.add(t);
+        }
+    }
+
+    public void startThreads() {
+        for(Thread thread: threads) {
+            thread.start();
         }
     }
 
@@ -51,6 +56,14 @@ public class ThreadPool {
             }
         }
         return waiting;
+    }
+
+    public List<Thread.State> getThreadsState() {
+        List<Thread.State> states = new LinkedList<>();
+        for (Thread thread: threads) {
+            states.add(thread.getState());
+        }
+        return states;
     }
 
     public boolean hasWork() {
