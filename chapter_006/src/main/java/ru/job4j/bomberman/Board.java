@@ -12,7 +12,6 @@ public class Board {
     private final int lastColIndex;
     private final HashSet<Block> blocks = new HashSet<>();
     private final Hardly hardly;
-    private final List<Thread> threads = new LinkedList<>();
     private final Player player = new Player(new Cell(0, 0));
 
 
@@ -68,22 +67,19 @@ public class Board {
         Thread easyEnemy = new Enemy(new Cell(firstColIndex, lastRowIndex), Direction.State.LEFT, "easyEnemy");
         Thread middleEnemy = new Enemy(new Cell(lastColIndex, firstColIndex), Direction.State.UP, "middleEnemy");
         Thread hardlyEnemy = new Enemy(new Cell(lastColIndex, lastRowIndex), Direction.State.RIGHT, "hardlyEnemy");
+        easyEnemy.setDaemon(true);
+        middleEnemy.setDaemon(true);
+        hardlyEnemy.setDaemon(true);
         switch (hardly) {
             case MIDDLE: middleEnemy.start(); break;
             case HARD: middleEnemy.start(); hardlyEnemy.start(); break;
             default: easyEnemy.start();
         }
 
-        threads.add(player);
-        threads.add(easyEnemy);
-        threads.add(middleEnemy);
-        threads.add(hardlyEnemy);
     }
 
     public void shutdown() {
-        for (Thread thread: threads) {
-            thread.interrupt();
-        }
+        player.interrupt();
     }
 
     public void move(Movable moveObj, Cell source, Cell dist) {
