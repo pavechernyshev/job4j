@@ -51,6 +51,7 @@ public class ThreadPoolTest {
         assertThat(atomicIntegerArray.get(9), Is.is(9));
     }
 
+    @Ignore
     @Test
     public void whenTestIsAllThreadWaiting() {
         ConcurrentHashMap<Integer, Integer> map = new ConcurrentHashMap<Integer, Integer>();
