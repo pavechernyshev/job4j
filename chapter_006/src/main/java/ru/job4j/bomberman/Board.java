@@ -78,17 +78,26 @@ public class Board {
 
     }
 
+    public boolean gameOver() {
+        return player.isDie();
+    }
+
     public void shutdown() {
         player.interrupt();
     }
 
+    private ReentrantLock getBoardCell(int xPos, int yPos) {
+        return this.board[xPos][yPos];
+    }
+
     public void move(Movable moveObj, Cell source, Cell dist) {
-        //System.out.println(String.format("Движение с %s к %s", source, dist));
+        ReentrantLock sourceBoardCell = getBoardCell(source.getX(), source.getY());
+        ReentrantLock distBoardCell = getBoardCell(dist.getX(), dist.getY());
         try {
-            if (this.board[dist.getX()][dist.getY()].tryLock(500, TimeUnit.MILLISECONDS)) {
-                this.board[dist.getX()][dist.getY()].lock();
-                if (this.board[source.getX()][source.getY()].isLocked()) {
-                    this.board[source.getX()][source.getY()].unlock();
+            if (distBoardCell.tryLock(moveObj.getTimeTryLock(), moveObj.getTimeUnitForTryLock())) {
+                distBoardCell.lock();
+                if (sourceBoardCell.isLocked()) {
+                    sourceBoardCell.unlock();
                 }
                 moveObj.setPosition(dist);
             } else {
@@ -240,9 +249,21 @@ public class Board {
     class Enemy extends Thread implements Movable {
         private final Direction direction;
         private Cell position;
+        private int timeForTryLock = 500;
+        private TimeUnit timeUnitForTryLock = TimeUnit.MICROSECONDS;
 
         public Direction.State getDirectionState() {
             return direction.getState();
+        }
+
+        @Override
+        public int getTimeTryLock() {
+            return timeForTryLock;
+        }
+
+        @Override
+        public TimeUnit getTimeUnitForTryLock() {
+            return timeUnitForTryLock;
         }
 
         public Cell getPosition() {
@@ -302,6 +323,9 @@ public class Board {
         private final DirectionHistory directionHistory;
         private final Direction direction = new Direction(Direction.State.DOWN);
         private Cell position;
+        private int timeForTryLock = 100;
+        private TimeUnit timeUnitForTryLock = TimeUnit.MICROSECONDS;
+        private boolean die = false;
 
         Player(Cell startPosition) {
             this.setName("PLAYER");
@@ -315,9 +339,35 @@ public class Board {
             directionHistory.setHistory(command);
         }
 
+        /**
+         * Возврщает состояние флага die у объекта игрока
+         * @return boolean
+         */
+        public boolean isDie() {
+            return this.die;
+        }
+
+        /**
+         * Проверяем блокирует ли кто-нибудь ячейку где стоит объект игрока, если да, выставляем флаг die = true
+         */
+        public void checkDie() {
+            ReentrantLock playerBoardCell = getBoardCell(position.getX(), position.getY());
+            if (playerBoardCell.hasQueuedThreads()) {
+                die();
+            }
+        }
+
+        public void die() {
+            getBoardCell(position.getX(), position.getY()).unlock();
+            System.out.println("Player object is DIE");
+            this.die = true;
+            this.interrupt();
+        }
+
         @Override
         public void run() {
             while (!this.isInterrupted()) {
+                checkDie();
                 try {
                     if (this.commands.size() > 0) {
                         this.direction.setState(this.commands.poll());
@@ -352,6 +402,16 @@ public class Board {
         @Override
         public Direction.State getDirectionState() {
             return this.direction.getState();
+        }
+
+        @Override
+        public int getTimeTryLock() {
+            return timeForTryLock;
+        }
+
+        @Override
+        public TimeUnit getTimeUnitForTryLock() {
+            return timeUnitForTryLock;
         }
     }
 }

@@ -31,7 +31,7 @@ public class ThreadPool {
     }
 
     public void startThreads() {
-        for(Thread thread: threads) {
+        for (Thread thread: threads) {
             thread.start();
         }
     }
