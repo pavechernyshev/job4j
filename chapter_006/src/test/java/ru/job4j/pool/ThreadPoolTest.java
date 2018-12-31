@@ -71,13 +71,10 @@ public class ThreadPoolTest {
         pool.work(() -> map.put(13, 13));
         pool.work(() -> map.put(14, 14));
         pool.work(() -> map.put(15, 15));
-        System.out.println(pool.getThreadsState());
         pool.startThreads();
-        System.out.println(pool.getThreadsState());
-        while (!pool.isAllThreadsWaiting()) {
+        while (pool.hasWork() || !pool.isAllThreadsWaiting()) {
             try {
-                sleep(1);
-                System.out.println(pool.getThreadsState());
+                sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
