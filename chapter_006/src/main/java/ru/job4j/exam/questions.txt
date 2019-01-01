@@ -32,6 +32,10 @@
 7. Назовите различия между Collections.synchronizedMap(new HashMap()) и ConcurrentHashMap.
 8. Различия в интерфейсах Runnable и Callable.
 9. Различя между isInterrupted(), interrupted().
+        interrupted() является static и проверяет текущий поток.
+        isInterrupted() - это метод экземпляра, который проверяет объект Thread, на который он вызывается.
+        Общей ошибкой является вызов статического метода в экземпляре.
+
 10. Что происходит при вызове Thread.interrupt()?
         Происходит прерывание потока
 11. Перечислите ВСЕ причины по которым может выскочить InterruptedException.
