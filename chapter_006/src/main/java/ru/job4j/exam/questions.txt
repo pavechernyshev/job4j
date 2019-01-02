@@ -31,6 +31,8 @@
         Это взаимная блокировака или DeadLock
 7. Назовите различия между Collections.synchronizedMap(new HashMap()) и ConcurrentHashMap.
 8. Различия в интерфейсах Runnable и Callable.
+        Callable<V> возвращает результат типа V , а экземпляр Runnable - нет.
+        Callable<V> может Callable<V> проверенные исключения, тогда как экземпляр Runnable не может
 9. Различя между isInterrupted(), interrupted().
         interrupted() является static и проверяет текущий поток.
         isInterrupted() - это метод экземпляра, который проверяет объект Thread, на который он вызывается.
