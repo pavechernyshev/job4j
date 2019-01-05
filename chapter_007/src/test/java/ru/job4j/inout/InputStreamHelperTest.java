@@ -20,7 +20,11 @@ public class InputStreamHelperTest {
                 return 'a';
             }
         });
-        assertFalse(inputStreamHelper.isNumber(System.in));
+        try {
+            assertFalse(inputStreamHelper.isHasEvenNumber(System.in));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -31,7 +35,11 @@ public class InputStreamHelperTest {
                 return '2';
             }
         });
-        assertTrue(inputStreamHelper.isNumber(System.in));
+        try {
+            assertTrue(inputStreamHelper.isHasEvenNumber(System.in));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
