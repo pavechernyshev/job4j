@@ -8,10 +8,9 @@ public class InputStreamHelper {
         boolean res = false;
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in)))
         {
-            // чтение посимвольно
+            // чтение построчно
             while(bufferedReader.ready()) {
-                Character currentProcessChar = (char) bufferedReader.read();
-                int intValue = Integer.parseInt(currentProcessChar.toString());
+                int intValue = Integer.parseInt(bufferedReader.readLine());
                 if (intValue % 2 == 0) {
                     res = true;
                 }
