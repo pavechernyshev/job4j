@@ -1,21 +1,21 @@
 package ru.job4j.inout;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+
 
 public class InputStreamHelper {
     boolean isHasEvenNumber(InputStream in) throws IOException {
         boolean res = false;
-        try (BufferedInputStream bis = new BufferedInputStream(in))
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in)))
         {
-            Character enterChar = (char) bis.read();
-            int intValue = Integer.parseInt(enterChar.toString());
-            if (intValue % 2 == 0) {
-                res = true;
+            // чтение посимвольно
+            while(bufferedReader.ready()) {
+                Character currentProcessChar = (char) bufferedReader.read();
+                int intValue = Integer.parseInt(currentProcessChar.toString());
+                if (intValue % 2 == 0) {
+                    res = true;
+                }
             }
-        } catch (NumberFormatException nuf) {
-            //res = false;
         }
         return res;
     }

@@ -16,7 +16,7 @@ public class InputStreamHelperTest {
     public void whenNotNumThenFalse() {
         System.setIn(new InputStream() {
             @Override
-            public int read() throws IOException {
+            public int read() {
                 return 'a';
             }
         });
@@ -31,7 +31,7 @@ public class InputStreamHelperTest {
     public void whenIsNumThenTrue() {
         System.setIn(new InputStream() {
             @Override
-            public int read() throws IOException {
+            public int read() {
                 return '2';
             }
         });
