@@ -2,8 +2,6 @@ package ru.job4j.inout;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -22,18 +20,12 @@ public class InputStreamHelper {
         return res;
     }
 
-    public void dropAbuses(InputStream in, OutputStream out, String[] abuse) {
-        OutputStream outputStream = new BufferedOutputStream(out);
-        List<String> abuseList =  Arrays.asList(abuse);
+    public void dropAbuses(InputStream in, OutputStream out, String[] abuses) {
+        String abuseRegex =  String.join("|", abuses);
         try (Scanner scanner = new Scanner(in)) {
-            while (scanner.hasNext()) {
-                String word = scanner.next();
-                if (!abuseList.contains(word)) {
-                    if (scanner.hasNext()) {
-                        word += " ";
-                    }
-                    out.write(word.getBytes(Charset.forName("UTF-8")));
-                }
+            while (scanner.hasNextLine()) {
+                String lineWithoutAbuses = scanner.nextLine().replaceAll(abuseRegex, "");
+                out.write(lineWithoutAbuses.getBytes(Charset.forName("UTF-8")));
             }
         } catch (IOException e) {
             e.printStackTrace();

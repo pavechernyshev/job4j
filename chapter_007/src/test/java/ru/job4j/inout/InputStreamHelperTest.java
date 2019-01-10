@@ -56,8 +56,9 @@ public class InputStreamHelperTest {
         String[] abuses = new String[2];
         abuses[0] = "Hello";
         abuses[1] = "bye";
+        System.out.println();
         String stringWithAbuses = "Hello it is sting with abuses bye";
-        String expectedString = "it is sting with abuses ";
+        String expectedString = " it is sting with abuses ";
         InputStream inputStreamWithAbuses = new ByteArrayInputStream(stringWithAbuses.getBytes(Charset.forName("UTF-8")));
         OutputStream result = new ByteArrayOutputStream(expectedString.length());
         OutputStream expected = new ByteArrayOutputStream(expectedString.length());
