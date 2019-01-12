@@ -1,6 +1,7 @@
 package ru.job4j.inout;
 
 import org.hamcrest.core.Is;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
@@ -11,6 +12,7 @@ import static org.junit.Assert.*;
 public class FileSortTest {
     String distFilePath = "src/test/java/ru/job4j/inout/dist.txt";
 
+    @Ignore
     @Test
     public void asc() {
         File source = new File("src/test/java/ru/job4j/inout/source.txt");
@@ -39,4 +41,5 @@ public class FileSortTest {
             e.printStackTrace();
         }
     }
+
 }
