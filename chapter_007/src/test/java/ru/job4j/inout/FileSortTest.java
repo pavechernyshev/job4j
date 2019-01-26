@@ -1,6 +1,7 @@
 package ru.job4j.inout;
 
 import org.hamcrest.core.Is;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -11,6 +12,12 @@ import static org.junit.Assert.*;
 
 public class FileSortTest {
     String distFilePath = "src/test/java/ru/job4j/inout/dist.txt";
+
+    @Before
+    public void deleteDistFail() {
+        File dist = new File(distFilePath);
+        dist.delete();
+    }
 
     @Ignore
     @Test
