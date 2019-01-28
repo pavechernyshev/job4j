@@ -8,26 +8,54 @@ public class FileSort {
     private String pathToSplitDir = "src/main/java/ru/job4j/inout/split";
 
     public void asc(File source, File dist, int maxBiteSize) {
+        clearSplitDir();
         List<File> splitFilesList = splitFileIntoPieces(source, maxBiteSize);
         splitFilesList.sort(Comparator.comparingInt(FileSort::getFileFirstLineLength));
         sortFilesContent(splitFilesList);
         mergeFiles(splitFilesList, dist);
-        clearSplitDir();
     }
 
     private void mergeFiles(List<File> filesList, File dist) {
+        HashMap<File, Long> fileToLastPosMap = new HashMap<>();
+        for (File file: filesList) {
+            fileToLastPosMap.put(file, 0L);
+        }
         try {
             RandomAccessFile distRandomAccessFile = new RandomAccessFile(dist, "rw");
             long lastFilePointerPos = 0;
-            for (File file: filesList) {
-                Scanner curFileScanner = new Scanner(new FileInputStream(file));
-                distRandomAccessFile.seek(lastFilePointerPos);
-                while (curFileScanner.hasNextLine()) {
-                    String writeLine = String.format("%s\n", curFileScanner.nextLine());
-                    distRandomAccessFile.write(writeLine.getBytes(Charset.forName("UTF-8")));
+            while (filesList.size() > 0) {
+                File fileWithNextMinLine = null;
+                long fileMinLineSize = -1;
+                for (File file: filesList) {
+                    RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+                    long fileLastPos = fileToLastPosMap.get(file);
+                    randomAccessFile.seek(fileLastPos);
+                    String curLine = randomAccessFile.readLine();
+                    boolean fileInit = fileWithNextMinLine != null && fileMinLineSize != -1;
+                    if (!fileInit) {
+                        fileWithNextMinLine = file;
+                        fileMinLineSize = curLine.length();
+                    } else if (curLine.length() < fileMinLineSize) {
+                        fileWithNextMinLine = file;
+                        fileMinLineSize = curLine.length();
+                    }
+                    randomAccessFile.close();
                 }
+                RandomAccessFile minLineRandomAccessFile = new RandomAccessFile(fileWithNextMinLine, "r");
+                minLineRandomAccessFile.seek(fileToLastPosMap.get(fileWithNextMinLine));
+                String writeLine = String.format("%s\n", minLineRandomAccessFile.readLine());
+                long newFilePointerPos = minLineRandomAccessFile.getFilePointer();
+                boolean fileFullyRead = minLineRandomAccessFile.readLine() == null;
+                if (fileFullyRead) {
+                    fileToLastPosMap.remove(fileWithNextMinLine);
+                    filesList.remove(fileWithNextMinLine);
+                } else {
+                    fileToLastPosMap.replace(fileWithNextMinLine, newFilePointerPos);
+                }
+                distRandomAccessFile.seek(lastFilePointerPos);
+                distRandomAccessFile.write(writeLine.getBytes(Charset.forName("UTF-8")));
                 lastFilePointerPos = distRandomAccessFile.getFilePointer();
-                curFileScanner.close();
+                minLineRandomAccessFile.close();
             }
             distRandomAccessFile.close();
         } catch (IOException e) {
