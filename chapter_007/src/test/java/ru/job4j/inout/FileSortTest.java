@@ -6,6 +6,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 import static org.junit.Assert.*;
@@ -19,7 +23,6 @@ public class FileSortTest {
         dist.delete();
     }
 
-    @Ignore
     @Test
     public void asc() {
         File source = new File("src/test/java/ru/job4j/inout/source.txt");
@@ -63,6 +66,47 @@ public class FileSortTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void smallFileSort() {
+        File sourceFile = new File("src/test/java/ru/job4j/inout/smallFileForSort.txt");
+        File distFile = new File("src/test/java/ru/job4j/inout/smallFileSorted.txt");
+        List<String> lines = new LinkedList<>();
+        try (Scanner scanner = new Scanner(new FileInputStream(sourceFile))) {
+            while (scanner.hasNextLine()) {
+                lines.add(scanner.nextLine());
+            }
+            scanner.close();
+            lines.sort(Comparator.comparingInt(String::length));
+            RandomAccessFile randomAccessFile = new RandomAccessFile(distFile, "rw");
+            for (String line: lines) {
+                String lineWithSeparator = String.format("%s\n", line);
+                randomAccessFile.write(lineWithSeparator.getBytes(Charset.forName("UTF-8")));
+            }
+            randomAccessFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // проверка на корректность
+        try (Scanner scanner = new Scanner(new FileInputStream(distFile))) {
+            assertThat("22", Is.is(scanner.nextLine()));
+            assertThat("333", Is.is(scanner.nextLine()));
+            assertThat("333", Is.is(scanner.nextLine()));
+            assertThat("4444", Is.is(scanner.nextLine()));
+            assertThat("55555", Is.is(scanner.nextLine()));
+            assertThat("55555", Is.is(scanner.nextLine()));
+            assertThat("666666", Is.is(scanner.nextLine()));
+            assertThat("666666", Is.is(scanner.nextLine()));
+            assertThat("7777777", Is.is(scanner.nextLine()));
+            assertThat("88888888", Is.is(scanner.nextLine()));
+            assertThat("999999999", Is.is(scanner.nextLine()));
+            assertThat("0000000000", Is.is(scanner.nextLine()));
+            assertFalse(scanner.hasNextLine());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
