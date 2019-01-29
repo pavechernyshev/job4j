@@ -23,6 +23,7 @@ public class FileSortTest {
         dist.delete();
     }
 
+    @Ignore
     @Test
     public void asc() {
         File source = new File("src/test/java/ru/job4j/inout/source.txt");
@@ -68,6 +69,7 @@ public class FileSortTest {
         }
     }
 
+    @Ignore
     @Test
     public void smallFileSort() {
         File sourceFile = new File("src/test/java/ru/job4j/inout/smallFileForSort.txt");
