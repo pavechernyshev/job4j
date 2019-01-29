@@ -13,6 +13,7 @@ public class FileSort {
         splitFilesList.sort(Comparator.comparingInt(FileSort::getFileFirstLineLength));
         sortFilesContent(splitFilesList);
         mergeFiles(splitFilesList, dist);
+        clearSplitDir();
     }
 
     private void mergeFiles(List<File> filesList, File dist) {
