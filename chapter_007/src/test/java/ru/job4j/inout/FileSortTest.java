@@ -79,12 +79,12 @@ public class FileSortTest {
             }
             scanner.close();
             lines.sort(Comparator.comparingInt(String::length));
-            RandomAccessFile randomAccessFile = new RandomAccessFile(distFile, "rw");
+            FileOutputStream fileOutputStream = new FileOutputStream(distFile);
             for (String line: lines) {
                 String lineWithSeparator = String.format("%s\n", line);
-                randomAccessFile.write(lineWithSeparator.getBytes(Charset.forName("UTF-8")));
+                fileOutputStream.write(lineWithSeparator.getBytes(Charset.forName("UTF-8")));
             }
-            randomAccessFile.close();
+            fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
