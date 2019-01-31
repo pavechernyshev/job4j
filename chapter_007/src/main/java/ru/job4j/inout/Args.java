@@ -26,6 +26,7 @@ public class Args {
     }
 
     public void init() {
+        excludeFilesList = new LinkedList<>();
         for (int i = 0; i < args.length - 1; i++) {
             String curValue = args[i];
             String nextValue = args[i + 1];
@@ -36,12 +37,15 @@ public class Args {
                 outputFileName = nextValue;
             }
             if (excludeFilesKeys.contains(curValue) && !isKey(nextValue)) {
-                int excludeFileIndex = i + 1;
-                String excludeFileValue = args[excludeFileIndex];
-                while (excludeFileIndex < args.length && !isKey(excludeFileValue)) {
-                    excludeFilesList.add(excludeFileValue);
-                    excludeFileValue = args[excludeFileIndex++];
-                }
+                do {
+                    String excludeValue = args[++i];
+                    excludeFilesList.add(excludeValue);
+                    boolean nextValueExist = (i + 1) < args.length;
+                    if (!nextValueExist) {
+                        break;
+                    }
+                    nextValue = args[i + 1];
+                } while (!isKey(nextValue));
             }
         }
     }
@@ -50,12 +54,12 @@ public class Args {
         return startDirPath;
     }
 
-    public void setStartDirPath(String startDirPath) {
-        this.startDirPath = startDirPath;
-    }
-
     public List<String> getExcludeFilesList() {
         return excludeFilesList;
+    }
+
+    public String getOutputFileName() {
+        return outputFileName;
     }
 
     private boolean isKey(String key) {
