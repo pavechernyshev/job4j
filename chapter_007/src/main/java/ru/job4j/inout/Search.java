@@ -31,6 +31,38 @@ public class Search {
         return resultFiles;
     }
 
+    public List<File> filesWithoutExcluded(String startDirPath, List<String> excludeFiles) {
+        File startDir = new File(startDirPath);
+        List<String> excludeExt = new LinkedList<>();
+        for (String fileName: excludeFiles) {
+            if (fileName.substring(0, 1).equals("*")) {
+                excludeExt.add(fileName.substring(2));
+                excludeFiles.remove(fileName);
+            }
+        }
+        List<File> resultFiles = new LinkedList<>();
+        boolean startDataCorrect = startDir.isDirectory() && startDir.listFiles() != null;
+        if (startDataCorrect) {
+            Queue<File> filesForCheck = new LinkedList<>(Arrays.asList(startDir.listFiles()));
+            while (filesForCheck.size() > 0) {
+                File checkingFile = filesForCheck.poll();
+                if (checkingFile.isDirectory()) {
+                    File[] curDirFiles = checkingFile.listFiles();
+                    if (curDirFiles != null) {
+                        filesForCheck.addAll(Arrays.asList(curDirFiles));
+                    }
+                } else if (checkingFile.isFile()) {
+                    String ext = getFileExtension(checkingFile);
+                    boolean canAddFile = !excludeFiles.contains(checkingFile.getName()) && !excludeExt.contains(ext);
+                    if (canAddFile) {
+                        resultFiles.add(checkingFile);
+                    }
+                }
+            }
+        }
+        return resultFiles;
+    }
+
     /**
      * если в имени файла есть точка и она не является первым символом в названии файла
      * то вырезаем все знаки после последней точки в названии файла, то есть ХХХХХ.txt -> txt
