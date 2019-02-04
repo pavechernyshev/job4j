@@ -2,18 +2,18 @@ package ru.job4j.socket.app;
 
 public class ApiQuery {
     private String methodName;
-    private String content;
+    private String params;
 
-    public ApiQuery(String methodName, String content) {
+    public ApiQuery(String methodName, String params) {
         this.methodName = methodName;
-        this.content = content;
+        this.params = params;
     }
 
     public String getMethodName() {
         return methodName;
     }
 
-    public String getContent() {
-        return content;
+    public String getParams() {
+        return params;
     }
 }

@@ -53,15 +53,17 @@ public class FileController implements FileInspector {
         String distFilePath = mergePathAndName(this.curDirPath, fileName);
         File file = new File(distFilePath);
         boolean res = false;
-        try (Scanner scanner = new Scanner(inputStream);
-             FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-            while (scanner.hasNextLine()) {
-                String lineWithDelimiter = String.format("%s%s", scanner.nextLine(), System.lineSeparator());
-                fileOutputStream.write(lineWithDelimiter.getBytes(Charset.forName("UTF-8")));
+        if (!file.exists()) {
+            try (Scanner scanner = new Scanner(inputStream);
+                 FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+                while (scanner.hasNextLine()) {
+                    String lineWithDelimiter = String.format("%s%s", scanner.nextLine(), System.lineSeparator());
+                    fileOutputStream.write(lineWithDelimiter.getBytes(Charset.forName("UTF-8")));
+                }
+                res = true;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            res = true;
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return res;
     }
