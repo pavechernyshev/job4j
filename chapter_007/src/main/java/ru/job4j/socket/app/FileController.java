@@ -27,6 +27,7 @@ public class FileController implements FileInspector {
             File distFile = new File(distDirPath);
             if (distFile.isDirectory()) {
                 this.curDirPath = distDirPath;
+                res = true;
             }
         }
         return res;
