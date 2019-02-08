@@ -42,7 +42,7 @@ public class ClientApi {
 
     public String getFile(String fileName, String downloadFullFileName) throws IOException, ParseException {
         File targetFile = new File(downloadFullFileName);
-        ApiResult apiResult = new ApiResult(false, "", "");
+        ApiResult apiResult;
         try {
             if (targetFile.createNewFile()) {
                 JSONObject jsonObject = new JSONObject();
@@ -60,12 +60,14 @@ public class ClientApi {
                     scanner.close();
 
                 } else {
+                    apiResult = new ApiResult(false, "не удалось получить файл", "");
                     targetFile.deleteOnExit();
                 }
             } else {
                 apiResult = new ApiResult(false, "не удалось создать файл по указанному пути", "");
             }
         } catch (IOException e) {
+            apiResult = new ApiResult(false, "Произошли ошибки", "");
             e.printStackTrace();
         }
         String mess = apiResult.getMess();
@@ -75,8 +77,25 @@ public class ClientApi {
         return mess;
     }
 
-    public void loadFile(String fullFileName) {
-
+    public ApiResult loadFile(String fullFileName) throws IOException, ParseException {
+        File file = new File(fullFileName);
+        ApiResult apiResult;
+        if (file.isFile() && file.exists()) {
+            Scanner scanner = new Scanner(new FileInputStream(new File(fullFileName)));
+            StringBuilder fileContent = new StringBuilder();
+            while (scanner.hasNextLine()) {
+                fileContent.append(String.format("%s%s", scanner.nextLine(), System.lineSeparator()));
+            }
+            String fileContentEncoded = Base64.getEncoder().encodeToString(fileContent.toString().getBytes());
+            JSONObject jsonContent = new JSONObject();
+            jsonContent.put("FILE_NAME", file.getName());
+            jsonContent.put("FILE_BASE64_CONTENT", fileContentEncoded);
+            ApiQuery apiQuery = new ApiQuery("loadFile", jsonContent.toJSONString());
+            apiResult = sendToServer(apiQuery);
+        } else {
+            apiResult = new ApiResult(false, "не удалось найти файл", "");
+        }
+        return apiResult;
     }
 
     public void stopServer() throws IOException, ParseException {
