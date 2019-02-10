@@ -9,8 +9,8 @@ import java.net.Socket;
 
 public class Application {
     public static class Properties {
-        public final static String ip = "127.0.0.1";
-        public final static int port = 5006;
+        public final static String IP = "127.0.0.1";
+        public final static int PORT = 5006;
     }
 
     private Socket socket;
@@ -26,17 +26,14 @@ public class Application {
         OutputJsonWriter outputJsonWriter = new OutputJsonWriter(out);
         Api api = new Api(outputJsonWriter, fileController);
         InputJsonReader inputJsonReader = new InputJsonReader(in);
-        ApiQuery apiQuery = inputJsonReader.nextLint();
-        System.out.println("подключени состоялось");
-        while (!apiQuery.getMethodName().equals("exit")) {
-            System.out.println(apiQuery.getMethodName() + " " + apiQuery.getParams());
+        do {
+            ApiQuery apiQuery = inputJsonReader.nextLint();
             api.select(apiQuery);
-            apiQuery = inputJsonReader.nextLint();
-        }
+        } while (!api.isExit());
     }
 
     public static void main(String[] args) throws IOException {
-        Socket socket = new ServerSocket(Properties.port).accept();
+        Socket socket = new ServerSocket(Properties.PORT).accept();
         Application application = new Application(socket);
         application.startup();
     }

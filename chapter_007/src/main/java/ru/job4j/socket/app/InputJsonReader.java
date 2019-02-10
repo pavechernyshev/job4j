@@ -20,7 +20,7 @@ public class InputJsonReader implements Input {
         try {
             String jsonLine = bufferedReader.readLine();
             JSONObject jsonObject = (JSONObject) JSONValue.parseWithException(jsonLine);
-            apiQuery = new ApiQuery(jsonObject.get("METHOD").toString(),jsonObject.get("CONTENT").toString());
+            apiQuery = new ApiQuery(jsonObject.get("METHOD").toString(), jsonObject.get("CONTENT").toString());
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

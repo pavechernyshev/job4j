@@ -1,13 +1,11 @@
 package ru.job4j.socket.app;
 
 import com.google.common.base.Joiner;
-import com.sun.demo.jvmti.hprof.Tracker;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class MenuClient {
@@ -15,6 +13,7 @@ public class MenuClient {
     private InputClient input; //Композиция
     private ClientApi clientApi; //Композиция
     private ArrayList<UserAction> userActions = new ArrayList<>(); //Агрегация
+    private final String pathToProject = System.getProperty("user.dir");
     private boolean exit = false;
 
 
@@ -51,6 +50,7 @@ public class MenuClient {
         this.userActions.add(new GoToDir());
         this.userActions.add(new GetFile());
         this.userActions.add(new LoadFile());
+        this.userActions.add(new ShowMenu());
         this.userActions.add(new Exit());
     }
 
@@ -67,8 +67,8 @@ public class MenuClient {
         return exit;
     }
 
-    private void setExit(boolean exit) {
-        this.exit = exit;
+    private void setExit() {
+        this.exit = true;
     }
 
     private void printMenuHead() {
@@ -94,13 +94,11 @@ public class MenuClient {
 
         @Override
         public void execute(InputClient input, ClientApi clientApi) {
-            String mess = null;
+            String mess;
             try {
                 mess = clientApi.goUp();
                 System.out.println(mess);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
+            } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
         }
@@ -123,9 +121,7 @@ public class MenuClient {
             try {
                 String list = clientApi.getCurDirContent();
                 System.out.println(list);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
+            } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
         }
@@ -145,13 +141,11 @@ public class MenuClient {
         @Override
         public void execute(InputClient input, ClientApi clientApi) {
             String dirName = input.ask("введите имя директории:");
-            if (!dirName.contains(" ")){
+            if (!dirName.contains(" ")) {
                 try {
                     String mess = clientApi.goToDir(dirName);
                     System.out.println(mess);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ParseException e) {
+                } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }
             } else {
@@ -175,8 +169,11 @@ public class MenuClient {
         public void execute(InputClient input, ClientApi clientApi) {
             String fileName = input.ask("введите имя файла:");
             fileName = fileName.trim();
-            String targetFileDir = input.ask("введите полный путь к дириктории, куда будет сохранен файл");
-            File dir = new File(targetFileDir);
+            final String pathToDownloadDir = Joiner.on("\\").join(
+                    System.getProperty("user.dir"),
+                    "src\\main\\java\\ru\\job4j\\socket\\app\\downloads"
+            );
+            File dir = new File(pathToDownloadDir);
             if (dir.exists() && dir.isDirectory()) {
                 String fullFilePath = Joiner.on("\\").join(dir.getPath(), fileName);
                 try {
@@ -205,7 +202,23 @@ public class MenuClient {
 
         @Override
         public void execute(InputClient input, ClientApi clientApi) {
-
+            String filePath = input.ask("Введите путь к файлу:");
+            if (filePath.length() > 0) {
+                String fullFileName;
+                if (filePath.substring(0, 1).equals("\\")) {
+                    fullFileName = String.format("%s%s", pathToProject, filePath);
+                } else {
+                    fullFileName = Joiner.on("\\").join(pathToProject, filePath);
+                }
+                try {
+                    ApiResult apiResult = clientApi.loadFile(fullFileName);
+                    System.out.println(apiResult.getMess());
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("Путь к файлу не введен");
+            }
         }
 
         @Override
@@ -214,7 +227,7 @@ public class MenuClient {
         }
     }
 
-    private class Exit implements UserAction {
+    private class ShowMenu implements UserAction {
 
         @Override
         public int key() {
@@ -223,12 +236,31 @@ public class MenuClient {
 
         @Override
         public void execute(InputClient input, ClientApi clientApi) {
-            setExit(true);
+            show();
         }
 
         @Override
         public String info() {
+            return String.format("%s - чтобы показать меню", this.key());
+        }
+    }
+
+    private class Exit implements UserAction {
+
+
+        @Override
+        public int key() {
+            return 6;
+        }
+
+        @Override
+        public void execute(InputClient input, ClientApi clientApi) {
+            setExit();
+        }
+        @Override
+        public String info() {
             return String.format("%s - чтобы выйти из программы", this.key());
         }
+
     }
 }

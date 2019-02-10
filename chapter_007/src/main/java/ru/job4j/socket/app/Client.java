@@ -1,19 +1,16 @@
 package ru.job4j.socket.app;
 
-import org.json.simple.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-        String ip = Application.Properties.ip;
-        int port = Application.Properties.port;
+        String ip = Application.Properties.IP;
+        int port = Application.Properties.PORT;
         Socket socket = new Socket(InetAddress.getByName(ip), port);
         Client client = new Client();
         client.startup(socket);
@@ -28,8 +25,8 @@ public class Client {
             MenuClient menuClient = new MenuClient(consoleInput, clientApi);
             menuClient.fillActions();
             int[] menuRange = menuClient.getRange();
+            menuClient.show();
             while (!menuClient.isExit()) {
-                menuClient.show();
                 int userInputKey = consoleInput.ask("Введите пункт меню:", menuRange);
                 menuClient.select(userInputKey);
             }

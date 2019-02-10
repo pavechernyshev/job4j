@@ -1,6 +1,5 @@
 package ru.job4j.socket.app;
 
-import com.google.common.base.Joiner;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
@@ -8,12 +7,12 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Base64;
-import java.util.List;
 import java.util.Scanner;
 
 public class ClientApi {
-    BufferedReader in;
-    PrintWriter out;
+    private BufferedReader in;
+    private PrintWriter out;
+    private boolean serverIsStop = false;
 
     public ClientApi(BufferedReader in, PrintWriter out) {
         this.in = in;
@@ -53,7 +52,7 @@ public class ClientApi {
                     Scanner scanner = new Scanner(new ByteArrayInputStream(fileContent));
                     FileOutputStream fileOutputStream = new FileOutputStream(targetFile);
                     while (scanner.hasNextLine()) {
-                        String lineWithSeparator = String.format("%s%s",scanner.nextLine(), System.lineSeparator());
+                        String lineWithSeparator = String.format("%s%s", scanner.nextLine(), System.lineSeparator());
                         fileOutputStream.write(lineWithSeparator.getBytes(Charset.forName("UTF-8")));
                     }
                     fileOutputStream.close();
@@ -99,6 +98,7 @@ public class ClientApi {
     }
 
     public void stopServer() throws IOException, ParseException {
+        this.serverIsStop = true;
         sendToServer(new ApiQuery("exit", ""));
     }
 
@@ -107,12 +107,15 @@ public class ClientApi {
         jsonObject.put("METHOD", apiQuery.getMethodName());
         jsonObject.put("CONTENT", apiQuery.getParams());
         out.println(jsonObject.toJSONString());
-        String jsonAnswer = in.readLine();
-        JSONObject jsonResult = (JSONObject) JSONValue.parseWithException(jsonAnswer);
-        boolean success = (boolean) jsonResult.get("SUCCESS");
-        String mess = (String) jsonResult.get("MESS");
-        String content = (String) jsonResult.get("CONTENT");
-        ApiResult apiResult = new ApiResult(success, mess, content);
+        ApiResult apiResult = new ApiResult(false, "", "");
+        if (!serverIsStop) {
+            String jsonAnswer = in.readLine();
+            JSONObject jsonResult = (JSONObject) JSONValue.parseWithException(jsonAnswer);
+            boolean success = (boolean) jsonResult.get("SUCCESS");
+            String mess = (String) jsonResult.get("MESS");
+            String content = (String) jsonResult.get("CONTENT");
+            apiResult = new ApiResult(success, mess, content);
+        }
         return apiResult;
     }
 }

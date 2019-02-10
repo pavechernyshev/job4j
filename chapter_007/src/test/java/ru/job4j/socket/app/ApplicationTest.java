@@ -108,7 +108,7 @@ public class ApplicationTest {
     public void whenLoadFile() throws IOException, ParseException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("FILE_NAME", "test.txt");
-        File file = new File(Joiner.on("\\").join(System.getProperty("user.dir"), "src","test", "java", "ru", "job4j", "socket", "app", "test.txt"));
+        File file = new File(Joiner.on("\\").join(System.getProperty("user.dir"), "src", "test", "java", "ru", "job4j", "socket", "app", "test.txt"));
         Scanner scanner = new Scanner(new FileInputStream(file));
         StringBuilder fileContentStrBuilder = new StringBuilder();
         while (scanner.hasNextLine()) {

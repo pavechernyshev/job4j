@@ -16,6 +16,15 @@ public class Api {
     private Output output;
     private FileInspector fileInspector;
     private ApiQuery lastApiQuery;
+    private boolean exit = false;
+
+    public boolean isExit() {
+        return exit;
+    }
+
+    public void exit() {
+        exit = true;
+    }
 
     Api(Output output, FileInspector fileInspector) {
         this.output = output;
@@ -25,6 +34,7 @@ public class Api {
         apiActions.add(new GoToDir());
         apiActions.add(new GetFile());
         apiActions.add(new LoadFile());
+        apiActions.add(new Exit());
     }
 
     public void select(ApiQuery apiQuery) {
@@ -33,6 +43,25 @@ public class Api {
             if (apiAction != null && apiAction.methodName().equals(apiQuery.getMethodName())) {
                 apiAction.execute(this.output, this.fileInspector);
             }
+        }
+    }
+
+    private class Exit implements ApiAction {
+
+        @Override
+        public String methodName() {
+            return "exit";
+        }
+
+        @Override
+        public void execute(Output output, FileInspector fileInspector) {
+            output.answer(new ApiResult(true, "сервер успешно остановлен", ""));
+            exit();
+        }
+
+        @Override
+        public String info() {
+            return "метод exit останавливает сервер";
         }
     }
 
@@ -164,7 +193,6 @@ public class Api {
                         while (scanner.hasNextLine()) {
                             String lineWithSeparator = String.format("%s%s", scanner.nextLine(), System.lineSeparator());
                             fileContentStrBuilder.append(lineWithSeparator);
-                            //fileEncoderContent.append(Base64.getEncoder().encodeToString(lineWithSeparator.getBytes()));
                         }
                         String encodedFileContent = Base64.getEncoder().encodeToString(fileContentStrBuilder.toString().getBytes());
                         mess = "файл успешно отдан";
