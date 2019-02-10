@@ -5,7 +5,8 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 public class FileSort {
-    private String pathToSplitDir = "src/main/java/ru/job4j/inout/split";
+    private String pathToSplitDir = System.getProperty("user.dir") + "/src/main/java/ru/job4j/inout/split";
+    private String ln = System.lineSeparator();
 
     public void asc(File source, File dist, int maxBiteSize) {
         clearSplitDir();
@@ -44,7 +45,7 @@ public class FileSort {
                 }
                 RandomAccessFile minLineRandomAccessFile = new RandomAccessFile(fileWithNextMinLine, "r");
                 minLineRandomAccessFile.seek(fileToLastPosMap.get(fileWithNextMinLine));
-                String writeLine = String.format("%s\n", minLineRandomAccessFile.readLine());
+                String writeLine = String.format("%s%s", minLineRandomAccessFile.readLine(), ln);
                 long newFilePointerPos = minLineRandomAccessFile.getFilePointer();
                 boolean fileFullyRead = minLineRandomAccessFile.readLine() == null;
                 if (fileFullyRead) {
@@ -73,11 +74,11 @@ public class FileSort {
                 }
                 scanner.close();
                 linesList.sort(Comparator.comparingInt(String::length));
-                RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
                 for (String line: linesList) {
-                    randomAccessFile.write(String.format("%s\n", line).getBytes(Charset.forName("UTF-8")));
+                    fileOutputStream.write(String.format("%s%s", line, ln).getBytes(Charset.forName("UTF-8")));
                 }
-                randomAccessFile.close();
+                fileOutputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -135,8 +136,8 @@ public class FileSort {
             File secondFile = new File(String.format("%s/second%s.txt", pathToSplitDir, ++splitDirFilesCount));
             try {
                 RandomAccessFile sourceFileRandomAccess = new RandomAccessFile(file, "r");
-                RandomAccessFile firstFilePartRandomAccess = new RandomAccessFile(firstFile, "rw");
-                RandomAccessFile secondFilePartRandomAccess = new RandomAccessFile(secondFile, "rw");
+                FileOutputStream firstFilePartRandomAccess = new FileOutputStream(firstFile);
+                FileOutputStream secondFilePartRandomAccess = new FileOutputStream(secondFile);
                 while (sourceFileRandomAccess.getFilePointer() < file.length()) {
                     String line = sourceFileRandomAccess.readLine() + "\n";
                     long filePointerPos = sourceFileRandomAccess.getFilePointer();

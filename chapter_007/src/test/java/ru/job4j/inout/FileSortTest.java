@@ -15,7 +15,7 @@ import java.util.Scanner;
 import static org.junit.Assert.*;
 
 public class FileSortTest {
-    String distFilePath = "src/test/java/ru/job4j/inout/dist.txt";
+    String distFilePath = System.getProperty("user.dir") + "/src/test/java/ru/job4j/inout/dist.txt";
 
     @Before
     public void deleteDistFail() {
@@ -23,10 +23,9 @@ public class FileSortTest {
         dist.delete();
     }
 
-    @Ignore
     @Test
     public void asc() {
-        File source = new File("src/test/java/ru/job4j/inout/source.txt");
+        File source = new File(System.getProperty("user.dir") + "/src/test/java/ru/job4j/inout/source.txt");
         File dist = new File(distFilePath);
         FileSort fileSort = new FileSort();
         fileSort.asc(source, dist, 50);
@@ -69,11 +68,10 @@ public class FileSortTest {
         }
     }
 
-    @Ignore
     @Test
     public void smallFileSort() {
-        File sourceFile = new File("src/test/java/ru/job4j/inout/smallFileForSort.txt");
-        File distFile = new File("src/test/java/ru/job4j/inout/smallFileSorted.txt");
+        File sourceFile = new File(System.getProperty("user.dir") + "/src/test/java/ru/job4j/inout/smallFileForSort.txt");
+        File distFile = new File(System.getProperty("user.dir") + "/src/test/java/ru/job4j/inout/smallFileSorted.txt");
         List<String> lines = new LinkedList<>();
         try (Scanner scanner = new Scanner(new FileInputStream(sourceFile))) {
             while (scanner.hasNextLine()) {
