@@ -1,30 +1,29 @@
 package ru.job4j.inout;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Search {
+
+
     public List<File> files(String startDirPath, List<String> exts) {
         List<File> resultFiles = new LinkedList<>();
         File startDir = new File(startDirPath);
-        boolean startDataCorrect = startDir.isDirectory() && startDir.listFiles() != null && exts.size() > 0;
-        if (startDataCorrect) {
-            Queue<File> filesForCheck = new LinkedList<>(Arrays.asList(startDir.listFiles()));
-            while (filesForCheck.size() > 0) {
-                File checkingFile = filesForCheck.poll();
-                if (checkingFile.isDirectory()) {
-                    File[] curDirFiles = checkingFile.listFiles();
-                    if (curDirFiles != null) {
-                        filesForCheck.addAll(Arrays.asList(curDirFiles));
-                    }
-                } else if (checkingFile.isFile()) {
-                    String ext = getFileExtension(checkingFile);
-                    if (ext != null && exts.contains(ext)) {
-                        resultFiles.add(checkingFile);
-                    }
+        File[] filesOfStartDir = startDir.listFiles();
+        boolean startDataCorrect = startDir.isDirectory() && filesOfStartDir != null && exts.size() > 0;
+        if (!startDataCorrect) {
+            throw new IllegalArgumentException("Директория не найдена или пуста");
+        }
+        Queue<File> filesForCheck = new LinkedList<>(Arrays.asList(filesOfStartDir));
+        while (filesForCheck.size() > 0) {
+            File checkingFile = filesForCheck.poll();
+            if (checkingFile.isDirectory()) {
+                File[] curDirFiles = checkingFile.listFiles();
+                filesForCheck.addAll(Arrays.asList(Objects.requireNonNull(curDirFiles)));
+            } else if (checkingFile.isFile()) {
+                String ext = getFileExtension(checkingFile);
+                if (ext != null && exts.contains(ext)) {
+                    resultFiles.add(checkingFile);
                 }
             }
         }
@@ -41,22 +40,22 @@ public class Search {
             }
         }
         List<File> resultFiles = new LinkedList<>();
-        boolean startDataCorrect = startDir.isDirectory() && startDir.listFiles() != null;
-        if (startDataCorrect) {
-            Queue<File> filesForCheck = new LinkedList<>(Arrays.asList(startDir.listFiles()));
-            while (filesForCheck.size() > 0) {
-                File checkingFile = filesForCheck.poll();
-                if (checkingFile.isDirectory()) {
-                    File[] curDirFiles = checkingFile.listFiles();
-                    if (curDirFiles != null) {
-                        filesForCheck.addAll(Arrays.asList(curDirFiles));
-                    }
-                } else if (checkingFile.isFile()) {
-                    String ext = getFileExtension(checkingFile);
-                    boolean canAddFile = !excludeFiles.contains(checkingFile.getName()) && !excludeExt.contains(ext);
-                    if (canAddFile) {
-                        resultFiles.add(checkingFile);
-                    }
+        File[] filesOfStartDir = startDir.listFiles();
+        boolean startDataCorrect = startDir.isDirectory() && filesOfStartDir != null;
+        if (!startDataCorrect) {
+            throw new IllegalArgumentException("Директория не найдена или пуста");
+        }
+        Queue<File> filesForCheck = new LinkedList<>(Arrays.asList(filesOfStartDir));
+        while (filesForCheck.size() > 0) {
+            File checkingFile = filesForCheck.poll();
+            if (checkingFile.isDirectory()) {
+                File[] curDirFiles = checkingFile.listFiles();
+                filesForCheck.addAll(Arrays.asList(Objects.requireNonNull(curDirFiles)));
+            } else if (checkingFile.isFile()) {
+                String ext = getFileExtension(checkingFile);
+                boolean canAddFile = !excludeFiles.contains(checkingFile.getName()) && !excludeExt.contains(ext);
+                if (canAddFile) {
+                    resultFiles.add(checkingFile);
                 }
             }
         }

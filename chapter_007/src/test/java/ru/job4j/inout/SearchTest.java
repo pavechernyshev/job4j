@@ -19,7 +19,6 @@ public class SearchTest {
     List<File> jpgFilesList = new LinkedList<>();
     List<File> docFilesList = new LinkedList<>();
 
-    @Ignore
     @Before
     public void fillTmpdir() {
         File tmpdir = new File(rootPath);
@@ -74,7 +73,6 @@ public class SearchTest {
         jpgFilesList.add(subjpg);
     }
 
-    @Ignore
     @Test
     public void searchTxtFiles() {
         List<String> exts = new LinkedList<>();
@@ -87,7 +85,6 @@ public class SearchTest {
         assertThat(txtFilesList.size(), Is.is(0));
     }
 
-    @Ignore
     @Test
     public void searchJpgFiles() {
         List<String> exts = new LinkedList<>();
@@ -100,7 +97,7 @@ public class SearchTest {
         assertThat(jpgFilesList.size(), Is.is(0));
     }
 
-    @Ignore
+
     @Test
     public void searchDocFiles() {
         List<String> exts = new LinkedList<>();
