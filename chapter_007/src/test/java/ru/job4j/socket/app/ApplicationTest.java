@@ -17,6 +17,7 @@ import static org.mockito.Mockito.when;
 
 public class ApplicationTest {
     private String ln = System.lineSeparator();
+    private String fs = File.separator;
     List<ApiQuery> apiQueries = new LinkedList<>();
     List<ApiResult> apiResults = new LinkedList<>();
 
@@ -91,7 +92,7 @@ public class ApplicationTest {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("FILE_NAME", "pom.xml");
         apiQueries.add(new ApiQuery("getFile", jsonObject.toJSONString()));
-        File file = new File(Joiner.on("\\").join(System.getProperty("user.dir"), "pom.xml"));
+        File file = new File(Joiner.on(fs).join(System.getProperty("user.dir"), "pom.xml"));
         Scanner scanner = new Scanner(new FileInputStream(file));
         StringBuilder fileContentStrBuilder = new StringBuilder();
         while (scanner.hasNextLine()) {
@@ -108,7 +109,7 @@ public class ApplicationTest {
     public void whenLoadFile() throws IOException, ParseException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("FILE_NAME", "test.txt");
-        File file = new File(Joiner.on("\\").join(System.getProperty("user.dir"), "src", "test", "java", "ru", "job4j", "socket", "app", "test.txt"));
+        File file = new File(Joiner.on(fs).join(System.getProperty("user.dir"), "src", "test", "java", "ru", "job4j", "socket", "app", "test.txt"));
         Scanner scanner = new Scanner(new FileInputStream(file));
         StringBuilder fileContentStrBuilder = new StringBuilder();
         while (scanner.hasNextLine()) {
@@ -121,7 +122,7 @@ public class ApplicationTest {
         apiResults.add(new ApiResult(true, "Файл успешно загружен", ""));
         addExitToLists();
         testInputAndExpected(apiQueries, apiResults);
-        File loadedFile = new File(Joiner.on("\\").join(System.getProperty("user.dir"), "test.txt"));
+        File loadedFile = new File(Joiner.on(fs).join(System.getProperty("user.dir"), "test.txt"));
         assertTrue(loadedFile.exists());
         scanner = new Scanner(new FileInputStream(loadedFile));
         StringBuilder loadedFileContentStrBuilder = new StringBuilder();

@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 
 public class ClientTest {
     private String ln = System.lineSeparator();
+    private String fs = File.separator;
     private String curDir = System.getProperty("user.dir");
 
     @Test
@@ -99,7 +100,7 @@ public class ClientTest {
         expectedQueries.add(new ApiQuery("getFile", jsonObject.toJSONString()).toJsonString());
         expectedQueries.add(new ApiQuery("exit", "").toJsonString());
         whenExpected(userEnterPhrases, serverAnswers, expectedQueries);
-        String pathToDownloadedFile = Joiner.on("\\").join(curDir, "src\\main\\java\\ru\\job4j\\socket\\app\\downloads", fileName);
+        String pathToDownloadedFile = Joiner.on(fs).join(curDir, "src", "main", "java", "ru", "job4j", "socket", "app", "downloads", fileName);
         File downloadedFile = new File(pathToDownloadedFile);
         assertTrue(downloadedFile.exists());
         assertTrue(downloadedFile.delete());
