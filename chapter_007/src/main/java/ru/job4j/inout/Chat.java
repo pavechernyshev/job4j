@@ -1,5 +1,7 @@
 package ru.job4j.inout;
 
+import com.google.common.base.Joiner;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -8,13 +10,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Chat {
-
+    private String fs = File.separator;
     private final String stopWord = "стоп";
     private final String continueWord = "продолжить";
     private final String exitWord = "закончить";
     private final String askUserPhrase = "введите слово или фразу: ";
-    private final String pathToFileLog = System.getProperty("user.dir") + "\\chapter_007\\src\\main\\java\\ru\\job4j\\inout\\log.txt";
-    private final String pathToFilePhrases = System.getProperty("user.dir") + "/chapter_007/src/main/java/ru/job4j/inout/phrases.txt";
+    private final String pathToFileLog = Joiner.on(fs).join(System.getProperty("user.dir"), "chapter_007", "src", "main", "java", "ru", "job4j", "inout", "log.txt");
+    private final String pathToFilePhrases = Joiner.on(fs).join(System.getProperty("user.dir"), "chapter_007", "src", "main", "java", "ru", "job4j", "inout", "phrases.txt");
     private ArrayList<String> phrasesList;
 
     private Input input;
@@ -71,7 +73,7 @@ public class Chat {
     private void writeToLog(String log) {
         try (RandomAccessFile randomAccessFile = new RandomAccessFile(pathToFileLog, "rw")) {
             randomAccessFile.seek(randomAccessFile.length());
-            randomAccessFile.write(String.format("%s\n", log).getBytes(Charset.forName("UTF-8")));
+            randomAccessFile.write(String.format("%s%s", log, System.lineSeparator()).getBytes(Charset.forName("UTF-8")));
         }
         catch (IOException e) {
             e.printStackTrace();

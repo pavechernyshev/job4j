@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 
 public class MenuClient {
 
+    private String fs = File.separator;
     private InputClient input; //Композиция
     private ClientApi clientApi; //Композиция
     private ArrayList<UserAction> userActions = new ArrayList<>(); //Агрегация
@@ -169,9 +170,16 @@ public class MenuClient {
         public void execute(InputClient input, ClientApi clientApi) {
             String fileName = input.ask("введите имя файла:");
             fileName = fileName.trim();
-            final String pathToDownloadDir = Joiner.on("\\").join(
+            final String pathToDownloadDir = Joiner.on(fs).join(
                     System.getProperty("user.dir"),
-                    "src\\main\\java\\ru\\job4j\\socket\\app\\downloads"
+                    "src",
+                    "main",
+                    "java",
+                    "ru",
+                    "job4j",
+                    "socket",
+                    "app",
+                    "downloads"
             );
             File dir = new File(pathToDownloadDir);
             if (dir.exists() && dir.isDirectory()) {
@@ -205,10 +213,10 @@ public class MenuClient {
             String filePath = input.ask("Введите путь к файлу:");
             if (filePath.length() > 0) {
                 String fullFileName;
-                if (filePath.substring(0, 1).equals("\\")) {
+                if (filePath.substring(0, 1).equals(fs)) {
                     fullFileName = String.format("%s%s", pathToProject, filePath);
                 } else {
-                    fullFileName = Joiner.on("\\").join(pathToProject, filePath);
+                    fullFileName = Joiner.on(fs).join(pathToProject, filePath);
                 }
                 try {
                     ApiResult apiResult = clientApi.loadFile(fullFileName);

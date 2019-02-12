@@ -1,11 +1,15 @@
 package ru.job4j.inout;
 
+import com.google.common.base.Joiner;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
 
 public class FileSort {
-    private String pathToSplitDir = System.getProperty("user.dir") + "/src/main/java/ru/job4j/inout/split";
+    private String fs = File.separator;
+
+    private String pathToSplitDir = Joiner.on(fs).join(System.getProperty("user.dir"), "src", "main", "java", "ru", "job4j", "inout", "split");
     private String ln = System.lineSeparator();
 
     public void asc(File source, File dist, int maxBiteSize) {
@@ -132,14 +136,14 @@ public class FileSort {
         List<File> fileList = new LinkedList<>();
         if (splitDirFiles != null) {
             int splitDirFilesCount = splitDirFiles.length;
-            File firstFile = new File(String.format("%s/first%s.txt", pathToSplitDir, ++splitDirFilesCount));
-            File secondFile = new File(String.format("%s/second%s.txt", pathToSplitDir, ++splitDirFilesCount));
+            File firstFile = new File(String.format("%s%sfirst%s.txt", pathToSplitDir, fs, ++splitDirFilesCount));
+            File secondFile = new File(String.format("%s%ssecond%s.txt", pathToSplitDir, fs, ++splitDirFilesCount));
             try {
                 RandomAccessFile sourceFileRandomAccess = new RandomAccessFile(file, "r");
                 FileOutputStream firstFilePartRandomAccess = new FileOutputStream(firstFile);
                 FileOutputStream secondFilePartRandomAccess = new FileOutputStream(secondFile);
                 while (sourceFileRandomAccess.getFilePointer() < file.length()) {
-                    String line = sourceFileRandomAccess.readLine() + "\n";
+                    String line = sourceFileRandomAccess.readLine() + ln;
                     long filePointerPos = sourceFileRandomAccess.getFilePointer();
                     if (filePointerPos <= middlePointPos) {
                         firstFilePartRandomAccess.write(line.getBytes(Charset.forName("UTF-8")));

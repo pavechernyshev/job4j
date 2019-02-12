@@ -50,15 +50,21 @@ public class ApplicationTest {
     @Test
     public void whenGetCurDirContent() throws IOException, ParseException {
         ApiQuery apiQuery = new ApiQuery("getCurDirContent", "");
-        StringBuilder expectedContent = new StringBuilder();
-        expectedContent.append("file: pom.xml").append(ln)
-                .append("dir: src").append(ln)
-                .append("dir: target").append(ln);
-        ApiResult apiResultExpected = new ApiResult(true, "содержимое каталога получено", expectedContent.toString());
         apiQueries.add(apiQuery);
-        apiResults.add(apiResultExpected);
         addExitToLists();
-        testInputAndExpected(apiQueries, apiResults);
+        List<ApiResult> apiResults = getApiResults(apiQueries);
+        assertThat(apiResults.size(), is(2));
+        assertThat(apiResults.get(1).getMess(), is("сервер успешно остановлен"));
+        ApiResult apiResult = apiResults.get(0);
+        List<String> dirContent = new LinkedList<>();
+        Scanner scanner = new Scanner(apiResult.getContent());
+        while (scanner.hasNextLine()) {
+            dirContent.add(scanner.nextLine());
+        }
+        assertEquals(3, dirContent.size());
+        assertTrue(dirContent.contains("file: pom.xml"));
+        assertTrue(dirContent.contains("dir: src"));
+        assertTrue(dirContent.contains("dir: target"));
     }
 
     @Test
@@ -137,6 +143,12 @@ public class ApplicationTest {
     }
 
     public void testInputAndExpected(List<ApiQuery> apiQueryList, List<ApiResult> expectedList) throws IOException, ParseException {
+        List<ApiResult> apiResults = getApiResults(apiQueryList);
+        assertEquals(expectedList.size(), apiResults.size());
+        assertThat(apiResults, is(expectedList));
+    }
+
+    public List<ApiResult> getApiResults(List<ApiQuery> apiQueryList) throws IOException, ParseException {
         Socket socket = mock(Socket.class);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         StringBuilder stringBuilder = new StringBuilder();
@@ -150,15 +162,16 @@ public class ApplicationTest {
         server.startup();
         String serverAnswer = outputStream.toString();
         Scanner scanner = new Scanner(serverAnswer);
-        for (ApiResult expected: expectedList) {
-            assertTrue(scanner.hasNext());
+        List<ApiResult> apiResults = new LinkedList<>();
+        while (scanner.hasNextLine()) {
             JSONObject jsonObject = (JSONObject) JSONValue.parseWithException(scanner.nextLine());
             ApiResult apiResult = new ApiResult(
                     jsonObject.get("SUCCESS").equals(true),
                     jsonObject.get("MESS").toString(),
                     jsonObject.get("CONTENT").toString()
             );
-            assertThat(apiResult, is(expected));
+            apiResults.add(apiResult);
         }
+        return apiResults;
     }
 }

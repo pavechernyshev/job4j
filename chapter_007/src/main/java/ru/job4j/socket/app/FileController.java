@@ -6,12 +6,12 @@ import java.util.*;
 
 public class FileController implements FileInspector {
     private String curDirPath = System.getProperty("user.dir");
+    private String fs = File.separator;
 
     @Override
     public boolean goUp() {
-        String pathSeparator = "\\";
         boolean result = false;
-        int lastIndexOfPathSeparator = this.curDirPath.lastIndexOf(pathSeparator);
+        int lastIndexOfPathSeparator = this.curDirPath.lastIndexOf(fs);
         if (lastIndexOfPathSeparator > 0) {
             this.curDirPath = this.curDirPath.substring(0, lastIndexOfPathSeparator);
             result = true;
@@ -71,7 +71,7 @@ public class FileController implements FileInspector {
 
     private String mergePathAndName(String path, String name) {
         StringBuilder distPath = new StringBuilder();
-        distPath.append(path).append("\\").append(name);
+        distPath.append(path).append(fs).append(name);
         return distPath.toString();
     }
 }

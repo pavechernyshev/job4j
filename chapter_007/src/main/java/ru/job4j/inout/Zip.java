@@ -7,6 +7,8 @@ import java.util.zip.ZipOutputStream;
 
 public class Zip {
 
+    private String fs = File.separator;
+
     public static void main(String[] args) {
         Args argsParser = new Args(args);
         argsParser.init();
@@ -51,7 +53,7 @@ public class Zip {
         String fistFileNameSymbol = startDirPath.substring(0, 1);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(startDirPath);
-        String separator = "\\";
+        String separator = fs;
         if (lastPathSymbol.equals(separator)) {
             stringBuilder.append(separator);
         }
@@ -64,7 +66,7 @@ public class Zip {
 
     private String getRelativeFilePath(String deletePath, File file) {
         String res = file.getPath().replace(deletePath, "");
-        if (res.substring(0, 1).equals("\\") || res.substring(0, 1).equals("/")) {
+        if (res.substring(0, 1).equals(fs)) {
             res = res.substring(1);
         }
         return res;
