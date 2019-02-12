@@ -183,7 +183,7 @@ public class MenuClient {
             );
             File dir = new File(pathToDownloadDir);
             if (dir.exists() && dir.isDirectory()) {
-                String fullFilePath = Joiner.on("\\").join(dir.getPath(), fileName);
+                String fullFilePath = Joiner.on(fs).join(dir.getPath(), fileName);
                 try {
                     String mess = clientApi.getFile(fileName, fullFilePath);
                     System.out.println(mess);

@@ -72,25 +72,38 @@ public class ApplicationTest {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("DIR_NAME", "src");
         apiQueries.add(new ApiQuery("goToDir", jsonObject.toJSONString()));
-        apiResults.add(new ApiResult(true, "перход выполнен успешно", ""));
         jsonObject.clear();
         jsonObject.put("DIR_NAME", "main");
         apiQueries.add(new ApiQuery("goToDir", jsonObject.toJSONString()));
-        apiResults.add(new ApiResult(true, "перход выполнен успешно", ""));
         jsonObject.clear();
         jsonObject.put("DIR_NAME", "java");
         apiQueries.add(new ApiQuery("goToDir", jsonObject.toJSONString()));
-        apiResults.add(new ApiResult(true, "перход выполнен успешно", ""));
         apiQueries.add(new ApiQuery("goUp", ""));
-        apiResults.add(new ApiResult(true, "пререход на верх выполнен успешно.", ""));
         apiQueries.add(new ApiQuery("goUp", ""));
-        apiResults.add(new ApiResult(true, "пререход на верх выполнен успешно.", ""));
         StringBuilder expectedContent = new StringBuilder();
         expectedContent.append("dir: main").append(ln).append("dir: test").append(ln);
         apiQueries.add(new ApiQuery("getCurDirContent", ""));
         apiResults.add(new ApiResult(true, "содержимое каталога получено", expectedContent.toString()));
         addExitToLists();
-        testInputAndExpected(apiQueries, apiResults);
+        List<ApiResult> serverAnswers = getApiResults(apiQueries);
+        assertEquals(serverAnswers.size(), 7);
+        assertThat(serverAnswers.get(0), is(new ApiResult(true, "перход выполнен успешно", "")));
+        assertThat(serverAnswers.get(1), is(new ApiResult(true, "перход выполнен успешно", "")));
+        assertThat(serverAnswers.get(2), is(new ApiResult(true, "перход выполнен успешно", "")));
+        assertThat(serverAnswers.get(3), is(new ApiResult(true, "пререход на верх выполнен успешно.", "")));
+        assertThat(serverAnswers.get(4), is(new ApiResult(true, "пререход на верх выполнен успешно.", "")));
+        ApiResult contentResult = serverAnswers.get(5);
+        assertThat(contentResult.getMess(), is("содержимое каталога получено"));
+        List<String> dirContent = new LinkedList<>();
+        Scanner scanner = new Scanner(contentResult.getContent());
+        while (scanner.hasNextLine()) {
+            dirContent.add(scanner.nextLine());
+        }
+        assertEquals(2, dirContent.size());
+        assertTrue(dirContent.contains("dir: main"));
+        assertTrue(dirContent.contains("dir: test"));
+        assertThat(serverAnswers.get(6), is(new ApiResult(true, "сервер успешно остановлен", "")));
+
     }
 
     @Test
