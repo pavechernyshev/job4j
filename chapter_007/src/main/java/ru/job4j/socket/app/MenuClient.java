@@ -183,11 +183,11 @@ public class MenuClient {
             );
             File dir = new File(pathToDownloadDir);
             if (dir.exists() && dir.isDirectory()) {
-                String fullFilePath = Joiner.on(fs).join(dir.getPath(), fileName);
+                String fullFilePath = Joiner.on(fs).join(pathToDownloadDir, fileName);
                 try {
                     String mess = clientApi.getFile(fileName, fullFilePath);
                     System.out.println(mess);
-                } catch (IOException | ParseException e) {
+                } catch (ParseException e) {
                     System.out.println("файл не был скачен");
                     e.printStackTrace();
                 }

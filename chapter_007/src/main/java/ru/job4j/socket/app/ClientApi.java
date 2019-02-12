@@ -39,7 +39,7 @@ public class ClientApi {
         return apiResult.getMess();
     }
 
-    public String getFile(String fileName, String downloadFullFileName) throws IOException, ParseException {
+    public String getFile(String fileName, String downloadFullFileName) throws ParseException {
         File targetFile = new File(downloadFullFileName);
         ApiResult apiResult;
         try {
@@ -48,7 +48,7 @@ public class ClientApi {
                 jsonObject.put("FILE_NAME", fileName);
                 apiResult = sendToServer(new ApiQuery("getFile", jsonObject.toJSONString()));
                 if (apiResult.isSuccess()) {
-                    byte[] fileContent = Base64.getDecoder().decode(apiResult.getContent());
+                       byte[] fileContent = Base64.getDecoder().decode(apiResult.getContent());
                     Scanner scanner = new Scanner(new ByteArrayInputStream(fileContent));
                     FileOutputStream fileOutputStream = new FileOutputStream(targetFile);
                     while (scanner.hasNextLine()) {
