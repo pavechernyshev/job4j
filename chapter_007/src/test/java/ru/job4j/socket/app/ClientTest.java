@@ -112,7 +112,8 @@ public class ClientTest {
         String serverAnswersOneString = Joiner.on(ln).join(serverAnswers);
         ByteArrayInputStream socketInputStream = new ByteArrayInputStream(serverAnswersOneString.getBytes());
         ByteArrayOutputStream socketOutputStream = new ByteArrayOutputStream();
-
+        ByteArrayOutputStream consoleOut = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(consoleOut));
         Socket socket = mock(Socket.class);
         when(socket.getInputStream()).thenReturn(socketInputStream);
         when(socket.getOutputStream()).thenReturn(socketOutputStream);

@@ -1,5 +1,6 @@
 package ru.job4j.inout;
 
+import com.google.common.base.Joiner;
 import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -15,7 +16,10 @@ import java.util.Scanner;
 import static org.junit.Assert.*;
 
 public class FileSortTest {
-    String distFilePath = System.getProperty("user.dir") + "/src/test/java/ru/job4j/inout/dist.txt";
+    private String fs = File.separator;
+    private String ln = System.lineSeparator();
+
+    String distFilePath = Joiner.on(fs).join(System.getProperty("user.dir"), "src", "test", "java", "ru", "job4j", "inout", "dist.txt");
 
     @Before
     public void deleteDistFail() {
@@ -25,7 +29,7 @@ public class FileSortTest {
 
     @Test
     public void asc() {
-        File source = new File(System.getProperty("user.dir") + "/src/test/java/ru/job4j/inout/source.txt");
+        File source = new File(Joiner.on(fs).join(System.getProperty("user.dir"),  "src", "test", "java", "ru", "job4j", "inout", "source.txt"));
         File dist = new File(distFilePath);
         FileSort fileSort = new FileSort();
         fileSort.asc(source, dist, 50);
@@ -70,8 +74,8 @@ public class FileSortTest {
 
     @Test
     public void smallFileSort() {
-        File sourceFile = new File(System.getProperty("user.dir") + "/src/test/java/ru/job4j/inout/smallFileForSort.txt");
-        File distFile = new File(System.getProperty("user.dir") + "/src/test/java/ru/job4j/inout/smallFileSorted.txt");
+        File sourceFile = new File(Joiner.on(fs).join(System.getProperty("user.dir"),  "src", "test", "java", "ru", "job4j", "inout", "smallFileForSort.txt"));
+        File distFile = new File(Joiner.on(fs).join(System.getProperty("user.dir"),  "src", "test", "java", "ru", "job4j", "inout", "smallFileSorted.txt"));
         List<String> lines = new LinkedList<>();
         try (Scanner scanner = new Scanner(new FileInputStream(sourceFile))) {
             while (scanner.hasNextLine()) {
@@ -81,7 +85,7 @@ public class FileSortTest {
             lines.sort(Comparator.comparingInt(String::length));
             FileOutputStream fileOutputStream = new FileOutputStream(distFile);
             for (String line: lines) {
-                String lineWithSeparator = String.format("%s\n", line);
+                String lineWithSeparator = String.format("%s%s", line, ln);
                 fileOutputStream.write(lineWithSeparator.getBytes(Charset.forName("UTF-8")));
             }
             fileOutputStream.close();
@@ -106,7 +110,7 @@ public class FileSortTest {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        assertTrue(distFile.delete());
     }
 
 }

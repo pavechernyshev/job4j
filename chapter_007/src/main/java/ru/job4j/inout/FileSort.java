@@ -13,12 +13,25 @@ public class FileSort {
     private String ln = System.lineSeparator();
 
     public void asc(File source, File dist, int maxBiteSize) {
+        if (!checkSplitDir()) {
+            createSplitDir();
+        }
         clearSplitDir();
         List<File> splitFilesList = splitFileIntoPieces(source, maxBiteSize);
         splitFilesList.sort(Comparator.comparingInt(FileSort::getFileFirstLineLength));
         sortFilesContent(splitFilesList);
         mergeFiles(splitFilesList, dist);
         clearSplitDir();
+    }
+
+    private boolean checkSplitDir() {
+        File file = new File(pathToSplitDir);
+        return file.exists() && file.isDirectory();
+    }
+
+    private boolean createSplitDir() {
+        File file = new File(pathToSplitDir);
+        return file.mkdir();
     }
 
     private void mergeFiles(List<File> filesList, File dist) {
