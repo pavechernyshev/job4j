@@ -1,5 +1,6 @@
 package ru.job4j.inout;
 
+import com.google.common.base.Joiner;
 import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -13,7 +14,9 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class SearchTest {
-    String rootPath = System.getProperty("java.io.tmpdir") + "\\mytmp\\";
+    private String fs = File.separator;
+
+    String rootPath = Joiner.on(fs).join(System.getProperty("java.io.tmpdir"), "mytmp", "");
     Search search = new Search();
     List<File> txtFilesList = new LinkedList<>();
     List<File> jpgFilesList = new LinkedList<>();
@@ -24,20 +27,20 @@ public class SearchTest {
         File tmpdir = new File(rootPath);
         File ftxt = new File(rootPath + "f.txt");
         File fdoc = new File(rootPath + "f.doc");
-        File subdoc = new File(rootPath + "sub/1.1.doc");
+        File subdoc = new File(rootPath + "sub" + fs + "1.1.doc");
         File subdir = new File(rootPath + "sub");
-        File subjpg = new File(rootPath + "sub/1.1.jpg");
-        File subtxt = new File(rootPath + "sub/1.1.txt");
-        File subsub1dir = new File(rootPath + "sub/sub1");
-        File subsub2dir = new File(rootPath + "sub/sub2");
-        File subsubtxt1 = new File(rootPath + "sub/sub1/1.1.txt");
-        File subsubtxt12 = new File(rootPath + "sub/sub2/1.2.txt");
+        File subjpg = new File(rootPath + "sub" + fs + "1.1.jpg");
+        File subtxt = new File(rootPath + "sub" + fs + "1.1.txt");
+        File subsub1dir = new File(rootPath + "sub" + fs + "sub1");
+        File subsub2dir = new File(rootPath + "sub" + fs + "sub2");
+        File subsubtxt1 = new File(rootPath + "sub" + fs + "sub1" + fs + "1.1.txt");
+        File subsubtxt12 = new File(rootPath + "sub" + fs + "sub2" + fs + "1.2.txt");
         File sub2dir = new File(rootPath + "sub2");
-        File sub2txt = new File(rootPath + "sub2/f.txt");
-        File sub2stxt = new File(rootPath + "sub2/s.txt");
+        File sub2txt = new File(rootPath + "sub2" + fs + "f.txt");
+        File sub2stxt = new File(rootPath + "sub2" + fs + "s.txt");
         File sub3dir = new File(rootPath + "sub3");
-        File sub3fdoc = new File(rootPath + "sub3/f.doc");
-        File sub3sdoc = new File(rootPath + "sub3/s.doc");
+        File sub3fdoc = new File(rootPath + "sub3" + fs + "f.doc");
+        File sub3sdoc = new File(rootPath + "sub3" + fs + "s.doc");
         try {
             tmpdir.mkdir();
             subdir.mkdir();
