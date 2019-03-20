@@ -23,10 +23,10 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>pack</finalName>
+                            <finalName>find</finalName>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ru.job4j.inout.Zip</mainClass>
+                                    <mainClass>ru.job4j.exam.Find</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
