@@ -13,14 +13,17 @@ public class Arguments {
     }
 
     public void execute(String[] args) {
-        for (int i = 0; i < args.length - 1; i++) {
-            String curValue = args[i];
-            String nextValue = args[i + 1];
-            usageArgsKeys.add(curValue);
-            IArg arg = hashMap.get(curValue);
-            if (arg != null && !isKey(nextValue)) {
-                arg.setValue(nextValue);
+        String previewValue = null;
+        for (String arg: args) {
+            if (isKey(arg)) {
+                usageArgsKeys.add(arg);
+            } else if (previewValue != null) {
+                IArg iArg = this.hashMap.get(previewValue);
+                if (iArg != null) {
+                    iArg.setValue(arg);
+                }
             }
+            previewValue = arg;
         }
     }
 
@@ -32,16 +35,24 @@ public class Arguments {
         return this.usageArgsKeys;
     }
 
-    public boolean isValide() {
+    public boolean isValid() {
         boolean res = true;
-        for (String usageArgKey: usageArgsKeys) {
-            IArg arg = hashMap.get(usageArgKey);
-            if (arg == null) {
+        for (IArg arg: hashMap.values()) {
+            if (arg.isRequire() && !usageArgsKeys.contains(arg.getKey())) {
                 res = false;
                 break;
-            } else if (!arg.isValid()) {
-                res = false;
-                break;
+            }
+        }
+        if (res) {
+            for (String usageArgKey : usageArgsKeys) {
+                IArg arg = hashMap.get(usageArgKey);
+                if (arg == null) {
+                    res = false;
+                    break;
+                } else if (!arg.isValid()) {
+                    res = false;
+                    break;
+                }
             }
         }
         return res;

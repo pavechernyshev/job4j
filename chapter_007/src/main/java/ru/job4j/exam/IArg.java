@@ -6,5 +6,6 @@ public interface IArg {
     String getValue();
     void setValidator(IArgValidator validator);
     boolean isValid();
+    boolean isRequire();
     String help();
 }
