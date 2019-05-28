@@ -23,6 +23,7 @@
         <module>books</module>
         <module>chapter_006</module>
 		<module>chapter_007</module>
+		<module>chapter_008</module>
 	</modules>
 	 
 	<build>
@@ -108,6 +109,21 @@
 			<groupId>net.jcip</groupId>
 			<artifactId>jcip-annotations</artifactId>
 			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		    <version>2.11.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.11.1</version>
 		</dependency>
 	</dependencies>
 </project>
