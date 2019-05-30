@@ -30,8 +30,8 @@ CREATE TABLE Role
 CREATE TABLE RolesToRules
 (
     ID SERIAL PRIMARY KEY,
-    ROLE_ID INTEGER,
-    RULE_ID INTEGER
+    ROLE_ID INTEGER references Role(ID),
+    RULE_ID INTEGER references Rules(ID)
 );
 CREATE TABLE Users
 (
@@ -39,22 +39,22 @@ CREATE TABLE Users
     NAME CHARACTER VARYING(30),
     LAST_NAME CHARACTER VARYING(30),
     PASSWORD CHARACTER VARYING(30),
-    ROLE_ID INTEGER
+    ROLE_ID INTEGER references Role(ID)
 );
 CREATE TABLE Items
 (
     ID SERIAL PRIMARY KEY,
-    USER_ID INTEGER,
-    CATEGORY_ID INTEGER,
-    STATE_ID INTEGER,
-    FILE_ID INTEGER
+    USER_ID INTEGER references Users(ID),
+    CATEGORY_ID INTEGER references ItemsCategories(ID),
+    STATE_ID INTEGER references ItemsStates(ID),
+    FILE_ID INTEGER references Attachs(ID)
 );
 CREATE TABLE Comments
 (
     ID SERIAL PRIMARY KEY,
-    USER_ID INTEGER,
-    FILE_ID INTEGER,
-    ITEM_ID INTEGER,
+    USER_ID INTEGER references Users(ID),
+    FILE_ID INTEGER references Attachs(ID),
+    ITEM_ID INTEGER references Items(ID),
     TEXT CHARACTER VARYING(500)
 );
 INSERT INTO Rules (ID, NAME, POSSIBILITES) VALUES (1, 'admin', 'see all');
