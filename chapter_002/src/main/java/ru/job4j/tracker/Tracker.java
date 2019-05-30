@@ -8,7 +8,7 @@ import java.util.Random;
  * @version $Id$
  * @since 0.1
  */
-public class Tracker {
+public class Tracker implements ITracker {
     /**
      * Массив для хранение заявок. Используется агрегация
      */
