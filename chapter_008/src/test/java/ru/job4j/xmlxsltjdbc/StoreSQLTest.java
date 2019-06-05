@@ -3,6 +3,8 @@ package ru.job4j.xmlxsltjdbc;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class StoreSQLTest {
@@ -27,6 +29,8 @@ public class StoreSQLTest {
     public void generate() {
         StoreSQL sql = getStoreSql();
         sql.generate(5);
-        assertThat(sql.load().size(), Is.is(5));
+        List<StoreSQL.Entry> list = sql.load();
+        sql.clear();
+        assertThat(list.size(), Is.is(5));
     }
 }

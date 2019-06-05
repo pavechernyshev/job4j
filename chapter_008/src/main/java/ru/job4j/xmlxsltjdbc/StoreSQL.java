@@ -17,7 +17,7 @@ public class StoreSQL implements AutoCloseable {
         boolean res = false;
         try {
             Connection conn = DriverManager.getConnection(
-                    config.get("url") ,
+                    config.get("url"),
                     config.get("username"),
                     config.get("password"));
             if (conn != null) {
@@ -57,6 +57,14 @@ public class StoreSQL implements AutoCloseable {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public void clear() {
+        try (PreparedStatement ps = connect.prepareStatement("delete from entries;")) {
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
