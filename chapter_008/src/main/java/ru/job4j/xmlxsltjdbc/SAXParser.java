@@ -2,15 +2,19 @@ package ru.job4j.xmlxsltjdbc;
 import javax.xml.parsers.*;
 
 import com.sun.org.apache.xml.internal.dtm.ref.sax2dtm.SAX2DTM;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.*;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.helpers.*;
+import ru.job4j.log.UsageLog4j2;
 
 import java.util.*;
 import java.io.*;
 
 public class SAXParser {
     private long sum = 0;
+    private static final Logger LOG = LogManager.getLogger(UsageLog4j2.class.getName());
 
     public void showSumFieldAttr(File file) throws ParserConfigurationException, SAXException, IOException {
         SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -20,7 +24,11 @@ public class SAXParser {
         XMLHandler handler = new XMLHandler();
         xmlReader.setContentHandler(handler);
         xmlReader.parse(file.getAbsolutePath());
-        System.out.print(sum);
+        LOG.info(sum);
+    }
+
+    public long getSum() {
+        return sum;
     }
 
     private class XMLHandler extends DefaultHandler {

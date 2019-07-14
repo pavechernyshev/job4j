@@ -15,7 +15,7 @@ public class ConvertXSQTTest {
     public void convert() throws FileNotFoundException, TransformerException {
         File source = new File("src/test/java/ru/job4j/xmlxsltjdbc/file.xml");
         File shame = new File("src/test/java/ru/job4j/xmlxsltjdbc/shame.xsl");
-        File dist = new File("src/test/java/ru/job4j/xmlxsltjdbc/dist.xml");
+        File dist = new File("dist.xml");
         ConvertXSQT convertXSQT = new ConvertXSQT();
         convertXSQT.convert(source, dist, shame);
     }

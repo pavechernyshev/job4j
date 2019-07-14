@@ -5,6 +5,7 @@ import org.junit.Test;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -12,7 +13,7 @@ import static org.junit.Assert.*;
 public class StoreXMLTest {
 
     @Test
-    public void save() throws IOException, JAXBException {
+    public void save() throws IOException, JAXBException, SQLException {
         File file = new File("src/test/java/ru/job4j/xmlxsltjdbc/file.xml");
         if (!file.exists()) {
             file.createNewFile();

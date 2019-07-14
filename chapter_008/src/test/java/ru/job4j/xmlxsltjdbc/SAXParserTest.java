@@ -13,17 +13,9 @@ public class SAXParserTest {
 
     @Test
     public void start() throws IOException, SAXException, ParserConfigurationException {
-        File file = new File("src/test/java/ru/job4j/xmlxsltjdbc/dist.xml");
+        File file = new File("dist.xml");
         SAXParser saxParser = new SAXParser();
-        StringBuilder sb = new StringBuilder();
-        PrintStream printStream = new PrintStream(new OutputStream() {
-            @Override
-            public void write(int b) throws IOException {
-                sb.append((char) b);
-            }
-        });
-        System.setOut(printStream);
         saxParser.showSumFieldAttr(file);
-        assertThat(Integer.parseInt(sb.toString()), Is.is(15));
+        assertThat(saxParser.getSum(), Is.is(15L));
     }
 }

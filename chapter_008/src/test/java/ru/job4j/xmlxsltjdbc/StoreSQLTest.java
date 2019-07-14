@@ -3,6 +3,7 @@ package ru.job4j.xmlxsltjdbc;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -26,7 +27,7 @@ public class StoreSQLTest {
     }
 
     @Test
-    public void generate() {
+    public void generate() throws SQLException {
         StoreSQL sql = getStoreSql();
         sql.generate(5);
         List<StoreSQL.Entry> list = sql.load();

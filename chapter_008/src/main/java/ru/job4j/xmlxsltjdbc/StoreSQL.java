@@ -22,6 +22,7 @@ public class StoreSQL implements AutoCloseable {
                     config.get("password"));
             if (conn != null) {
                 this.connect = conn;
+                this.connect.setAutoCommit(false);
                 this.metaData = conn.getMetaData();
                 res = true;
             }
@@ -31,7 +32,7 @@ public class StoreSQL implements AutoCloseable {
         return res;
     }
 
-    public void generate(int size) {
+    public void generate(int size) throws SQLException {
         this.createEntryTable();
         for (int i = 1; i <= size; i++) {
             String sql = "insert into entries (field) values (?);";
@@ -39,12 +40,13 @@ public class StoreSQL implements AutoCloseable {
                 ps.setInt(1, i);
                 ps.execute();
             } catch (SQLException e) {
+                this.connect.rollback();
                 e.printStackTrace();
             }
         }
     }
 
-    public List<Entry> load() {
+    public List<Entry> load() throws SQLException {
         List<Entry> result = new LinkedList<>();
         String sql = "select * from entries";
         try (PreparedStatement ps = connect.prepareStatement(sql)) {
@@ -54,15 +56,17 @@ public class StoreSQL implements AutoCloseable {
                 result.add(entry);
             }
         } catch (SQLException e) {
+            this.connect.rollback();
             e.printStackTrace();
         }
         return result;
     }
 
-    public void clear() {
+    public void clear() throws SQLException {
         try (PreparedStatement ps = connect.prepareStatement("delete from entries;")) {
             ps.execute();
         } catch (SQLException e) {
+            this.connect.rollback();
             e.printStackTrace();
         }
     }
@@ -74,11 +78,12 @@ public class StoreSQL implements AutoCloseable {
         }
     }
 
-    private void createEntryTable() {
+    private void createEntryTable() throws SQLException {
         String sql = "create table if not exists entries (field integer );";
         try (PreparedStatement ps = this.connect.prepareStatement(sql)) {
             ps.execute();
         } catch (SQLException e) {
+            this.connect.rollback();
             e.printStackTrace();
         }
     }
