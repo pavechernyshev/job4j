@@ -16,10 +16,7 @@ public class StoreSQL implements AutoCloseable {
     public boolean init() {
         boolean res = false;
         try {
-            Connection conn = DriverManager.getConnection(
-                    config.get("url"),
-                    config.get("username"),
-                    config.get("password"));
+            Connection conn = DriverManager.getConnection("jdbc:sqlite:test.db");
             if (conn != null) {
                 this.connect = conn;
                 this.connect.setAutoCommit(false);
@@ -44,6 +41,7 @@ public class StoreSQL implements AutoCloseable {
                 e.printStackTrace();
             }
         }
+        this.connect.commit();
     }
 
     public List<Entry> load() throws SQLException {
@@ -59,6 +57,7 @@ public class StoreSQL implements AutoCloseable {
             this.connect.rollback();
             e.printStackTrace();
         }
+        this.connect.commit();
         return result;
     }
 
@@ -69,6 +68,7 @@ public class StoreSQL implements AutoCloseable {
             this.connect.rollback();
             e.printStackTrace();
         }
+        this.connect.commit();
     }
 
     @Override
@@ -86,6 +86,7 @@ public class StoreSQL implements AutoCloseable {
             this.connect.rollback();
             e.printStackTrace();
         }
+        this.connect.commit();
     }
 
     class Entry {
