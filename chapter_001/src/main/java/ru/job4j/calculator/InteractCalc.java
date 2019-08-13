@@ -4,22 +4,32 @@ import java.util.HashMap;
 
 public class InteractCalc {
 
+    public static void main(String[] args) {
+        InteractCalc calc = new InteractCalc();
+        calc.addAction(calc.new Div(), "/");
+        calc.addAction(calc.new Add(), "+");
+        calc.addAction(calc.new Multiple(), "*");
+        calc.addAction(calc.new Subtract(), "-");
+        calc.init(new ConsoleInput());
+        calc.start();
+    }
+
     private final Calculator calc = new Calculator();
     private HashMap<String, Action> actions = new HashMap<>();
     private String menu = "";
     private String ln = System.lineSeparator();
-    private final Input consoleInput = new ConsoleInput();
+    private Input userInput;
     private double lastRes = 0.0;
     private Action lastAction = null;
 
-    public void init() {
-        actionsInit();
+    public void init(Input userInput) {
+        this.userInput = userInput;
         menuInit();
     }
 
     public void start() {
         showMenu();
-        String userAnswer = consoleInput.askAction("Введите операцию:");
+        String userAnswer = userInput.askAction("Введите операцию:");
         while (!userAnswer.equals("exit")) {
             Action action;
             if (userAnswer.equals("repeat") && lastAction != null) {
@@ -28,14 +38,12 @@ public class InteractCalc {
                 action = actions.get(userAnswer);
             }
             if (action != null) {
-                double first = consoleInput.askDigit("Введите первое число");
-                double second = consoleInput.askDigit("Введите второе число");
-                double res = action.execute(first, second);
+                double res = action.execute(this.userInput);
                 saveLastRes(res);
                 saveLastAction(action);
                 showRes();
             }
-            userAnswer = consoleInput.askAction("Введите операцию");
+            userAnswer = userInput.askAction("Введите операцию");
         }
     }
 
@@ -55,11 +63,9 @@ public class InteractCalc {
         System.out.println(menu);
     }
 
-    private void actionsInit() {
-        actions.put("/", new Div());
-        actions.put("+", new Add());
-        actions.put("*", new Multiple());
-        actions.put("-", new Subtract());
+    public void addAction(Action action, String operand)
+    {
+        actions.put(operand, action);
     }
 
     private void menuInit() {
@@ -74,12 +80,14 @@ public class InteractCalc {
     }
 
     private interface Action {
-        double execute(double first, double second);
+        double execute(Input userInput);
     }
 
-    private class Div implements Action {
+    public class Div implements Action {
         @Override
-        public double execute(double first, double second) {
+        public double execute(Input userInput) {
+            double first = userInput.askDigit("first num");
+            double second = userInput.askDigit("second num");
             calc.div(first, second);
             return calc.getResult();
         }
@@ -87,7 +95,9 @@ public class InteractCalc {
 
     private class Add implements Action {
         @Override
-        public double execute(double first, double second) {
+        public double execute(Input userInput) {
+            double first = userInput.askDigit("first num");
+            double second = userInput.askDigit("second num");
             calc.add(first, second);
             return calc.getResult();
         }
@@ -95,7 +105,9 @@ public class InteractCalc {
 
     private class Multiple implements Action {
         @Override
-        public double execute(double first, double second) {
+        public double execute(Input userInput) {
+            double first = userInput.askDigit("first num");
+            double second = userInput.askDigit("second num");
             calc.multiple(first, second);
             return calc.getResult();
         }
@@ -103,7 +115,9 @@ public class InteractCalc {
 
     private class Subtract implements Action {
         @Override
-        public double execute(double first, double second) {
+        public double execute(Input userInput) {
+            double first = userInput.askDigit("first num");
+            double second = userInput.askDigit("second num");
             calc.subtract(first, second);
             return calc.getResult();
         }
