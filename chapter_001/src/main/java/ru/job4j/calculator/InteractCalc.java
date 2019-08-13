@@ -79,7 +79,7 @@ public class InteractCalc {
         menu = stringBuilder.toString();
     }
 
-    private interface Action {
+    public interface Action {
         double execute(Input userInput);
     }
 
@@ -93,7 +93,7 @@ public class InteractCalc {
         }
     }
 
-    private class Add implements Action {
+    public class Add implements Action {
         @Override
         public double execute(Input userInput) {
             double first = userInput.askDigit("first num");
@@ -103,7 +103,7 @@ public class InteractCalc {
         }
     }
 
-    private class Multiple implements Action {
+    public class Multiple implements Action {
         @Override
         public double execute(Input userInput) {
             double first = userInput.askDigit("first num");
@@ -113,7 +113,7 @@ public class InteractCalc {
         }
     }
 
-    private class Subtract implements Action {
+    public class Subtract implements Action {
         @Override
         public double execute(Input userInput) {
             double first = userInput.askDigit("first num");
