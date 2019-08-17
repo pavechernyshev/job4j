@@ -8,4 +8,7 @@ public interface IFood {
     Date getExpireDate();
     double getPrice();
     double getDiscount();
+    void setName(String name);
+    void setPrice(double prise);
+    void setDiscount(double discount);
 }
