@@ -9,7 +9,7 @@ public class FoodInspector {
             long expireProduct = food.getExpireDate().getTime();
             long cutTime = System.currentTimeMillis();
             long percentTime = (expireProduct - createProduct) / 100;
-            res = 100 - (int)((expireProduct - cutTime) / percentTime);
+            res = 100 - (int) ((expireProduct - cutTime) / percentTime);
         }
         return res;
     }
@@ -20,13 +20,13 @@ public class FoodInspector {
      * @return int days count
      * @throws ArithmeticException if dates are not correctly
      */
-    public int getStorageLifeDays(IFood food) throws ArithmeticException{
+    public int getStorageLifeDays(IFood food) throws ArithmeticException {
         long createProduct = food.getCreatedDate().getTime();
         long expireProduct = food.getExpireDate().getTime();
         if (expireProduct < createProduct) {
             throw new ArithmeticException("Created date and expire date ara not correct");
         }
-        return (int)(expireProduct - createProduct) / 86400;
+        return (int) (expireProduct - createProduct) / 86400;
     }
 
     public boolean isProductDefective(IFood food) {
