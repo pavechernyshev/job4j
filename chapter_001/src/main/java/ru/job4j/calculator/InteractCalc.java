@@ -15,7 +15,7 @@ public class InteractCalc {
     }
 
     private final Calculator calc = new Calculator();
-    private HashMap<String, Action> actions = new HashMap<>();
+    protected HashMap<String, Action> actions = new HashMap<>();
     private String menu = "";
     private String ln = System.lineSeparator();
     private Input userInput;
@@ -63,8 +63,7 @@ public class InteractCalc {
         System.out.println(menu);
     }
 
-    public void addAction(Action action, String operand)
-    {
+    public void addAction(Action action, String operand) {
         actions.put(operand, action);
     }
 
