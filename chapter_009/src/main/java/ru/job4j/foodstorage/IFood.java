@@ -11,4 +11,6 @@ public interface IFood {
     void setName(String name);
     void setPrice(double prise);
     void setDiscount(double discount);
+    boolean canReproduct();
+    boolean isVegetable();
 }

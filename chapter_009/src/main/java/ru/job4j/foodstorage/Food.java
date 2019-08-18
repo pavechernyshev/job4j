@@ -8,6 +8,8 @@ public abstract class Food implements IFood {
     protected final Date expireDate;
     protected double price;
     protected double discount;
+    protected boolean canReproduct = false;
+    protected boolean isVegetable;
 
     Food(String name, Date createDate, Date expireDate, double price, double discount) {
         this.name = name;
@@ -50,5 +52,23 @@ public abstract class Food implements IFood {
 
     public double getDiscount() {
         return discount;
+    }
+
+    @Override
+    public boolean isVegetable() {
+        return isVegetable;
+    }
+
+    @Override
+    public boolean canReproduct() {
+        return canReproduct;
+    }
+
+    public void setCanReproduct(boolean canReproduct) {
+        this.canReproduct = canReproduct;
+    }
+
+    public void setIsVegetable(boolean isVegetable) {
+        this.isVegetable = isVegetable;
     }
 }
