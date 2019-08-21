@@ -2,6 +2,13 @@ package ru.job4j.foodstorage;
 
 import org.hamcrest.core.Is;
 import org.junit.Test;
+import ru.job4j.foodstorage.control.ExtControlQuality;
+import ru.job4j.foodstorage.food.IFood;
+import ru.job4j.foodstorage.food.Milk;
+import ru.job4j.foodstorage.food.Potato;
+import ru.job4j.foodstorage.storages.ExtStorageFactory;
+import ru.job4j.foodstorage.storages.IStorage;
+import ru.job4j.foodstorage.storages.IStorageFactory;
 
 import java.util.Date;
 import java.util.HashMap;

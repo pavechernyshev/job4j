@@ -3,6 +3,8 @@ package ru.job4j.foodstorage;
 import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Test;
+import ru.job4j.foodstorage.food.FoodInspector;
+import ru.job4j.foodstorage.food.Milk;
 
 import java.util.Date;
 

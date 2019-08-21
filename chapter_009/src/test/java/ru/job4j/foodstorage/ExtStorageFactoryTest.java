@@ -3,10 +3,13 @@ package ru.job4j.foodstorage;
 import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Test;
+import ru.job4j.foodstorage.food.Cheese;
+import ru.job4j.foodstorage.food.IFood;
+import ru.job4j.foodstorage.food.Milk;
+import ru.job4j.foodstorage.food.Potato;
+import ru.job4j.foodstorage.storages.*;
 
 import java.util.Date;
-
-import static org.junit.Assert.*;
 
 public class ExtStorageFactoryTest {
 
@@ -14,7 +17,7 @@ public class ExtStorageFactoryTest {
 
     @Test
     public void whenGetTrashStorage() {
-        Milk houseIsTheVillage = new Milk(
+        IFood houseIsTheVillage = new Milk(
                 "Домик в деревне",
                 new Date(System.currentTimeMillis() - 86400 * 10),
                 new Date(System.currentTimeMillis() - 86400 * 5),

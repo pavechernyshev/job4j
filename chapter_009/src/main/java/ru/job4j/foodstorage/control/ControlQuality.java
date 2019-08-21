@@ -1,4 +1,8 @@
-package ru.job4j.foodstorage;
+package ru.job4j.foodstorage.control;
+
+import ru.job4j.foodstorage.food.IFood;
+import ru.job4j.foodstorage.storages.IStorage;
+import ru.job4j.foodstorage.storages.IStorageFactory;
 
 import java.util.HashMap;
 
@@ -6,7 +10,7 @@ public class ControlQuality {
     private final IStorageFactory storageFactory;
     private final HashMap<String, IStorage> storageHashMap = new HashMap<>();
 
-    ControlQuality(IStorageFactory storageFactory) {
+    public ControlQuality(IStorageFactory storageFactory) {
         this.storageFactory = storageFactory;
     }
 

@@ -1,4 +1,7 @@
-package ru.job4j.foodstorage;
+package ru.job4j.foodstorage.storages;
+
+import ru.job4j.foodstorage.food.FoodInspector;
+import ru.job4j.foodstorage.food.IFood;
 
 public class StorageFactory implements IStorageFactory {
     FoodInspector foodInspector = new FoodInspector();

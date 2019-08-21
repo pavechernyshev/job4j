@@ -1,4 +1,6 @@
-package ru.job4j.foodstorage;
+package ru.job4j.foodstorage.storages;
+
+import ru.job4j.foodstorage.food.IFood;
 
 public class ColdPlaceStorageDecorator extends StorageDecorator {
 
@@ -10,5 +12,10 @@ public class ColdPlaceStorageDecorator extends StorageDecorator {
     public void put(IFood food) {
         // имитируем специаальные условия хранения
         this.getFoodList().add(0, food);
+    }
+
+    @Override
+    public boolean accept(IFood food) {
+        return super.accept(food) && food.isVegetable();
     }
 }

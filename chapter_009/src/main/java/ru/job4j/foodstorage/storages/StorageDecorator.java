@@ -1,4 +1,6 @@
-package ru.job4j.foodstorage;
+package ru.job4j.foodstorage.storages;
+
+import ru.job4j.foodstorage.food.IFood;
 
 import java.util.List;
 
@@ -22,5 +24,10 @@ public abstract class StorageDecorator implements IStorage {
     @Override
     public List<IFood> getFoodList() {
         return storageDecorator.getFoodList();
+    }
+
+    @Override
+    public boolean accept(IFood food) {
+        return storageDecorator.accept(food);
     }
 }

@@ -1,10 +1,15 @@
-package ru.job4j.foodstorage;
+package ru.job4j.foodstorage.control;
 
+
+import ru.job4j.foodstorage.control.ControlQuality;
+import ru.job4j.foodstorage.food.IFood;
+import ru.job4j.foodstorage.storages.IStorage;
+import ru.job4j.foodstorage.storages.IStorageFactory;
 
 public class ExtControlQuality extends ControlQuality {
     private final IStorageFactory storageFactory;
 
-    ExtControlQuality(IStorageFactory storageFactory) {
+    public ExtControlQuality(IStorageFactory storageFactory) {
         super(storageFactory);
         this.storageFactory = storageFactory;
     }

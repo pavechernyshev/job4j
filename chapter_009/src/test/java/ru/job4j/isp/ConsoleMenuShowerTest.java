@@ -41,13 +41,13 @@ public class ConsoleMenuShowerTest {
         assertThat(
                 new String(out.toByteArray()),
                 is(
-                "Задача 1." + this.ls +
-                        "---Задача 1.1" + this.ls +
-                        "------Задача 1.1.1" + this.ls +
-                        "------Задача 1.1.2" + this.ls +
-                        "---Задача 1.2" + this.ls +
-                        "Задача 2." + this.ls +
-                        "Задача 3." + this.ls
+                "Задача 1." + this.ls
+                        + "---Задача 1.1" + this.ls
+                        + "------Задача 1.1.1" + this.ls
+                        + "------Задача 1.1.2" + this.ls
+                        + "---Задача 1.2" + this.ls
+                        + "Задача 2." + this.ls
+                        + "Задача 3." + this.ls
                 )
         );
     }
