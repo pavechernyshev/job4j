@@ -123,4 +123,39 @@ public class StorageQualityTest {
         assertThat(storage.getFoodList().size(), Is.is(2));
     }
 
+
+    @Test
+    public void putFoodWareHouseAndResort() {
+        Milk houseIsTheVillage = new Milk(
+                "Домик в деревне 1",
+                new Date(System.currentTimeMillis() - 86400 * 2),
+                new Date(System.currentTimeMillis() + 86400 * 8),
+                100d,
+                0d
+        );
+        Milk houseIsTheVillage1 = new Milk(
+                "Домик в деревне 2",
+                new Date(System.currentTimeMillis() - 86400 * 2),
+                new Date(System.currentTimeMillis() + 86400 * 8),
+                100d,
+                0d
+        );
+        Milk houseIsTheVillage2 = new Milk(
+                "Домик в деревне 3",
+                new Date(System.currentTimeMillis() - 86400 * 2),
+                new Date(System.currentTimeMillis() + 86400 * 8),
+                100d,
+                0d
+        );
+        IStorage storage = storageQuality.accept(houseIsTheVillage);
+        IStorage storage2 = storageQuality.accept(houseIsTheVillage1);
+        IStorage storage3 = storageQuality.accept(houseIsTheVillage2);
+        assertThat(storage.getFoodList().size(), Is.is(1));
+        assertThat(storage2.getFoodList().size(), Is.is(2));
+        assertThat(storage3.getFoodList().size(), Is.is(2));
+        storageQuality.resort();
+        assertThat(storage.getFoodList().size(), Is.is(1));
+        assertThat(storage2.getFoodList().size(), Is.is(2));
+        assertThat(storage3.getFoodList().size(), Is.is(2));
+    }
 }

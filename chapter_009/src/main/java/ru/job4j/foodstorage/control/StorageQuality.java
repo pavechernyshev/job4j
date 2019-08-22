@@ -4,6 +4,7 @@ import ru.job4j.foodstorage.food.IFood;
 import ru.job4j.foodstorage.storages.*;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.List;
 
 public class StorageQuality {
 
@@ -51,5 +52,16 @@ public class StorageQuality {
             }
         }
         return res;
+    }
+
+    public void resort() {
+        List<IFood> foodList = new LinkedList<>();
+        for (StorageNode storageNode: storageNodes) {
+            foodList.addAll(storageNode.getStorage().getFoodList());
+            storageNode.getStorage().getFoodList().clear();
+        }
+        for (IFood food: foodList) {
+            accept(food);
+        }
     }
 }
