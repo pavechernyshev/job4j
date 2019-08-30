@@ -19,22 +19,78 @@ public class ConsoleMenuShower implements  IStructMenuShower {
 
     @Override
     public void show() {
-        for (IStructItem item: menu) {
-            System.out.println(item.getName());
-            printSubItems(item, lvlSeparator);
-        }
-    }
-
-    private void printSubItems(IStructItem item, String lvlSeparator) {
-        if (hasSubItems(item)) {
-            for (IStructItem subItem: item.getSubItems()) {
-                System.out.println(lvlSeparator + subItem.getName());
-                printSubItems(subItem, lvlSeparator + this.lvlSeparator);
+        LinkedList<SMLvlItem> itemsForShow = new LinkedList<>(convert(menu, 0));
+        while (itemsForShow.size() > 0) {
+            SMLvlItem parent = itemsForShow.removeFirst();
+            print(parent);
+            if (hasSubItems(parent)) {
+                LinkedList<SMLvlItem> subItemsStack = new LinkedList<>(convert(parent.getSubItems(), parent.lvl + 1));
+                while (subItemsStack.size() > 0) {
+                    itemsForShow.addFirst(subItemsStack.removeLast());
+                }
             }
         }
     }
 
+    private List<SMLvlItem> convert(List<IStructItem> list, int lvl) {
+        List<SMLvlItem> res = new LinkedList<>();
+        for (IStructItem item: list) {
+            res.add(new SMLvlItem(item, lvl));
+        }
+        return res;
+    }
+
+    private String getLvlSeparator(int subLvl) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < subLvl; i++) {
+            sb.append(lvlSeparator);
+        }
+        return sb.toString();
+    }
+
+    private void print(SMLvlItem item) {
+        System.out.println(getLvlSeparator(item.lvl) + item.getName());
+    }
+
     private boolean hasSubItems(IStructItem item) {
         return item.getSubItems().size() > 0;
+    }
+
+    class SMLvlItem implements IStructItem {
+        final IStructItem iStructItem;
+        int lvl;
+
+        public SMLvlItem(IStructItem iStructItem, int lvl) {
+            this.iStructItem = iStructItem;
+            this.lvl = lvl;
+        }
+
+        @Override
+        public void addSubItem(IStructItem menuItem) {
+            iStructItem.addSubItem(menuItem);
+        }
+
+        @Override
+        public List<IStructItem> getSubItems() {
+            return iStructItem.getSubItems();
+        }
+
+        @Override
+        public String getName() {
+            return iStructItem.getName();
+        }
+
+        @Override
+        public void execute() {
+            iStructItem.execute();
+        }
+
+        public int getLvl() {
+            return lvl;
+        }
+
+        public void setLvl(int lvl) {
+            this.lvl = lvl;
+        }
     }
 }
