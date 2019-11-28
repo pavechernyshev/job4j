@@ -23,9 +23,21 @@ public class UserServlet extends HttpServlet {
         List<User> userList = validateService.findAll();
         resp.setContentType("text/html");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        writer.append("<table>");
         for (User user: userList) {
-            writer.append(user.toString());
+            writer.append("    <tr>" +
+                    "        <td>Login:"+user.getLogin()+"</td><td>Name:"+user.getName()+"</td><td>Email:"+user.getEmail()+"</td><td><a href=\"" + req.getContextPath() + "/update?id="+user.getId()+"\">Update</a></td>" +
+                    "        <td>" +
+                    "            <form method=\"post\" action=\"" + req.getContextPath() + "/list\">" +
+                    "                <input type=\"text\" name=\"action\" value=\"delete\" hidden>" +
+                    "                <input type=\"text\" name=\"id\" value=\""+user.getId()+"\" hidden>" +
+                    "                <button type=\"submit\">Delete</button>" +
+                    "            </form>" +
+                    "        </td>" +
+                    "    </tr>");
         }
+        writer.append("</table>");
+
         writer.flush();
     }
 

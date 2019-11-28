@@ -17,7 +17,7 @@ public class MemoryStore implements Store {
 
     @Override
     public boolean add(User user) {
-        int id = userList.values().size();
+        int id = userList.values().size() + 1;
         user.setId(id);
         userList.put(user.getId(), user);
         return true;
