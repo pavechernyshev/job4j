@@ -11,20 +11,11 @@ import java.util.List;
  */
 public class ValidateService {
 
-    private static volatile ValidateService instance;
+    public final static ValidateService instance = new ValidateService();
 
-    private final Store memoryStore = new MemoryStore();
+    private ValidateService() {}
 
-    public static ValidateService getInstance() {
-        if (instance == null) {
-            synchronized (ValidateService.class) {
-                if (instance == null) {
-                    instance = new ValidateService();
-                }
-            }
-        }
-        return instance;
-    }
+    private final Store memoryStore = MemoryStore.instance;
 
     private void checkUserId(int id) throws IllegalArgumentException {
         if (id <= 0) {

@@ -9,22 +9,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryStore implements Store {
 
-    private static volatile MemoryStore instance;
+    public static final MemoryStore instance = new MemoryStore();
+
+    private MemoryStore() {}
 
     private final Map<Integer, User> userList = new ConcurrentHashMap<>();
-
-    public static MemoryStore getInstance() {
-        if (instance == null) {
-            synchronized (MemoryStore.class) {
-                if (instance == null) {
-                    instance = new MemoryStore();
-                }
-            }
-        }
-        return instance;
-    }
-
-
 
     @Override
     public boolean add(User user) {

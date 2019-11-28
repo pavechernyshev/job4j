@@ -16,11 +16,11 @@ import java.util.function.Function;
 public class UserServlet extends HttpServlet {
 
     private final Map<String, Function<User, Boolean>> dispatch = new HashMap<>();
-    private final ValidateService validateService = ValidateService.getInstance();
+    private final ValidateService validateService = ValidateService.instance;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        List<User> userList = ValidateService.getInstance().findAll();
+        List<User> userList = validateService.findAll();
         resp.setContentType("text/html");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
         for (User user: userList) {
