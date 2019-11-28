@@ -11,11 +11,13 @@ import java.util.List;
  */
 public class ValidateService {
 
-    public final static ValidateService instance = new ValidateService();
+    public final static ValidateService INSTANCE = new ValidateService();
 
-    private ValidateService() {}
+    private ValidateService() {
 
-    private final Store memoryStore = MemoryStore.instance;
+    }
+
+    private final Store memoryStore = MemoryStore.INSTANCE;
 
     private void checkUserId(int id) throws IllegalArgumentException {
         if (id <= 0) {

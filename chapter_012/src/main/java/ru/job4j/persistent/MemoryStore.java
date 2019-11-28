@@ -9,9 +9,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryStore implements Store {
 
-    public static final MemoryStore instance = new MemoryStore();
+    public static final MemoryStore INSTANCE = new MemoryStore();
 
-    private MemoryStore() {}
+    private MemoryStore() {
+
+    }
 
     private final Map<Integer, User> userList = new ConcurrentHashMap<>();
 
