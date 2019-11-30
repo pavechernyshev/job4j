@@ -14,7 +14,7 @@ import java.util.function.Function;
 public class UserServlet extends HttpServlet {
 
     private final Map<String, Function<User, Boolean>> dispatch = new HashMap<>();
-    private final ValidateService validateService = ValidateService.INSTANCE;
+    private final ValidateService validateService = ValidateService.getINSTANCE();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

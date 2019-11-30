@@ -7,7 +7,7 @@
 </head>
 <body>
 <table>
-    <% User user = ValidateService.INSTANCE.findById(Integer.parseInt(request.getParameter("id")));%>
+    <% User user = ValidateService.getINSTANCE().findById(Integer.parseInt(request.getParameter("id")));%>
     <form method="post" action="<%= request.getContextPath()%>/list">
         <input type="text" name="action" value='update' hidden>
         <input type="text" name="id" value='<%= user.getId()%>' hidden>

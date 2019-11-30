@@ -1,5 +1,6 @@
 package ru.job4j.logic;
 
+import ru.job4j.models.DbStore;
 import ru.job4j.models.User;
 import ru.job4j.persistent.MemoryStore;
 import ru.job4j.persistent.Store;
@@ -11,13 +12,17 @@ import java.util.List;
  */
 public class ValidateService {
 
-    public final static ValidateService INSTANCE = new ValidateService();
+    private final static ValidateService INSTANCE = new ValidateService();
 
     private ValidateService() {
 
     }
 
-    private final Store memoryStore = MemoryStore.INSTANCE;
+    public static ValidateService getINSTANCE() {
+        return INSTANCE;
+    }
+
+    private final Store memoryStore = DbStore.getINSTANCE();
 
     private void checkUserId(int id) throws IllegalArgumentException {
         if (id <= 0) {

@@ -10,7 +10,7 @@
     <tr>
         <td><a href="<%= request.getContextPath()%>/create/">Добавить нового пользователя</a></td>
     </tr>
-    <% for (User user: ValidateService.INSTANCE.findAll()) { %>
+    <% for (User user: ValidateService.getINSTANCE().findAll()) { %>
     <tr>
         <td>Login:<%=user.getLogin()%></td>
         <td>Name:<%=user.getName()%></td>
