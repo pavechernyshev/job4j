@@ -9,17 +9,22 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryStore implements Store {
 
-    public static final MemoryStore INSTANCE = new MemoryStore();
+    private static final MemoryStore INSTANCE = new MemoryStore();
+    private int idCount = 1;
 
     private MemoryStore() {
 
     }
 
+    public static MemoryStore getINSTANCE() {
+        return INSTANCE;
+    }
+
     private final Map<Integer, User> userList = new ConcurrentHashMap<>();
 
     @Override
-    public boolean add(User user) {
-        int id = userList.values().size() + 1;
+    public synchronized boolean add(User user) {
+        int id = this.idCount++;
         user.setId(id);
         userList.put(user.getId(), user);
         return true;
