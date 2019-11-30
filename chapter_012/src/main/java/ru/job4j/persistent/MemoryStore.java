@@ -6,11 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MemoryStore implements Store {
 
     private static final MemoryStore INSTANCE = new MemoryStore();
-    private int idCount = 1;
+    private AtomicInteger idCount = new AtomicInteger(1);
 
     private MemoryStore() {
 
@@ -23,8 +24,8 @@ public class MemoryStore implements Store {
     private final Map<Integer, User> userList = new ConcurrentHashMap<>();
 
     @Override
-    public synchronized boolean add(User user) {
-        int id = this.idCount++;
+    public boolean add(User user) {
+        int id = this.idCount.getAndIncrement();
         user.setId(id);
         userList.put(user.getId(), user);
         return true;
