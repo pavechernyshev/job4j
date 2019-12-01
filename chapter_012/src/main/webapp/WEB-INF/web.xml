@@ -13,30 +13,30 @@
         <url-pattern>/echo</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>UserServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.UserServlet</servlet-class>
+        <servlet-name>UsersController</servlet-name>
+        <servlet-class>ru.job4j.servlets.UsersController</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UserServlet</servlet-name>
+        <servlet-name>UsersController</servlet-name>
         <url-pattern>/list</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>UserCreateServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.UserCreateServlet</servlet-class>
+        <servlet-name>UserCreateController</servlet-name>
+        <servlet-class>ru.job4j.servlets.UserCreateController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UserCreateServlet</servlet-name>
+        <servlet-name>UserCreateController</servlet-name>
         <url-pattern>/create</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>UserUpdateServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.UserUpdateServlet</servlet-class>
+        <servlet-name>UserUpdateController</servlet-name>
+        <servlet-class>ru.job4j.servlets.UserUpdateController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UserUpdateServlet</servlet-name>
+        <servlet-name>UserUpdateController</servlet-name>
         <url-pattern>/update</url-pattern>
     </servlet-mapping>
 </web-app>
