@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.log.UsageLog4j2;
 import ru.job4j.persistent.Store;
+
+import java.io.File;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,12 +43,13 @@ public class DbStore implements Store {
         if (findByLogin(user.getLogin()) != null) {
             throw new IllegalArgumentException("Пользователь с таким логином уже существует");
         }
-        String sql = "insert into users (login, name, email) values (?, ?, ?)";
+        String sql = "insert into users (login, name, email, photo_id) values (?, ?, ?, ?)";
         try (Connection connection = SOURCE.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getLogin());
             ps.setString(2, user.getName());
             ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPhotoId());
             ps.execute();
             connection.commit();
         } catch (SQLException e) {
@@ -87,9 +90,16 @@ public class DbStore implements Store {
         boolean success = true;
         try (Connection connection = SOURCE.getConnection();
                 PreparedStatement ps = connection.prepareStatement("delete from users where id=?")) {
+            User user = this.findById(id);
             ps.setInt(1, id);
             ps.execute();
             connection.commit();
+            if (user.getPhotoId().length() > 0) {
+                File file = new File("images" + File.separator + user.getPhotoId());
+                if (file.exists()) {
+                    file.delete();
+                }
+            }
         } catch (SQLException e) {
             try (Connection connection = SOURCE.getConnection()) {
                 connection.rollback();
@@ -157,6 +167,9 @@ public class DbStore implements Store {
         String name = rs.getString("name");
         String login = rs.getString("login");
         String email = rs.getString("email");
-        return new User(id, name, login, email);
+        String photoId = rs.getString("photo_id");
+        User user = new User(id, name, login, email);
+        user.setPhotoId(photoId);
+        return user;
     }
 }

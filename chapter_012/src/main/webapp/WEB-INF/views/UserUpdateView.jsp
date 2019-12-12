@@ -7,7 +7,7 @@
 </head>
 <body>
 <table>
-    <form method="post" action="<%= request.getContextPath()%>/list">
+    <form method="post" action="<%= request.getContextPath()%>/list" enctype="multipart/form-data">
         <input type="text" name="action" value='update' hidden>
         <input type="text" name="id" value='<c:out value="${user.id}"></c:out>' hidden>
         <input type="text" name="login" placeholder="Login" value='<c:out value="${user.login}"></c:out>'>

@@ -8,6 +8,7 @@ public class User {
     private String login;
     private String email;
     private long currentDate;
+    private String photoId;
 
     public User(int id, String name, String login, String email) {
         this.id = id;
@@ -15,6 +16,15 @@ public class User {
         this.login = login;
         this.email = email;
         this.currentDate = System.currentTimeMillis();
+    }
+
+    public User(int id, String name, String login, String email, String photoId) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.email = email;
+        this.currentDate = System.currentTimeMillis();
+        this.photoId = photoId;
     }
 
     public int getId() {
@@ -55,6 +65,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhotoId() {
+        return photoId;
+    }
+
+    public void setPhotoId(String photoId) {
+        this.photoId = photoId;
     }
 
     @Override
