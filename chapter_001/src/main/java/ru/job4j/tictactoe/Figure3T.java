@@ -1,10 +1,13 @@
+/*
 package ru.job4j.tictactoe;
 
+*/
 /**
  * @author Pavel Chernyshev (titan100695@yandex.ru)
  * @version $Id$
  * @since 0.1
- */
+ *//*
+
 import javafx.scene.shape.Rectangle;
 
 public class Figure3T extends Rectangle {
@@ -40,4 +43,4 @@ public class Figure3T extends Rectangle {
         return isEmpty;
     }
 
-}
+}*/
