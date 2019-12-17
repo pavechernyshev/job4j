@@ -1,4 +1,3 @@
-/*
 package ru.job4j.tictactoe;
 import ru.job4j.array.MatrixCheck;
 
@@ -67,4 +66,3 @@ public class Logic3T {
         return res;
     }
 }
-*/

@@ -1,4 +1,3 @@
-/*
 package ru.job4j.tictactoe;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
@@ -116,4 +115,3 @@ public class Logic3TTest {
         assertThat(login.isWinnerX(), is(true));
     }
 }
-*/

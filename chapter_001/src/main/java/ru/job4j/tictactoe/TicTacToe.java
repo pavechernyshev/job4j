@@ -1,4 +1,3 @@
-/*
 package ru.job4j.tictactoe;
 
 import javafx.application.Application;
@@ -139,4 +138,3 @@ public class TicTacToe extends Application {
     }
 }
 
-*/
