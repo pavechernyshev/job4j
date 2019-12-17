@@ -1,12 +1,16 @@
-package ru.job4j.models;
+package ru.job4j.persistent;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.log.UsageLog4j2;
-import ru.job4j.persistent.Store;
+import ru.job4j.models.DBStructureCreator;
+import ru.job4j.models.User;
 
 import java.io.File;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,13 +47,15 @@ public class DbStore implements Store {
         if (findByLogin(user.getLogin()) != null) {
             throw new IllegalArgumentException("Пользователь с таким логином уже существует");
         }
-        String sql = "insert into users (login, name, email, photo_id) values (?, ?, ?, ?)";
+        String sql = "insert into users (login, name, email, photo_id) values (?, ?, ?, ?, ?)";
         try (Connection connection = SOURCE.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getLogin());
             ps.setString(2, user.getName());
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getPhotoId());
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            ps.setString(5, DigestUtils.md5Hex(user.getPassword() + user.getLogin()));
             ps.execute();
             connection.commit();
         } catch (SQLException e) {
@@ -59,6 +65,8 @@ public class DbStore implements Store {
                 e1.printStackTrace();
             }
             LOG.catching(e);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
         return true;
     }

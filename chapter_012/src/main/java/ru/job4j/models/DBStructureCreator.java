@@ -17,7 +17,7 @@ public class DBStructureCreator implements AutoCloseable {
     }
 
     private void createUsers() throws SQLException {
-        String sql = "create table if not exists users (id serial primary key, login varchar (60) unique, name varchar (60), email varchar (60), photo_id varchar(255)) ;";
+        String sql = "create table if not exists users (id serial primary key, login varchar (60) unique, name varchar (60), email varchar (60), photo_id varchar(255), password varchar (255)) ;";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.execute();
     }

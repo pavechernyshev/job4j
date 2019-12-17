@@ -1,8 +1,7 @@
 package ru.job4j.logic;
 
-import ru.job4j.models.DbStore;
+import ru.job4j.persistent.DbStore;
 import ru.job4j.models.User;
-import ru.job4j.persistent.MemoryStore;
 import ru.job4j.persistent.Store;
 
 import java.util.List;

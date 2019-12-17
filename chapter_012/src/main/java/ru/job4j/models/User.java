@@ -7,6 +7,7 @@ public class User {
     private String name;
     private String login;
     private String email;
+    private String password;
     private long currentDate;
     private String photoId;
 
@@ -73,6 +74,14 @@ public class User {
 
     public void setPhotoId(String photoId) {
         this.photoId = photoId;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     @Override
