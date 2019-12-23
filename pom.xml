@@ -9,8 +9,8 @@
      <url>http://job4j.ru/</url>
 
     <properties>
-		<maven.compiler.source>13</maven.compiler.source>
-		<maven.compiler.target>13</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<javafx.version>12</javafx.version>
     </properties>
@@ -68,7 +68,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
+				<version>0.8.4</version>
 				<executions>
 					<execution>
 						<goals>
