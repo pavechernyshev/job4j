@@ -1,6 +1,5 @@
 package ru.job4j.tracker;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;

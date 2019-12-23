@@ -2,9 +2,7 @@ package ru.job4j.socket.app;
 
 import com.google.common.base.Joiner;
 import org.json.simple.JSONObject;
-import org.junit.Before;
 import org.junit.Test;
-import org.omg.PortableInterceptor.ServerRequestInfo;
 
 import java.io.*;
 import java.net.Socket;

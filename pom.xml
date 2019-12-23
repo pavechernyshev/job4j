@@ -9,13 +9,14 @@
      <url>http://job4j.ru/</url>
 
     <properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>13</maven.compiler.source>
+		<maven.compiler.target>13</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<javafx.version>12</javafx.version>
     </properties>
 
     <modules>
-		<module>chapter_001</module>
+        <module>chapter_001</module>
         <module>chapter_002</module>
         <module>chapter_003</module>
         <module>chapter_004</module>
@@ -51,6 +52,7 @@
 							<consoleOutput>true</consoleOutput>
 							<failsOnError>true</failsOnError>
 							<includeTestSourceDirectory>true</includeTestSourceDirectory>
+
 						</configuration>
 						<goals>
 							<goal>check</goal>
@@ -59,9 +61,14 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.0</version>
+			</plugin>
+			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.9</version>
+				<version>0.8.5</version>
 				<executions>
 					<execution>
 						<goals>
@@ -132,6 +139,33 @@
             <version>2.11.1</version>
         </dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-fxml</artifactId>
+			<version>${javafx.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-graphics -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-graphics</artifactId>
+			<version>${javafx.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-base</artifactId>
+			<version>${javafx.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-controls</artifactId>
+			<version>${javafx.version}</version>
+		</dependency>
 
     </dependencies>
 	<profiles>
