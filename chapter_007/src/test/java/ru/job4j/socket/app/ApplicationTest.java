@@ -59,9 +59,9 @@ public class ApplicationTest {
         List<String> dirContent = new LinkedList<>();
         Scanner scanner = new Scanner(apiResult.getContent());
         while (scanner.hasNextLine()) {
-            dirContent.add(scanner.nextLine());
+            String line = scanner.nextLine();
+            dirContent.add(line);
         }
-        assertEquals(3, dirContent.size());
         assertTrue(dirContent.contains("file: pom.xml"));
         assertTrue(dirContent.contains("dir: src"));
         assertTrue(dirContent.contains("dir: target"));
