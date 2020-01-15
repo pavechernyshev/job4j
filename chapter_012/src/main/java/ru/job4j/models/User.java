@@ -7,7 +7,8 @@ public class User {
     private String name;
     private String login;
     private String email;
-    private String password;
+    private String password = "";
+    private Role role = null;
     private long currentDate;
     private String photoId;
 
@@ -104,5 +105,13 @@ public class User {
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", name='" + name + '\'' + ", login='" + login + '\'' + ", email='" + email + '\'' + '}';
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

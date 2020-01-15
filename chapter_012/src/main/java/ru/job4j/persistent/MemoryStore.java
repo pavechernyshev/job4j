@@ -52,4 +52,19 @@ public class MemoryStore implements Store {
     public User findById(int id) {
         return this.userList.get(id);
     }
+
+    @Override
+    public User findByLogin(String login) {
+        return null;
+    }
+
+    @Override
+    public boolean isCredentional(String login, String password) {
+        for (User user: userList.values()) {
+            if (user.getLogin().equals(login)) {
+                return user.getPassword().equals(password);
+            }
+        }
+        return false;
+    }
 }

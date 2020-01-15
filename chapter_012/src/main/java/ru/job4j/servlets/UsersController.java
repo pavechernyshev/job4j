@@ -4,7 +4,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import ru.job4j.logic.RoleService;
 import ru.job4j.logic.ValidateService;
+import ru.job4j.models.Role;
 import ru.job4j.models.User;
 
 import javax.servlet.ServletContext;
@@ -24,7 +26,14 @@ public class UsersController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", validateService.findAll());
+        User currentUser = validateService.getCurrentUser(req);
+        List<User> users = new LinkedList<>();
+        if (currentUser.getRole().getId() == RoleService.ADMIN_ROLE_ID) {
+            users = validateService.findAll();
+        } else {
+            users.add(currentUser);
+        }
+        req.setAttribute("users", users);
         req.getRequestDispatcher("/WEB-INF/views/UsersView.jsp").forward(req, resp);
     }
 
@@ -63,7 +72,11 @@ public class UsersController extends HttpServlet {
             String name = params.get("name");
             String login = params.get("login");
             String email = params.get("email");
+            String password = params.get("password");
+            String role = params.get("role");
             User user = new User(id, name, login, email);
+            user.setPassword(password);
+            user.setRole(new Role(Integer.parseInt(role), ""));
             if (savedFile != null) {
                 user.setPhotoId(savedFile.getName());
             }
