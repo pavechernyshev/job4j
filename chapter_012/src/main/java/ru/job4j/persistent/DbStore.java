@@ -146,9 +146,10 @@ public class DbStore implements Store, Role {
     @Override
     public List<User> findAll() {
         List<User> list = new LinkedList<>();
-        String sql = "select u.*, r.id as role_id, r.name as role_name from users as u " +
-                "inner join user_role as ur ON u.id = ur.user_id " +
-                "left join roles as r ON r.id = ur.role_id ";
+        String sql = new StringBuilder().append("select u.*, r.id as role_id, r.name as role_name from users as u ")
+                .append("inner join user_role as ur ON u.id = ur.user_id ")
+                .append("left join roles as r ON r.id = ur.role_id ")
+                .toString();
         try (Connection connection = SOURCE.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
@@ -166,10 +167,12 @@ public class DbStore implements Store, Role {
     public User findById(int id) {
         User user = null;
         try (Connection connection = SOURCE.getConnection();
-                PreparedStatement ps = connection.prepareStatement("select u.*, r.id as role_id, r.name as role_name from users as u " +
-                        "inner join user_role as ur ON u.id = ur.user_id " +
-                        "left join roles as r ON r.id = ur.role_id " +
-                        "where u.id = ?")) {
+                PreparedStatement ps = connection.prepareStatement(new StringBuilder()
+                        .append("select u.*, r.id as role_id, r.name as role_name from users as u ")
+                        .append("inner join user_role as ur ON u.id = ur.user_id ")
+                        .append("left join roles as r ON r.id = ur.role_id ")
+                        .append("where u.id = ?")
+                        .toString())) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -185,10 +188,12 @@ public class DbStore implements Store, Role {
     public User findByLogin(String login) {
         User user = null;
         try (Connection connection = SOURCE.getConnection();
-                PreparedStatement ps = connection.prepareStatement("select u.*, r.id as role_id, r.name as role_name from users as u " +
-                        "inner join user_role as ur ON u.id = ur.user_id " +
-                        "left join roles as r ON r.id = ur.role_id " +
-                        "where u.login = ?")) {
+                PreparedStatement ps = connection.prepareStatement(new StringBuilder()
+                        .append("select u.*, r.id as role_id, r.name as role_name from users as u ")
+                        .append("inner join user_role as ur ON u.id = ur.user_id ")
+                        .append("left join roles as r ON r.id = ur.role_id ")
+                        .append("where u.login = ?")
+                        .toString())) {
             ps.setString(1, login);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
