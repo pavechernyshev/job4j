@@ -94,7 +94,7 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return id == user.id;
+        return id == user.id && login.equals(user.login);
     }
 
     @Override
