@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * singleton from https://habr.com/ru/post/129494/
  */
-public class ValidateService {
+public class ValidateService implements Store {
 
     private final static ValidateService INSTANCE = new ValidateService();
     private static final Logger LOG = LogManager.getLogger(UsageLog4j2.class.getName());
@@ -49,6 +49,11 @@ public class ValidateService {
         return this.store.update(user);
     }
 
+    @Override
+    public boolean delete(int id) {
+        return this.delete(new User(id, "", "", "", ""));
+    }
+
     public List<User> findAll() {
         return this.store.findAll();
     }
@@ -70,15 +75,4 @@ public class ValidateService {
         return this.store.isCredentional(login, password);
     }
 
-    public User getCurrentUser(HttpServletRequest request) {
-        User user = null;
-        try {
-            HttpSession session = request.getSession();
-            String userLogin = session.getAttribute("login").toString();
-            user = this.findByLogin(userLogin);
-        } catch (Exception e) {
-            LOG.error(e.getMessage());
-        }
-        return user;
-    }
 }

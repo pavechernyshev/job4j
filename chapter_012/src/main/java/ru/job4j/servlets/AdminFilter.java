@@ -1,9 +1,11 @@
 package ru.job4j.servlets;
 
 import ru.job4j.logic.RoleService;
+import ru.job4j.logic.SessionHelper;
 import ru.job4j.logic.ValidateService;
 import ru.job4j.models.Role;
 import ru.job4j.models.User;
+import ru.job4j.persistent.Store;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +26,8 @@ public class AdminFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         try {
-            User user = validateService.getCurrentUser(httpServletRequest);
+            SessionHelper sessionHelper = new SessionHelper();
+            User user = sessionHelper.getCurrentUser(httpServletRequest, validateService);
             Role role = roleService.getUserRole(user);
             if (role.getId() != RoleService.ADMIN_ROLE_ID) {
                 if (user == null) {

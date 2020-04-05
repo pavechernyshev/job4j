@@ -24,10 +24,23 @@
             <version>2.4.0</version>
         </dependency>
         <dependency>
-            <groupId>ru.job4j</groupId>
-            <artifactId>chapter_008</artifactId>
-            <version>2.0</version>
-            <scope>compile</scope>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.23.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>2.0.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>2.0.6</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>jstl</groupId>
@@ -48,6 +61,12 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.job4j</groupId>
+            <artifactId>chapter_008</artifactId>
+            <version>2.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

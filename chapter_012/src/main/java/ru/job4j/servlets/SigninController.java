@@ -1,6 +1,7 @@
 package ru.job4j.servlets;
 
 import ru.job4j.logic.ValidateService;
+import ru.job4j.persistent.Store;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

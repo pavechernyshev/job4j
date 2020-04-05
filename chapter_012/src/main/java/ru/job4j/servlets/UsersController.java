@@ -5,9 +5,11 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import ru.job4j.logic.RoleService;
+import ru.job4j.logic.SessionHelper;
 import ru.job4j.logic.ValidateService;
 import ru.job4j.models.Role;
 import ru.job4j.models.User;
+import ru.job4j.persistent.Store;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,12 +23,13 @@ import java.util.function.Function;
 public class UsersController extends HttpServlet {
 
     private final Map<String, Function<User, Boolean>> dispatch = new HashMap<>();
-    private final ValidateService validateService = ValidateService.getINSTANCE();
+    private final Store validateService = ValidateService.getINSTANCE();
 
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User currentUser = validateService.getCurrentUser(req);
+        SessionHelper sessionHelper = new SessionHelper();
+        User currentUser = sessionHelper.getCurrentUser(req, validateService);
         List<User> users = new LinkedList<>();
         if (currentUser.getRole().getId() == RoleService.ADMIN_ROLE_ID) {
             users = validateService.findAll();
@@ -90,7 +93,7 @@ public class UsersController extends HttpServlet {
     private void initDispatch() {
         this.load("add", validateService::add);
         this.load("update", validateService::update);
-        this.load("delete", validateService::delete);
+        this.load("delete", (User user) -> { return validateService.delete(user.getId()); });
     }
 
     private void executeDispatch(String action, User user) {
