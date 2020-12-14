@@ -38,10 +38,10 @@ public class Tracker implements ITracker {
      * @param item новая заявка.
      * @return статус выполнения операции.
      */
-    public boolean replace(String id, Item item) {
+    public boolean replace(int id, Item item) {
         final boolean[] res = {false};
         this.items.forEach(i -> {
-            if (i.getId().equals(id)) {
+            if (i.getId() == id) {
                 item.setId(id);
                 items.set(items.indexOf(i), item);
                 res[0] = true;
@@ -56,10 +56,10 @@ public class Tracker implements ITracker {
      * @param id идентификатор удаляемого элемента
      * @return успешное удаление.
      */
-    public boolean delete(String id) {
+    public boolean delete(int id) {
         boolean res = false;
-        if (id.length() > 0) {
-            res = this.items.removeIf(item -> item.getId().equals(id));
+        if (id > 0) {
+            res = this.items.removeIf(item -> item.getId() == id);
         }
         if (res) {
             this.position--;
@@ -97,10 +97,10 @@ public class Tracker implements ITracker {
      * @param id уникальный идентификатор заявки.
      * @return заявку или null, если не найдено.
      */
-    public Item findById(String id) {
+    public Item findById(int id) {
         final Item[] item = {null};
         this.items.forEach(i -> {
-            if (i != null && i.getId().equals(id)) {
+            if (i != null && i.getId() == id) {
                 item[0] = i;
             }
         });
@@ -112,8 +112,8 @@ public class Tracker implements ITracker {
      * Так как у заявки нет уникальности полей, имени и описание. Для идентификации нам нужен уникальный ключ.
      * @return Уникальный ключ.
      */
-    private String generateId() {
+    private int generateId() {
         Random random = new Random();
-        return String.valueOf(System.currentTimeMillis()) + "_" + String.valueOf(random.nextInt(1000));
+        return random.nextInt(10000000);
     }
 }

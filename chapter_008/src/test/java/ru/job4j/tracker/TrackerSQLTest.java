@@ -1,7 +1,6 @@
 package ru.job4j.tracker;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -64,7 +63,7 @@ public class TrackerSQLTest {
         Item added = sql.add(new Item("Notebook FFi", "Acer 23"));
         Item found = sql.findById(added.getId());
         assertThat(found.getName(), is(added.getName()));
-        assertThat(found.getDesc(), is(added.getDesc()));
+        assertThat(found.getDescription(), is(added.getDescription()));
         assertTrue(added.equals(found));
         assertTrue(sql.delete(added.getId()));
     }
@@ -77,7 +76,7 @@ public class TrackerSQLTest {
         sql.replace(added.getId(), added);
         Item found = sql.findById(added.getId());
         assertThat(found.getName(), is(added.getName()));
-        assertThat(found.getDesc(), is(added.getDesc()));
+        assertThat(found.getDescription(), is(added.getDescription()));
         assertThat(found.getCreated(), is(added.getCreated()));
         assertTrue(added.equals(found));
         assertTrue(sql.delete(added.getId()));

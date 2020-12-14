@@ -50,19 +50,19 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         String sql = "insert into items (name, description, created) values (?, ?, ?)";
         try (PreparedStatement ps = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, item.getName());
-            ps.setString(2, item.getDesc());
+            ps.setString(2, item.getDescription());
             Timestamp created;
             if (item.getCreated() != 0) {
                 created = new Timestamp(item.getCreated());
             } else {
                 created = new Timestamp(new Date().getTime());
             }
-            ps.setTimestamp(3, created);
+            ps.setLong(3, created.getTime());
             ps.execute();
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next()) {
                 int id = generatedKeys.getInt(1);
-                item.setId(String.valueOf(id));
+                item.setId(id);
             }
         } catch (SQLException e) {
             LOG.catching(e);
@@ -72,13 +72,13 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     }
 
     @Override
-    public boolean replace(String id, Item item) {
+    public boolean replace(int id, Item item) {
         String sql = "update items set name=?, description=?, created=? where id=?";
         try (PreparedStatement ps = this.connection.prepareStatement(sql)) {
             ps.setString(1, item.getName());
-            ps.setString(2, item.getDesc());
-            ps.setTimestamp(3, new Timestamp(item.getCreated()));
-            ps.setInt(4, Integer.parseInt(id));
+            ps.setString(2, item.getDescription());
+            ps.setLong(3, item.getCreated());
+            ps.setInt(4, id);
             ps.execute();
         } catch (SQLException e) {
             LOG.catching(e);
@@ -87,11 +87,11 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(int id) {
         boolean res = false;
-        if (id.length() > 0) {
+        if (id > 0) {
             try (PreparedStatement ps = this.connection.prepareStatement("delete from items where id=?")) {
-                ps.setInt(1, Integer.parseInt(id));
+                ps.setInt(1, id);
                 ps.execute();
                 res = true;
             } catch (SQLException e) {
@@ -136,10 +136,10 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     }
 
     @Override
-    public Item findById(String id) {
+    public Item findById(int id) {
         Item item = null;
         try (PreparedStatement ps = connection.prepareStatement("select * from items where id=?")) {
-            ps.setInt(1, Integer.parseInt(id));
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 item = getItemByResultSet(rs);
@@ -152,10 +152,10 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     private Item getItemByResultSet(ResultSet rs) throws SQLException {
         Item item = new Item();
-        item.setId(String.valueOf(rs.getInt("id")));
+        item.setId(rs.getInt("id"));
         item.setName(rs.getString("name"));
-        item.setDesc(rs.getString("description"));
-        item.setCreated(rs.getTimestamp("created").getTime());
+        item.setDescription(rs.getString("description"));
+        item.setCreated(rs.getLong("created"));
         return item;
     }
 }

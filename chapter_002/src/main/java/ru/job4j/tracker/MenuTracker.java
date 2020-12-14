@@ -121,7 +121,7 @@ public class MenuTracker {
             String name = input.ask("Введите имя заявки :");
             String desc = input.ask("Введите описание заявки :");
             Item item = new Item(name, desc);
-            if (tracker.replace(id, item)) {
+            if (tracker.replace(Integer.valueOf(id), item)) {
                 print("------------ Завка изменена --------------");
             } else {
                 printNotItemFound();
@@ -138,7 +138,7 @@ public class MenuTracker {
         public void execute(Input input, ITracker tracker) {
             print("------------ Удаление заявки --------------");
             String id = input.ask("Введите идентификатор заявки :");
-            if (tracker.delete(id)) {
+            if (tracker.delete(Integer.valueOf(id))) {
                 print("------------ Заявка удалена --------------");
             } else {
                 printNotItemFound();
@@ -155,7 +155,7 @@ public class MenuTracker {
         public void execute(Input input, ITracker tracker) {
             print("------------ Поиск заявки по идентификатору --------------");
             String id = input.ask("Введите идентификатор заявки :");
-            Item item = tracker.findById(id);
+            Item item = tracker.findById(Integer.valueOf(id));
             if (item != null) {
                 print(item.toString());
             } else {

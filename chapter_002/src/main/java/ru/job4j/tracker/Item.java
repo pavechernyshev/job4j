@@ -1,44 +1,42 @@
 package ru.job4j.tracker;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "items")
 public class Item {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
-    private String desc;
+    private String description;
     private long created;
-    private String[] comments;
 
-    public void setId(String id) {
-        this.id = id;
+    public Item() {
     }
 
-    public void setComments(String[] comments) {
-        this.comments = comments;
+    public Item(String name) {
+        this.setName(name);
     }
 
-    public void setCreated(long created) {
-        this.created = created;
+    public Item(String name, String description) {
+        this.setName(name);
+        this.setDescription(description);
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public Item(String name, String description, long created) {
+        this.setName(name);
+        this.setDescription(description);
+        this.setCreated(created);
     }
 
-    public long getCreated() {
-        return created;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public String[] getComments() {
-        return comments;
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -49,20 +47,22 @@ public class Item {
         this.name = name;
     }
 
-    public Item() {
-
+    public String getDescription() {
+        return description;
     }
 
-    public Item(String name, String desc) {
-        this.setName(name);
-        this.setDesc(desc);
+    public void setDescription(String desc) {
+        this.description = desc;
     }
 
-    public Item(String name, String desc, long created) {
-        this.setName(name);
-        this.setDesc(desc);
-        this.setCreated(created);
+    public void setCreated(long created) {
+        this.created = created;
     }
+
+    public long getCreated() {
+        return created;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -83,6 +83,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "id: " + this.getId() + "; name: " + this.getName() + "; desc: " + this.getDesc();
+        return "id: " + this.getId() + "; name: " + this.getName() + "; desc: " + this.getDescription();
     }
 }

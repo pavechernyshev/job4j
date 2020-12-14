@@ -59,7 +59,7 @@ public class StartUITest {
         //Напрямую добавляем заявку
         Item item = tracker.add(new Item("test name", "desc"));
         //создаём StubInput с последовательностью действий(производим замену заявки)
-        Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "заменили заявку", "6"});
+        Input input = new StubInput(new String[]{"2", String.valueOf(item.getId()), "test replace", "заменили заявку", "6"});
         // создаём StartUI и вызываем метод init()
         new StartUI(input, tracker).init();
         // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
@@ -75,7 +75,7 @@ public class StartUITest {
         //Напрямую добавляем заявку
         Item item2 = tracker.add(new Item("test name 2", "desc 2"));
         //создаём StubInput с последовательностью действий(производим замену заявки)
-        Input input = new StubInput(new String[]{"3", item2.getId(), "6"});
+        Input input = new StubInput(new String[]{"3", String.valueOf(item2.getId()), "6"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll().size(), is(1));
     }
@@ -89,7 +89,7 @@ public class StartUITest {
         //Напрямую добавляем заявку
         Item item2 = tracker.add(new Item("test name 2", "desc 2"));
         //создаём StubInput с последовательностью действий(производим замену заявки)
-        Input input = new StubInput(new String[]{"3", item2.getId(), "6"});
+        Input input = new StubInput(new String[]{"3", String.valueOf(item2.getId()), "6"});
         new StartUI(input, tracker).init();
         Item expect = null;
         assertThat(tracker.findById(item2.getId()), is(expect));
@@ -104,7 +104,7 @@ public class StartUITest {
         //Напрямую добавляем заявку
         Item item2 = tracker.add(new Item("test name 2", "desc 2"));
         //создаём StubInput с последовательностью действий(производим замену заявки)
-        Input input = new StubInput(new String[]{"3", item2.getId() + "hash", "6"});
+        Input input = new StubInput(new String[]{"3", String.valueOf(item2.getId() + 99999), "6"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll().size(), is(2));
     }
@@ -176,7 +176,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item pavel = tracker.add(new Item("pavel", "desc"));
         Item andrey = tracker.add(new Item("andrey", "desc 2"));
-        Input input = new StubInput(new String[]{"4", andrey.getId(), "6"});
+        Input input = new StubInput(new String[]{"4", String.valueOf(andrey.getId()), "6"});
         new StartUI(input, tracker).init();
         assertThat(
                 new String(out.toByteArray()),
@@ -199,7 +199,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item pavel = tracker.add(new Item("pavel", "desc"));
         Item andrey = tracker.add(new Item("andrey", "desc 2"));
-        Input input = new StubInput(new String[]{"4", "-----", "6"});
+        Input input = new StubInput(new String[]{"4", "0", "6"});
         new StartUI(input, tracker).init();
         assertThat(
                 new String(out.toByteArray()),
