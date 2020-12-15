@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -11,7 +12,7 @@ public class Item {
     private int id;
     private String name;
     private String description;
-    private long created;
+    private Timestamp created;
 
     public Item() {
     }
@@ -25,7 +26,7 @@ public class Item {
         this.setDescription(description);
     }
 
-    public Item(String name, String description, long created) {
+    public Item(String name, String description, Timestamp created) {
         this.setName(name);
         this.setDescription(description);
         this.setCreated(created);
@@ -55,11 +56,11 @@ public class Item {
         this.description = desc;
     }
 
-    public void setCreated(long created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 
-    public long getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
 

@@ -52,12 +52,12 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             ps.setString(1, item.getName());
             ps.setString(2, item.getDescription());
             Timestamp created;
-            if (item.getCreated() != 0) {
-                created = new Timestamp(item.getCreated());
+            if (item.getCreated() != null) {
+                created = item.getCreated();
             } else {
                 created = new Timestamp(new Date().getTime());
             }
-            ps.setLong(3, created.getTime());
+            ps.setTimestamp(3, created);
             ps.execute();
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -77,7 +77,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         try (PreparedStatement ps = this.connection.prepareStatement(sql)) {
             ps.setString(1, item.getName());
             ps.setString(2, item.getDescription());
-            ps.setLong(3, item.getCreated());
+            ps.setTimestamp(3, item.getCreated());
             ps.setInt(4, id);
             ps.execute();
         } catch (SQLException e) {
@@ -155,7 +155,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         item.setId(rs.getInt("id"));
         item.setName(rs.getString("name"));
         item.setDescription(rs.getString("description"));
-        item.setCreated(rs.getLong("created"));
+        item.setCreated(rs.getTimestamp("created"));
         return item;
     }
 }

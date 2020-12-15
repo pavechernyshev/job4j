@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -85,9 +86,9 @@ public class TrackerSQLTest {
     @Test
     public void whenFindByNameTwoItems() {
         sql.init();
-        Item previous = new Item("test1", "testDescription", 123L);
-        Item second = new Item("test", "testDescription2", 124L);
-        Item third = new Item("test", "testDescription3", 125L);
+        Item previous = new Item("test1", "testDescription", new Timestamp(123L));
+        Item second = new Item("test", "testDescription2", new Timestamp(124L));
+        Item third = new Item("test", "testDescription3", new Timestamp(125L));
         sql.add(previous);
         sql.add(second);
         sql.add(third);
@@ -102,9 +103,9 @@ public class TrackerSQLTest {
     @Test
     public void whenFindAll() {
         sql.init();
-        Item previous = new Item("test1", "testDescription", 123L);
-        Item second = new Item("test2", "testDescription2", 124L);
-        Item third = new Item("test3", "testDescription3", 125L);
+        Item previous = new Item("test1", "testDescription", new Timestamp(123L));
+        Item second = new Item("test2", "testDescription2", new Timestamp(124L));
+        Item third = new Item("test3", "testDescription3", new Timestamp(125L));
         sql.add(previous);
         sql.add(second);
         sql.add(third);

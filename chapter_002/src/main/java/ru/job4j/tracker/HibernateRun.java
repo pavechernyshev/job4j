@@ -6,6 +6,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class HibernateRun {
@@ -14,7 +15,8 @@ public class HibernateRun {
                 .configure().build();
         try {
             SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-            Item item = create(new Item("Learn Hibernate", "me desc!", 123000000000L), sf);
+            Timestamp created = new Timestamp(123L);
+            Item item = create(new Item("Learn Hibernate", "me desc!", created), sf);
             System.out.println(item);
             System.out.println(item.getCreated());
             item.setName("Learn Hibernate 5.");
