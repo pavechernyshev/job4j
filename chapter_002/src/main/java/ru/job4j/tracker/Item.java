@@ -18,18 +18,18 @@ public class Item {
     }
 
     public Item(String name) {
-        this.setName(name);
+        this.name = name;
     }
 
     public Item(String name, String description) {
-        this.setName(name);
-        this.setDescription(description);
+        this.name = name;
+        this.description = description;
     }
 
     public Item(String name, String description, Timestamp created) {
-        this.setName(name);
-        this.setDescription(description);
-        this.setCreated(created);
+        this.name = name;
+        this.description = description;
+        this.created = created;
     }
 
     public int getId() {
